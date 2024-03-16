@@ -1,0 +1,126 @@
+CREATE TABLE Endereco (
+    id_endereco SERIAL PRIMARY KEY,
+    logradouro VARCHAR(100) NOT NULL,
+    numero VARCHAR(20) NOT NULL,
+    complemento VARCHAR(100),
+    bairro VARCHAR(50) NOT NULL,
+    cidade VARCHAR(50) NOT NULL,
+    estado VARCHAR(50) NOT NULL,
+    cep VARCHAR(20) NOT NULL
+);
+
+CREATE TABLE Cliente (
+    id_cliente SERIAL PRIMARY KEY,
+    nome VARCHAR(100) NOT NULL,
+    cpf_cnpj VARCHAR(20) NOT NULL,
+    telefone VARCHAR(20),
+    email VARCHAR(100) NOT NULL,
+    id_endereco INTEGER NOT NULL REFERENCES Endereco(id_endereco)
+);
+
+CREATE TABLE Fornecedor (
+    id_fornecedor SERIAL PRIMARY KEY,
+    nome VARCHAR(100) NOT NULL,
+    cpf_cnpj VARCHAR(20) NOT NULL,
+    telefone VARCHAR(20),
+    email VARCHAR(100) NOT NULL,
+    id_endereco INTEGER NOT NULL REFERENCES Endereco(id_endereco)
+);
+
+CREATE TABLE Produto (
+    id_produto SERIAL PRIMARY KEY,
+    nome VARCHAR(100) NOT NULL,
+    qtd_estoque INTEGER NOT NULL,
+    preco NUMERIC(10,2) NOT NULL,
+    unidade VARCHAR(20) NOT NULL,
+    id_fornecedor INTEGER NOT NULL REFERENCES Fornecedor(id_fornecedor)
+);
+
+CREATE TABLE FormaPagamento (
+    id_forma_pagamento SERIAL PRIMARY KEY,
+    nome VARCHAR(50) NOT NULL
+);
+
+CREATE TABLE Venda (
+    id_venda SERIAL PRIMARY KEY,
+    data_hora TIMESTAMP NOT NULL,
+    id_cliente INTEGER NOT NULL REFERENCES Cliente(id_cliente),
+    total_venda NUMERIC(10,2) NOT NULL,
+    situacao_venda VARCHAR(20) NOT NULL
+);
+
+CREATE TABLE ItemVenda (
+    id_venda INTEGER NOT NULL,
+    numero_item SERIAL,
+    id_produto INTEGER NOT NULL REFERENCES Produto(id_produto),
+    qtd INTEGER NOT NULL,
+    valor_unitario NUMERIC(10,2) NOT NULL,
+    total_item NUMERIC(10,2) NOT NULL,
+    PRIMARY KEY (id_venda, numero_item),
+    FOREIGN KEY (id_venda) REFERENCES Venda(id_venda)
+);
+
+CREATE TABLE FormaPagamentoVenda (
+    id_venda INTEGER NOT NULL,
+    id_forma_pagamento INTEGER NOT NULL REFERENCES FormaPagamento(id_forma_pagamento),
+    valor NUMERIC(10,2) NOT NULL,
+    PRIMARY KEY (id_venda, id_forma_pagamento),
+    FOREIGN KEY (id_venda) REFERENCES Venda(id_venda)
+);
+
+CREATE TABLE Compra (
+    id_compra SERIAL PRIMARY KEY,
+    data_hora TIMESTAMP NOT NULL,
+    id_fornecedor INTEGER NOT NULL REFERENCES Fornecedor(id_fornecedor),
+    total_compra NUMERIC(10,2) NOT NULL,
+    situacao_compra VARCHAR(20) NOT NULL
+);
+
+CREATE TABLE ItemCompra (
+    id_compra INTEGER NOT NULL,
+    numero_item SERIAL,
+    id_produto INTEGER NOT NULL REFERENCES Produto(id_produto),
+    qtd INTEGER NOT NULL,
+    valor_unitario NUMERIC(10,2) NOT NULL,
+    total_item NUMERIC(10,2) NOT NULL,
+    PRIMARY KEY (id_compra, numero_item),
+    FOREIGN KEY (id_compra) REFERENCES Compra(id_compra)
+);
+
+CREATE TABLE ContaReceber (
+    id_conta_receber SERIAL PRIMARY KEY,
+    descricao VARCHAR(100),
+    id_cliente INTEGER NOT NULL REFERENCES Cliente(id_cliente),
+    data_lancamento TIMESTAMP NOT NULL,
+    data_vencimento TIMESTAMP NOT NULL,
+    valor_recebido NUMERIC(10,2),
+    data_recebimento TIMESTAMP
+);
+
+CREATE TABLE ContaPagar (
+    id_conta_pagar SERIAL PRIMARY KEY,
+    descricao VARCHAR(100),
+    id_fornecedor INTEGER NOT NULL REFERENCES Fornecedor(id_fornecedor),
+    data_lancamento TIMESTAMP NOT NULL,
+    data_vencimento TIMESTAMP NOT NULL,
+    valor_pago NUMERIC(10,2),
+    data_pagamento TIMESTAMP,
+    valor_pagamento NUMERIC(10,2)
+);
+
+CREATE TABLE Caixa (
+    id_caixa SERIAL PRIMARY KEY,
+    nome VARCHAR(100) NOT NULL,
+    saldo NUMERIC(10,2) NOT NULL
+);
+
+CREATE TABLE MovimentoCaixa (
+    id_caixa INTEGER NOT NULL,
+    numero_movimento SERIAL,
+    data_hora_movimento TIMESTAMP NOT NULL,
+    descricao VARCHAR(100) NOT NULL,
+    tipo_movimento VARCHAR(20) NOT NULL,
+    valor NUMERIC(10,2) NOT NULL,
+    PRIMARY KEY (id_caixa, numero_movimento),
+    FOREIGN KEY (id_caixa) REFERENCES Caixa(id_caixa)
+);
