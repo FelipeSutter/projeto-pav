@@ -1,5 +1,9 @@
-CREATE TABLE Endereco (
-    id_endereco SERIAL PRIMARY KEY,
+CREATE TABLE Cliente (
+    id_cliente SERIAL PRIMARY KEY,
+    nome VARCHAR(100) NOT NULL,
+    cpf_cnpj VARCHAR(20) NOT NULL,
+    telefone VARCHAR(20),
+    email VARCHAR(100) NOT NULL,
     logradouro VARCHAR(100) NOT NULL,
     numero VARCHAR(20) NOT NULL,
     complemento VARCHAR(100),
@@ -9,22 +13,24 @@ CREATE TABLE Endereco (
     cep VARCHAR(20) NOT NULL
 );
 
-CREATE TABLE Cliente (
-    id_cliente SERIAL PRIMARY KEY,
-    nome VARCHAR(100) NOT NULL,
-    cpf_cnpj VARCHAR(20) NOT NULL,
-    telefone VARCHAR(20),
-    email VARCHAR(100) NOT NULL,
-    id_endereco INTEGER NOT NULL REFERENCES Endereco(id_endereco)
-);
-
 CREATE TABLE Fornecedor (
     id_fornecedor SERIAL PRIMARY KEY,
     nome VARCHAR(100) NOT NULL,
     cpf_cnpj VARCHAR(20) NOT NULL,
     telefone VARCHAR(20),
     email VARCHAR(100) NOT NULL,
-    id_endereco INTEGER NOT NULL REFERENCES Endereco(id_endereco)
+    logradouro VARCHAR(100) NOT NULL,
+    numero VARCHAR(20) NOT NULL,
+    complemento VARCHAR(100),
+    bairro VARCHAR(50) NOT NULL,
+    cidade VARCHAR(50) NOT NULL,
+    estado VARCHAR(50) NOT NULL,
+    cep VARCHAR(20) NOT NULL
+);
+
+create table Classificacao (
+	id_classificacao SERIAL primary key,
+	nome varchar(80)
 );
 
 CREATE TABLE Produto (
@@ -33,7 +39,8 @@ CREATE TABLE Produto (
     qtd_estoque INTEGER NOT NULL,
     preco NUMERIC(10,2) NOT NULL,
     unidade VARCHAR(20) NOT NULL,
-    id_fornecedor INTEGER NOT NULL REFERENCES Fornecedor(id_fornecedor)
+    id_fornecedor INTEGER NOT NULL REFERENCES Fornecedor(id_fornecedor),
+    id_classificacao INTEGER NOT NULL REFERENCES Classificacao(id_classificacao)
 );
 
 CREATE TABLE FormaPagamento (

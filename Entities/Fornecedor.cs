@@ -1,6 +1,5 @@
 ﻿namespace PDV.Entities {
-    public class Cliente
-    {
+    public class Fornecedor {
 
         public int Id { get; set; }
         public string Nome { get; set; }
@@ -17,10 +16,9 @@
         public string Email { get; set; }
 
 
-        public Cliente() { }
+        public Fornecedor() { }
 
-        public Cliente(string nome, string logradouro, string numero, string complemento, string bairro, string cidade, string estado, string cep, string cpf_cnpj, string telefone, string email)
-        {
+        public Fornecedor(string nome, string logradouro, string numero, string complemento, string bairro, string cidade, string estado, string cep, string cpf_cnpj, string telefone, string email) {
             this.Nome = nome;
             this.Logradouro = logradouro;
             this.Numero = numero;
