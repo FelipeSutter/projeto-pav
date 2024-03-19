@@ -1,4 +1,5 @@
 ﻿using PDV.Entities;
+using PDV.Forms;
 using PDV.Infrastructure.Repositories;
 using PDV.Tabelas;
 
@@ -8,7 +9,7 @@ namespace PDV
     {
         List<Produto> produtos = new List<Produto>(); // Correção aqui
 
-        private readonly TabelaProduto _tabela;
+        TabelaProduto _tabela;
 
         public JanelaProduto()
         {
@@ -55,22 +56,28 @@ namespace PDV
 
         private void btn_alterar_Click(object sender, EventArgs e)
         {
-
+            
         }
 
         private void btn_excluir_Click(object sender, EventArgs e)
         {
+            var repository = new ProdutoRepository();
+            Produto produto = _tabela.ObterProdutoNaLinhaSelecionada(dataViewProduto.CurrentRow.Index);
+            repository.Delete(produto.Id_produto);
 
+            _tabela.Excluir(dataViewProduto.CurrentRow.Index);
         }
 
         private void btn_consultar_Click(object sender, EventArgs e)
         {
-
+            Produto produto = _tabela.ObterProdutoNaLinhaSelecionada(dataViewProduto.CurrentRow.Index);
+            ConsultarProduto frm = new ConsultarProduto(produto);
+            frm.Show();
         }
 
         private void btn_voltar_Click(object sender, EventArgs e)
         {
-
+            Close();
         }
     }
 }

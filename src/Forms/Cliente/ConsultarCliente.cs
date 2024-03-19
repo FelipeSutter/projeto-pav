@@ -33,5 +33,10 @@ namespace PDV.Forms {
         {
             Close();
         }
+
+        private void numeroL_Click(object sender, EventArgs e)
+        {
+
+        }
     }
 }

@@ -232,6 +232,7 @@
             numeroL.Size = new Size(77, 25);
             numeroL.TabIndex = 34;
             numeroL.Text = "Numero";
+            numeroL.Click += numeroL_Click;
             // 
             // logradouroL
             // 
