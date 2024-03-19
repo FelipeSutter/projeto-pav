@@ -37,4 +37,9 @@ public partial class AlterarProduto : Form
     {
         Close();
     }
+
+    private void AlterarProduto_Load(object sender, EventArgs e)
+    {
+
+    }
 }

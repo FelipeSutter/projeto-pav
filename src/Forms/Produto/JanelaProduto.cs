@@ -66,6 +66,10 @@ namespace PDV
                 var repository = new ProdutoRepository();
                 repository.Update(frm.produto);
                 _tabela.Alterar(dataViewProduto.CurrentRow.Index, frm.produto);
+
+                _tabela.Clear();
+                ObterProdutos();
+
             }
         }
 

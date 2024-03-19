@@ -53,6 +53,10 @@ namespace PDV.Forms {
                 var repository = new ClassificacaoRepository();
                 repository.Update(frm.classificacao);
                 _tabela.Alterar(dataViewClassificacao.CurrentRow.Index, frm.classificacao);
+
+                _tabela.Clear();
+                ObterProdutos();
+
             }
         }
 

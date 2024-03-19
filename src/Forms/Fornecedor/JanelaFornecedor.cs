@@ -46,7 +46,7 @@ namespace PDV.Forms {
             DialogResult response = frm.ShowDialog();
             if (response == DialogResult.OK)
             {
-
+                // Serve para atualizar os dados da tabela, dando um refresh nela
                 _tabela.Clear();
                 ObterFornecedores();
             }
@@ -62,7 +62,8 @@ namespace PDV.Forms {
                 repository.Update(frm.GetFornecedor());
                 _tabela.Alterar(dataViewFornecedor.CurrentRow.Index, frm.GetFornecedor());
 
-
+                _tabela.Clear();
+                ObterFornecedores();
             }
 
         }

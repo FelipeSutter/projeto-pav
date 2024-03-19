@@ -184,6 +184,7 @@ partial class AlterarProduto
         Controls.Add(nomeBox);
         Name = "AlterarProduto";
         Text = "AlterarProduto";
+        Load += AlterarProduto_Load;
         ResumeLayout(false);
         PerformLayout();
     }
