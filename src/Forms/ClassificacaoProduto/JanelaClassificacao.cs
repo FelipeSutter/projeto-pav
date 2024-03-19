@@ -55,7 +55,7 @@ namespace PDV.Forms {
                 _tabela.Alterar(dataViewClassificacao.CurrentRow.Index, frm.classificacao);
 
                 _tabela.Clear();
-                ObterProdutos();
+                ObterClassificacoes();
 
             }
         }

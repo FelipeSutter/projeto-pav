@@ -71,7 +71,7 @@ namespace PDV {
                 _tabela.Alterar(dataViewClient.CurrentRow.Index, frm.cliente);
 
                 _tabela.Clear();
-                ObterProdutos();
+                ObterClientes();
 
             }
 
