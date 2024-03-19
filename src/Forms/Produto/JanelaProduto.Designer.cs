@@ -31,6 +31,9 @@ partial class JanelaProduto {
         btn_alterar = new Button();
         btn_incluir = new Button();
         dataViewProduto = new DataGridView();
+        txt_pesquisar = new TextBox();
+        label1 = new Label();
+        btn_pesquisar = new Button();
         ((System.ComponentModel.ISupportInitialize)dataViewProduto).BeginInit();
         SuspendLayout();
         // 
@@ -106,12 +109,42 @@ partial class JanelaProduto {
         dataViewProduto.Size = new Size(1184, 548);
         dataViewProduto.TabIndex = 6;
         // 
+        // txt_pesquisar
+        // 
+        txt_pesquisar.Location = new Point(201, 29);
+        txt_pesquisar.Name = "txt_pesquisar";
+        txt_pesquisar.Size = new Size(373, 31);
+        txt_pesquisar.TabIndex = 12;
+        // 
+        // label1
+        // 
+        label1.AutoSize = true;
+        label1.Font = new Font("Segoe UI", 12F, FontStyle.Regular, GraphicsUnit.Point, 0);
+        label1.Location = new Point(61, 28);
+        label1.Name = "label1";
+        label1.Size = new Size(118, 32);
+        label1.TabIndex = 13;
+        label1.Text = "Pesquisar:";
+        // 
+        // btn_pesquisar
+        // 
+        btn_pesquisar.Location = new Point(611, 27);
+        btn_pesquisar.Name = "btn_pesquisar";
+        btn_pesquisar.Size = new Size(112, 34);
+        btn_pesquisar.TabIndex = 14;
+        btn_pesquisar.Text = "Buscar";
+        btn_pesquisar.UseVisualStyleBackColor = true;
+        btn_pesquisar.Click += btn_pesquisar_Click;
+        // 
         // JanelaProduto
         // 
         AutoScaleDimensions = new SizeF(10F, 25F);
         AutoScaleMode = AutoScaleMode.Font;
         BackColor = SystemColors.ActiveCaption;
         ClientSize = new Size(1609, 685);
+        Controls.Add(btn_pesquisar);
+        Controls.Add(label1);
+        Controls.Add(txt_pesquisar);
         Controls.Add(btn_consultar);
         Controls.Add(btn_voltar);
         Controls.Add(btn_excluir);
@@ -124,6 +157,7 @@ partial class JanelaProduto {
         Load += JanelaProduto_Load;
         ((System.ComponentModel.ISupportInitialize)dataViewProduto).EndInit();
         ResumeLayout(false);
+        PerformLayout();
     }
 
     #endregion
@@ -134,4 +168,7 @@ partial class JanelaProduto {
     private Button btn_alterar;
     private Button btn_incluir;
     private DataGridView dataViewProduto;
+    private TextBox txt_pesquisar;
+    private Label label1;
+    private Button btn_pesquisar;
 }

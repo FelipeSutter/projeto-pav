@@ -35,15 +35,21 @@ namespace PDV.Infrastructure.Repositories {
             return result == 1;
         }
 
-        public List<Produto> Get()
+        public List<Produto> Get(string? nomePesquisa = null)
         {
             using var conn = new DbConnection();
-            string query = @"SELECT * FROM produto;";
+            string query = @"SELECT * FROM produto";
 
-            var produtos = conn.Connection.Query<Produto>(sql: query);
+            if (!string.IsNullOrEmpty(nomePesquisa))
+            {
+                query += " WHERE nome LIKE @nome";
+            }
+
+            var produtos = conn.Connection.Query<Produto>(sql: query, new { nome = "%" + nomePesquisa + "%" });
 
             return produtos.ToList();
         }
+
 
         public bool Delete(int produtoId)
         {
