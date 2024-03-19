@@ -56,7 +56,14 @@ namespace PDV
 
         private void btn_alterar_Click(object sender, EventArgs e)
         {
-            
+            AlterarProduto frm = new AlterarProduto(_tabela.ObterProdutoNaLinhaSelecionada(dataViewProduto.CurrentRow.Index));
+            DialogResult response = frm.ShowDialog();
+            if (response == DialogResult.OK)
+            {
+                var repository = new ProdutoRepository();
+                repository.Update(frm.produto);
+                _tabela.Alterar(dataViewProduto.CurrentRow.Index, frm.produto);
+            }
         }
 
         private void btn_excluir_Click(object sender, EventArgs e)

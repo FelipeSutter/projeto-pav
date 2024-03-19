@@ -68,28 +68,31 @@ namespace PDV.Infrastructure.Repositories {
             }
 
             using var conn = new DbConnection();
-            string query = @"UPDATE public.fornecedor
+            string query = @"UPDATE public.produto
                     SET nome = @nome,
                         qtd_estoque = @qtd_estoque,
                         preco = @preco,
                         unidade = @unidade,
-                        id_fornecedor = @id_fornecedor
+                        id_fornecedor = @id_fornecedor,
                         id_classificacao = @id_classificacao
                     WHERE id_produto = @id";
 
-            var parameters = new {
+            var parameters = new
+            {
                 nome = produto.Nome,
                 qtd_estoque = produto.Qtd_estoque,
                 preco = produto.Preco,
                 unidade = produto.Unidade,
                 id_fornecedor = produto.Id_fornecedor,
                 id_classificacao = produto.Id_classificacao,
+                id = produto.Id_produto
             };
 
             var result = conn.Connection.Execute(query, parameters);
 
             return result == 1;
         }
+
 
         // Método para verificar se o fornecedor existe no banco de dados
         private bool CheckFornecedorExists(int fornecedorId)
