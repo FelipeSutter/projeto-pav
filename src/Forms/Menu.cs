@@ -19,7 +19,8 @@ namespace PDV {
 
         private void button2_Click(object sender, EventArgs e)
         {
-
+            JanelaProduto frm = new JanelaProduto();
+            frm.Show();
         }
 
         private void button1_Click(object sender, EventArgs e)

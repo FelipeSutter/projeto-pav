@@ -8,6 +8,13 @@ namespace PDV.Infrastructure.Repositories {
 
         public bool Add(Produto produto)
         {
+            // Verifica se o fornecedor e a classificação existem antes de inserir o produto
+            if (!CheckFornecedorExists(produto.Id_fornecedor) || !CheckClassificacaoExists(produto.Id_classificacao))
+            {
+                MessageBox.Show("Fornecedor ou classificação não existem no banco de dados!", "Erro de validação", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                return false;
+            }
+
             using var conn = new DbConnection();
             string query = @"INSERT INTO public.produto(
         nome, qtd_estoque, preco, unidade, id_fornecedor, id_classificacao)
@@ -53,6 +60,13 @@ namespace PDV.Infrastructure.Repositories {
 
         public bool Update(Produto produto)
         {
+            // Verifica se o fornecedor e a classificação existem antes de inserir o produto
+            if (!CheckFornecedorExists(produto.Id_fornecedor) || !CheckClassificacaoExists(produto.Id_classificacao))
+            {
+                MessageBox.Show("Fornecedor ou classificação não existem no banco de dados!", "Erro de validação", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                return false;
+            }
+
             using var conn = new DbConnection();
             string query = @"UPDATE public.fornecedor
                     SET nome = @nome,
@@ -75,6 +89,26 @@ namespace PDV.Infrastructure.Repositories {
             var result = conn.Connection.Execute(query, parameters);
 
             return result == 1;
+        }
+
+        // Método para verificar se o fornecedor existe no banco de dados
+        private bool CheckFornecedorExists(int fornecedorId)
+        {
+            using var conn = new DbConnection();
+            string query = @"SELECT COUNT(*) FROM fornecedor WHERE id_fornecedor = @id";
+            var parameters = new { id = fornecedorId };
+            var count = conn.Connection.ExecuteScalar<int>(query, parameters);
+            return count > 0;
+        }
+
+        // Método para verificar se a classificação existe no banco de dados
+        private bool CheckClassificacaoExists(int classificacaoId)
+        {
+            using var conn = new DbConnection();
+            string query = @"SELECT COUNT(*) FROM classificacao WHERE id_classificacao = @id";
+            var parameters = new { id = classificacaoId };
+            var count = conn.Connection.ExecuteScalar<int>(query, parameters);
+            return count > 0;
         }
 
 
