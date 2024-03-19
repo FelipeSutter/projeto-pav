@@ -33,12 +33,17 @@ namespace PDV.Infrastructure.Repositories {
             return result == 1;
         }
 
-        public List<Fornecedor> Get()
+        public List<Fornecedor> Get(string? nomePesquisa = null)
         {
             using var conn = new DbConnection();
-            string query = @"SELECT * FROM fornecedor;";
+            string query = @"SELECT * FROM fornecedor";
 
-            var fornecedores = conn.Connection.Query<Fornecedor>(sql: query);
+            if (!string.IsNullOrEmpty(nomePesquisa))
+            {
+                query += " WHERE nome LIKE @nome";
+            }
+
+            var fornecedores = conn.Connection.Query<Fornecedor>(sql: query, new { nome = "%" + nomePesquisa + "%" });
 
             return fornecedores.ToList();
         }

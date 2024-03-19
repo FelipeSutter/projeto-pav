@@ -27,14 +27,18 @@ namespace PDV {
             dataViewClient.Columns[9].Width = 200;
             dataViewClient.Columns[10].Width = 200;
             dataViewClient.Columns[11].Width = 200;
+
+            txt_pesquisar.TextChanged += txt_pesquisar_TextChanged;
+
+
             ObterClientes();
 
         }
 
-        public void ObterClientes()
+        public void ObterClientes(string? nomePesquisa = null)
         {
             var repository = new ClienteRepository();
-            clientes = repository.Get();
+            clientes = repository.Get(nomePesquisa);
             foreach (var item in clientes)
             {
                 _tabela.Incluir(item);
@@ -94,6 +98,24 @@ namespace PDV {
         private void Form2_Load(object sender, EventArgs e)
         {
 
+        }
+
+        private void btn_pesquisar_Click(object sender, EventArgs e)
+        {
+            string termoPesquisa = txt_pesquisar.Text;
+            _tabela.Clear();
+            ObterClientes(termoPesquisa);
+        }
+
+        private void txt_pesquisar_TextChanged(object sender, EventArgs e)
+        {
+            string termoPesquisa = txt_pesquisar.Text.Trim(); // Remove espaços em branco extras
+            if (string.IsNullOrEmpty(termoPesquisa))
+            {
+                // Se o campo de pesquisa estiver vazio, traga a lista de todos os produtos
+                _tabela.Clear();
+                ObterClientes();
+            }
         }
     }
 }
