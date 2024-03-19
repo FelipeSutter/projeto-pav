@@ -1,10 +1,5 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using PDV.Entities;
 using System.Data;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using PDV.Entities;
 
 namespace PDV.Tabelas {
     public class TabelaFornecedor : DataTable {
@@ -51,7 +46,7 @@ namespace PDV.Tabelas {
         }
 
         public void Incluir(Fornecedor client) {
-            Rows.Add(client.Id, client.Nome, client.Cpf_cnpj,
+            Rows.Add(client.Id_fornecedor, client.Nome, client.Cpf_cnpj,
                      client.Logradouro, client.Numero, client.Complemento,
                      client.Bairro, client.Cidade, client.Estado, client.Cep,
                      client.Telefone, client.Email);
@@ -59,7 +54,7 @@ namespace PDV.Tabelas {
         }
 
         public void Alterar(int indice, Fornecedor client) {
-            Rows[indice][COLUNA_IDCLIENTE] = client.Id;
+            Rows[indice][COLUNA_IDCLIENTE] = client.Id_fornecedor;
             Rows[indice][COLUNA_NOME] = client.Nome;
             Rows[indice][COLUNA_CPF_CNPJ] = client.Cpf_cnpj;
             Rows[indice][COLUNA_LOGRADOURO] = client.Logradouro;
@@ -79,7 +74,7 @@ namespace PDV.Tabelas {
 
         public Fornecedor ObterFornecedorNaLinhaSelecionada(int indiceLinha) {
             var cliente = new Fornecedor {
-                Id = Convert.ToInt32(Rows[indiceLinha][COLUNA_IDCLIENTE]),
+                Id_fornecedor = Convert.ToInt32(Rows[indiceLinha][COLUNA_IDCLIENTE]),
                 Nome = Rows[indiceLinha][COLUNA_NOME].ToString(),
                 Cpf_cnpj = Rows[indiceLinha][COLUNA_CPF_CNPJ].ToString(),
                 Logradouro = Rows[indiceLinha][COLUNA_LOGRADOURO].ToString(),

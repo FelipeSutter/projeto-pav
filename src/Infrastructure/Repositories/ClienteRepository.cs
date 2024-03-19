@@ -1,5 +1,6 @@
 ﻿using Dapper;
 using PDV.Entities;
+using PDV.Infrastructure.Database;
 
 namespace PDV.Infrastructure.Repositories {
     public class ClienteRepository
@@ -74,7 +75,7 @@ namespace PDV.Infrastructure.Repositories {
 
             var parameters = new
             {
-                id = client.Id,
+                id = client.Id_cliente,
                 nome = client.Nome,
                 logradouro = client.Logradouro,
                 numero = client.Numero,

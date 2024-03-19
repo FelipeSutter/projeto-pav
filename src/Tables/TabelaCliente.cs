@@ -1,13 +1,7 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using PDV.Entities;
 using System.Data;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using PDV.Entities;
 
-namespace PDV.Tabelas
-{
+namespace PDV.Tabelas {
     public class TabelaCliente : DataTable
     {
         private const string COLUNA_IDCLIENTE = "Id cliente";
@@ -57,7 +51,7 @@ namespace PDV.Tabelas
 
         public void Incluir(Cliente client)
         {
-            Rows.Add(client.Id, client.Nome, client.Cpf_cnpj,
+            Rows.Add(client.Id_cliente, client.Nome, client.Cpf_cnpj,
                      client.Logradouro, client.Numero, client.Complemento,
                      client.Bairro, client.Cidade, client.Estado, client.Cep,
                      client.Telefone, client.Email);
@@ -66,7 +60,7 @@ namespace PDV.Tabelas
 
         public void Alterar(int indice, Cliente client)
         {
-            Rows[indice][COLUNA_IDCLIENTE] = client.Id;
+            Rows[indice][COLUNA_IDCLIENTE] = client.Id_cliente;
             Rows[indice][COLUNA_NOME] = client.Nome;
             Rows[indice][COLUNA_CPF_CNPJ] = client.Cpf_cnpj;
             Rows[indice][COLUNA_LOGRADOURO] = client.Logradouro;
@@ -89,7 +83,7 @@ namespace PDV.Tabelas
         {
             var cliente = new Cliente
             {
-                Id = Convert.ToInt32(Rows[indiceLinha][COLUNA_IDCLIENTE]),
+                Id_cliente = Convert.ToInt32(Rows[indiceLinha][COLUNA_IDCLIENTE]),
                 Nome = Rows[indiceLinha][COLUNA_NOME].ToString(),
                 Cpf_cnpj = Rows[indiceLinha][COLUNA_CPF_CNPJ].ToString(),
                 Logradouro = Rows[indiceLinha][COLUNA_LOGRADOURO].ToString(),

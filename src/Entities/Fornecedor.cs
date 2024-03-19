@@ -1,7 +1,7 @@
 ﻿namespace PDV.Entities {
     public class Fornecedor {
 
-        public int Id { get; set; }
+        public int Id_fornecedor { get; set; }
         public string Nome { get; set; }
 
         public string Logradouro { get; set; }

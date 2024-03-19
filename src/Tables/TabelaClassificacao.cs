@@ -33,13 +33,13 @@ namespace PDV.Tabelas {
 
         public void Incluir(Classificacao classificacao)
         {
-            Rows.Add(classificacao.Id, classificacao.Nome);
+            Rows.Add(classificacao.Id_classificacao, classificacao.Nome);
 
         }
 
         public void Alterar(int indice, Classificacao classificacao)
         {
-            Rows[indice][COLUNA_ID] = classificacao.Id;
+            Rows[indice][COLUNA_ID] = classificacao.Id_classificacao;
             Rows[indice][COLUNA_NOME] = classificacao.Nome;
             
         }
@@ -54,7 +54,7 @@ namespace PDV.Tabelas {
         {
             var classificacao = new Classificacao
             {
-                Id = Convert.ToInt32(Rows[indiceLinha][COLUNA_ID]),
+                Id_classificacao = Convert.ToInt32(Rows[indiceLinha][COLUNA_ID]),
                 Nome = Rows[indiceLinha][COLUNA_NOME].ToString(),
                 
             };

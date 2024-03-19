@@ -1,5 +1,6 @@
 ﻿using Dapper;
 using PDV.Entities;
+using PDV.Infrastructure.Database;
 
 namespace PDV.Infrastructure.Repositories {
     public class ClassificacaoRepository
@@ -53,7 +54,7 @@ namespace PDV.Infrastructure.Repositories {
 
             var parameters = new
             {
-                id = classificacao.Id,
+                id = classificacao.Id_classificacao,
                 nome = classificacao.Nome,
 
             };

@@ -74,7 +74,7 @@ namespace PDV {
         {
             var repository = new ClienteRepository();
             Cliente client = _tabela.ObterClienteNaLinhaSelecionada(dataViewClient.CurrentRow.Index);
-            repository.Delete(client.Id);
+            repository.Delete(client.Id_cliente);
 
             _tabela.Excluir(dataViewClient.CurrentRow.Index);
         }

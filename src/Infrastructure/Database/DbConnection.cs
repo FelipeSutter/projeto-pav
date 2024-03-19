@@ -1,6 +1,7 @@
 ﻿using Npgsql;
 
-namespace PDV.Infrastructure {
+namespace PDV.Infrastructure.Database
+{
     public class DbConnection : IDisposable
     {
         public NpgsqlConnection Connection { get; set; }

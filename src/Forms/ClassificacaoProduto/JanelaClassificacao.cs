@@ -57,7 +57,7 @@ namespace PDV.Forms {
         private void btn_excluir_Click(object sender, EventArgs e) {
             var repository = new ClassificacaoRepository();
             Classificacao classificacao = _tabela.ObterClassificacaoNaLinhaSelecionada(dataViewClassificacao.CurrentRow.Index);
-            repository.Delete(classificacao.Id);
+            repository.Delete(classificacao.Id_classificacao);
 
             //_tabela.excluir(dataViewClassificacao.CurrentRow.Index);
 

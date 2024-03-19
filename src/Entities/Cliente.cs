@@ -2,7 +2,7 @@
     public class Cliente
     {
 
-        public int Id { get; set; }
+        public int Id_cliente { get; set; }
         public string Nome { get; set; }
 
         public string Logradouro { get; set; }

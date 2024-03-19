@@ -1,13 +1,8 @@
 ﻿using Dapper;
 using PDV.Entities;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+using PDV.Infrastructure.Database;
 
-namespace PDV.Infrastructure.Repositories
-{
+namespace PDV.Infrastructure.Repositories {
     public class FornecedorRepository
     {
 
@@ -80,7 +75,7 @@ namespace PDV.Infrastructure.Repositories
 
             var parameters = new
             {
-                id = fornecedor.Id,
+                id = fornecedor.Id_fornecedor,
                 nome = fornecedor.Nome,
                 logradouro = fornecedor.Logradouro,
                 numero = fornecedor.Numero,
