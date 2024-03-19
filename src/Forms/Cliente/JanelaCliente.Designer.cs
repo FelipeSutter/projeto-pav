@@ -48,13 +48,13 @@
             dataViewClient.Name = "dataViewClient";
             dataViewClient.ReadOnly = true;
             dataViewClient.RowHeadersWidth = 62;
-            dataViewClient.Size = new Size(1406, 548);
+            dataViewClient.Size = new Size(1161, 548);
             dataViewClient.TabIndex = 0;
             // 
             // button1
             // 
             button1.BackColor = SystemColors.GradientActiveCaption;
-            button1.Location = new Point(1461, 90);
+            button1.Location = new Point(1256, 88);
             button1.Name = "button1";
             button1.Size = new Size(220, 52);
             button1.TabIndex = 1;
@@ -65,7 +65,7 @@
             // button2
             // 
             button2.BackColor = SystemColors.GradientActiveCaption;
-            button2.Location = new Point(1461, 170);
+            button2.Location = new Point(1256, 168);
             button2.Name = "button2";
             button2.Size = new Size(220, 52);
             button2.TabIndex = 2;
@@ -76,7 +76,7 @@
             // button3
             // 
             button3.BackColor = SystemColors.GradientActiveCaption;
-            button3.Location = new Point(1461, 250);
+            button3.Location = new Point(1256, 248);
             button3.Name = "button3";
             button3.Size = new Size(220, 52);
             button3.TabIndex = 3;
@@ -87,7 +87,7 @@
             // button4
             // 
             button4.BackColor = SystemColors.GradientActiveCaption;
-            button4.Location = new Point(1461, 586);
+            button4.Location = new Point(1256, 584);
             button4.Name = "button4";
             button4.Size = new Size(220, 52);
             button4.TabIndex = 4;
@@ -98,7 +98,7 @@
             // button5
             // 
             button5.BackColor = SystemColors.GradientActiveCaption;
-            button5.Location = new Point(1461, 330);
+            button5.Location = new Point(1256, 328);
             button5.Name = "button5";
             button5.Size = new Size(220, 52);
             button5.TabIndex = 5;
@@ -139,7 +139,7 @@
             AutoScaleDimensions = new SizeF(10F, 25F);
             AutoScaleMode = AutoScaleMode.Font;
             BackColor = SystemColors.ActiveCaption;
-            ClientSize = new Size(1693, 819);
+            ClientSize = new Size(1551, 680);
             Controls.Add(btn_pesquisar);
             Controls.Add(label1);
             Controls.Add(txt_pesquisar);

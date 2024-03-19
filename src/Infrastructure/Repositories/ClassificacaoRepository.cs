@@ -22,12 +22,17 @@ namespace PDV.Infrastructure.Repositories {
             return result == 1;
         }
 
-        public List<Classificacao> Get()
+        public List<Classificacao> Get(string? nomePesquisa = null)
         {
             using var conn = new DbConnection();
-            string query = @"SELECT * FROM classificacao;";
+            string query = @"SELECT * FROM classificacao";
 
-            var classificacoes = conn.Connection.Query<Classificacao>(sql: query);
+            if (!string.IsNullOrEmpty(nomePesquisa))
+            {
+                query += " WHERE nome LIKE @nome";
+            }
+
+            var classificacoes = conn.Connection.Query<Classificacao>(sql: query, new { nome = "%" + nomePesquisa + "%" });
 
             return classificacoes.ToList();
         }

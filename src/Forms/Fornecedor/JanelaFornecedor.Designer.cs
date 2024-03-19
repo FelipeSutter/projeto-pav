@@ -43,7 +43,7 @@
             // button5
             // 
             button5.BackColor = SystemColors.GradientActiveCaption;
-            button5.Location = new Point(1442, 358);
+            button5.Location = new Point(1245, 357);
             button5.Margin = new Padding(2);
             button5.Name = "button5";
             button5.Size = new Size(220, 52);
@@ -55,7 +55,7 @@
             // button4
             // 
             button4.BackColor = SystemColors.GradientActiveCaption;
-            button4.Location = new Point(1442, 616);
+            button4.Location = new Point(1245, 615);
             button4.Margin = new Padding(2);
             button4.Name = "button4";
             button4.Size = new Size(220, 52);
@@ -67,7 +67,7 @@
             // button3
             // 
             button3.BackColor = SystemColors.GradientActiveCaption;
-            button3.Location = new Point(1442, 278);
+            button3.Location = new Point(1245, 277);
             button3.Margin = new Padding(2);
             button3.Name = "button3";
             button3.Size = new Size(220, 52);
@@ -79,7 +79,7 @@
             // button2
             // 
             button2.BackColor = SystemColors.GradientActiveCaption;
-            button2.Location = new Point(1442, 198);
+            button2.Location = new Point(1245, 197);
             button2.Margin = new Padding(2);
             button2.Name = "button2";
             button2.Size = new Size(220, 52);
@@ -91,7 +91,7 @@
             // button1
             // 
             button1.BackColor = SystemColors.GradientActiveCaption;
-            button1.Location = new Point(1442, 118);
+            button1.Location = new Point(1245, 117);
             button1.Margin = new Padding(2);
             button1.Name = "button1";
             button1.Size = new Size(220, 52);
@@ -109,7 +109,7 @@
             dataViewFornecedor.Name = "dataViewFornecedor";
             dataViewFornecedor.ReadOnly = true;
             dataViewFornecedor.RowHeadersWidth = 62;
-            dataViewFornecedor.Size = new Size(1376, 548);
+            dataViewFornecedor.Size = new Size(1156, 548);
             dataViewFornecedor.TabIndex = 6;
             dataViewFornecedor.CellContentClick += dataViewFornecedor_CellContentClick;
             // 
@@ -146,7 +146,7 @@
             AutoScaleDimensions = new SizeF(10F, 25F);
             AutoScaleMode = AutoScaleMode.Font;
             BackColor = SystemColors.ActiveCaption;
-            ClientSize = new Size(1692, 819);
+            ClientSize = new Size(1512, 693);
             Controls.Add(btn_pesquisar);
             Controls.Add(label1);
             Controls.Add(txt_pesquisar);
