@@ -19,4 +19,10 @@
     <PackageReference Include="Npgsql" Version="8.0.2" />
   </ItemGroup>
 
+  <ItemGroup>
+    <Compile Update="Tables\TabelaProduto.cs">
+      <SubType>Component</SubType>
+    </Compile>
+  </ItemGroup>
+
 </Project>
