@@ -34,7 +34,6 @@
             nomeBox = new TextBox();
             logradouroBox = new TextBox();
             numeroBox = new TextBox();
-            estadoBox = new TextBox();
             complementoBox = new TextBox();
             bairroBox = new TextBox();
             cidadeBox = new TextBox();
@@ -52,6 +51,7 @@
             emailBox = new TextBox();
             button1 = new Button();
             button2 = new Button();
+            cb_estado = new ComboBox();
             SuspendLayout();
             // 
             // telefoneBox
@@ -95,13 +95,6 @@
             numeroBox.Name = "numeroBox";
             numeroBox.Size = new Size(444, 31);
             numeroBox.TabIndex = 5;
-            // 
-            // estadoBox
-            // 
-            estadoBox.Location = new Point(214, 340);
-            estadoBox.Name = "estadoBox";
-            estadoBox.Size = new Size(444, 31);
-            estadoBox.TabIndex = 6;
             // 
             // complementoBox
             // 
@@ -253,12 +246,23 @@
             button2.UseVisualStyleBackColor = true;
             button2.Click += button2_Click;
             // 
+            // cb_estado
+            // 
+            cb_estado.FormattingEnabled = true;
+            cb_estado.Items.AddRange(new object[] { "RJ", "SP", "MG" });
+            cb_estado.Location = new Point(214, 340);
+            cb_estado.Name = "cb_estado";
+            cb_estado.Size = new Size(182, 33);
+            cb_estado.TabIndex = 25;
+            cb_estado.SelectedIndexChanged += cb_estado_SelectedIndexChanged;
+            // 
             // InserirCliente
             // 
             AutoScaleDimensions = new SizeF(10F, 25F);
             AutoScaleMode = AutoScaleMode.Font;
             BackColor = SystemColors.ActiveCaption;
             ClientSize = new Size(718, 734);
+            Controls.Add(cb_estado);
             Controls.Add(button2);
             Controls.Add(button1);
             Controls.Add(emailBox);
@@ -276,7 +280,6 @@
             Controls.Add(cidadeBox);
             Controls.Add(bairroBox);
             Controls.Add(complementoBox);
-            Controls.Add(estadoBox);
             Controls.Add(numeroBox);
             Controls.Add(logradouroBox);
             Controls.Add(nomeBox);
@@ -298,7 +301,6 @@
         private TextBox nomeBox;
         private TextBox logradouroBox;
         private TextBox numeroBox;
-        private TextBox estadoBox;
         private TextBox complementoBox;
         private TextBox bairroBox;
         private TextBox cidadeBox;
@@ -316,5 +318,6 @@
         private TextBox emailBox;
         private Button button1;
         private Button button2;
+        private ComboBox cb_estado;
     }
 }

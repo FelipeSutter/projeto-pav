@@ -58,13 +58,13 @@ CREATE TABLE Venda (
 
 CREATE TABLE ItemVenda (
     id_venda INTEGER NOT NULL,
-    numero_item SERIAL,
-    id_produto INTEGER NOT NULL REFERENCES Produto(id_produto),
-    qtd INTEGER NOT NULL,
+    id_produto INTEGER NOT null,
+    qtd_item INTEGER NOT NULL,
     valor_unitario NUMERIC(10,2) NOT NULL,
     total_item NUMERIC(10,2) NOT NULL,
-    PRIMARY KEY (id_venda, numero_item),
-    FOREIGN KEY (id_venda) REFERENCES Venda(id_venda)
+    PRIMARY KEY (id_venda, id_produto),
+    FOREIGN KEY (id_venda) REFERENCES Venda(id_venda),
+    FOREIGN KEY (id_produto) REFERENCES Produto(id_produto)
 );
 
 CREATE TABLE FormaPagamentoVenda (

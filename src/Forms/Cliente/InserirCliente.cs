@@ -25,7 +25,7 @@ namespace PDV {
 
 
             client = new Cliente(nomeBox.Text, logradouroBox.Text, numeroBox.Text, complementoBox.Text,
-                                        bairroBox.Text, cidadeBox.Text, estadoBox.Text, cepBox.Text, cpf_cnpjBox.Text, telefoneBox.Text, emailBox.Text);
+                                        bairroBox.Text, cidadeBox.Text, cb_estado.Text, cepBox.Text, cpf_cnpjBox.Text, telefoneBox.Text, emailBox.Text);
 
             var repository = new ClienteRepository();
             repository.Add(client);
@@ -38,6 +38,11 @@ namespace PDV {
         }
 
         private void InserirCliente_Load(object sender, EventArgs e)
+        {
+
+        }
+
+        private void cb_estado_SelectedIndexChanged(object sender, EventArgs e)
         {
 
         }
