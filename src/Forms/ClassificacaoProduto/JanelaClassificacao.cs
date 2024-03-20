@@ -78,7 +78,8 @@ namespace PDV.Forms {
             Classificacao classificacao = _tabela.ObterClassificacaoNaLinhaSelecionada(dataViewClassificacao.CurrentRow.Index);
             repository.Delete(classificacao.Id_classificacao);
 
-            //_tabela.excluir(dataViewClassificacao.CurrentRow.Index);
+            MessageBox.Show("Item excluído com sucesso!");
+
 
             _tabela.Clear();
             ObterClassificacoes();

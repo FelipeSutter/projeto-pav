@@ -84,6 +84,8 @@ namespace PDV {
             Cliente client = _tabela.ObterClienteNaLinhaSelecionada(dataViewClient.CurrentRow.Index);
             repository.Delete(client.Id_cliente);
 
+            MessageBox.Show("Item excluído com sucesso!");
+
             _tabela.Excluir(dataViewClient.CurrentRow.Index);
         }
         private void button5_Click(object sender, EventArgs e)//consultar

@@ -79,6 +79,8 @@ namespace PDV
             Produto produto = _tabela.ObterProdutoNaLinhaSelecionada(dataViewProduto.CurrentRow.Index);
             repository.Delete(produto.Id_produto);
 
+            MessageBox.Show("Item excluído com sucesso!");
+
             _tabela.Excluir(dataViewProduto.CurrentRow.Index);
         }
 

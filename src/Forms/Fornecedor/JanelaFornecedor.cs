@@ -74,6 +74,9 @@ namespace PDV.Forms {
             Fornecedor fornecedor = _tabela.ObterFornecedorNaLinhaSelecionada(dataViewFornecedor.CurrentRow.Index);
             repository.Delete(fornecedor.Id_fornecedor);
 
+            MessageBox.Show("Item excluído com sucesso!");
+
+
             _tabela.Excluir(dataViewFornecedor.CurrentRow.Index);
         }
         private void button5_Click(object sender, EventArgs e)
