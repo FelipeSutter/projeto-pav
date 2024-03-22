@@ -110,14 +110,11 @@ partial class InserirItemVenda {
         // 
         // cb_cliente
         // 
-        cb_cliente.DataSource = clienteBindingSource;
-        cb_cliente.DisplayMember = "Nome";
-        cb_cliente.DropDownStyle = ComboBoxStyle.DropDownList;
         cb_cliente.FlatStyle = FlatStyle.System;
         cb_cliente.FormattingEnabled = true;
         cb_cliente.Location = new Point(209, 53);
         cb_cliente.Name = "cb_cliente";
-        cb_cliente.Size = new Size(151, 28);
+        cb_cliente.Size = new Size(177, 28);
         cb_cliente.TabIndex = 62;
         cb_cliente.SelectedIndexChanged += cb_cliente_SelectedIndexChanged;
         // 
@@ -130,7 +127,7 @@ partial class InserirItemVenda {
         cb_produto.FormattingEnabled = true;
         cb_produto.Location = new Point(209, 118);
         cb_produto.Name = "cb_produto";
-        cb_produto.Size = new Size(151, 28);
+        cb_produto.Size = new Size(177, 28);
         cb_produto.TabIndex = 63;
         cb_produto.SelectedIndexChanged += cb_produto_SelectedIndexChanged;
         // 

@@ -65,13 +65,15 @@ public partial class InserirItemVenda : Form {
 
         var clienteRepository = new ClienteRepository();
         try {
+            // isso era para aparecer todos os clientes. DataSource é o que ele pega do banco para preencher
             var clientes = clienteRepository.Get();
 
-            //cb_cliente.Items.Clear();
+            cb_cliente.Items.Clear();
 
-            foreach (var cliente in clientes) {
-                cb_cliente.Items.Add(cliente.Nome);
-            }
+            cb_cliente.DataSource = clientes;
+            cb_cliente.DisplayMember = "nome";
+            cb_cliente.ValueMember = "id_cliente";
+
         } catch (Exception ex) {
             // Registre ou exiba a exceção para ajudar na depuração
             MessageBox.Show("Erro ao carregar os clientes: " + ex.Message, "Erro", MessageBoxButtons.OK, MessageBoxIcon.Error);
