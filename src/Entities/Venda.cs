@@ -1,4 +1,6 @@
-﻿namespace PDV.Entities
+﻿using PDV.Enums;
+
+namespace PDV.Entities
 {
     public class Venda
     {
@@ -6,7 +8,7 @@
         public int Id_venda { get; set; }
         public DateTime DataHora { get; set; }
         public double TotalVenda { get; set; }
-        public string SituacaoVenda { get; set; }
+        public EStatus SituacaoVenda { get; set; }
         public int Id_cliente { get; set; }
         public Cliente Cliente { get; set; }
 
@@ -15,7 +17,7 @@
           
         }
 
-        public Venda(double totalVenda, string situacaoVenda, int id_cliente)
+        public Venda(double totalVenda, EStatus situacaoVenda, int id_cliente)
         {
             TotalVenda = totalVenda;
             SituacaoVenda = situacaoVenda;

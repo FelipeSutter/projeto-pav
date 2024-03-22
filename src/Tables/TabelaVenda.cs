@@ -1,15 +1,16 @@
 ﻿using PDV.Entities;
+using PDV.Enums;
+using System;
 using System.Data;
 
 namespace PDV.Tabelas {
     public class TabelaVenda : DataTable {
 
-        private const string COLUNA_ID_ITEM_VENDA = "Id Item Venda";
-        private const string COLUNA_NOME_PRODUTO = "Nome Produto";
-        private const string COLUNA_QTD_ITEM = "Quantidade do Item";
-        private const string COLUNA_VALOR_UNITARIO = "Valor Unitário";
-        private const string COLUNA_TOTAL_ITEM = "Total do Item";
-        private const string COLUNA_SITUACAO_VENDA = "Situação da Venda";
+        private const string COLUNA_ID_VENDA = "Id Venda";
+        private const string COLUNA_DATA_HORA = "Data e Hora";
+        private const string COLUNA_TOTAL_VENDA = "Total da Venda";
+        private const string COLUNA_SITUACAO = "Situação da Venda";
+        private const string COLUNA_ID_CLIENTE = "Id Cliente";
 
         public TabelaVenda() {
             CriarColunas();
@@ -25,40 +26,40 @@ namespace PDV.Tabelas {
         }
 
         private void CriarColunas() {
-            Columns.Add(CriarColuna("Id Item Venda", COLUNA_ID_ITEM_VENDA, typeof(int)));
-            Columns.Add(CriarColuna("Nome Produto", COLUNA_NOME_PRODUTO, typeof(string)));
-            Columns.Add(CriarColuna("Quantidade do Item", COLUNA_QTD_ITEM, typeof(int)));
-            Columns.Add(CriarColuna("Valor Unitário", COLUNA_VALOR_UNITARIO, typeof(double)));
-            Columns.Add(CriarColuna("Total do Item", COLUNA_TOTAL_ITEM, typeof(double)));
-            Columns.Add(CriarColuna("Situação da Venda", COLUNA_SITUACAO_VENDA, typeof(string)));
+            Columns.Add(CriarColuna("Id Venda", COLUNA_ID_VENDA, typeof(int)));
+            Columns.Add(CriarColuna("Data e Hora", COLUNA_DATA_HORA, typeof(DateTime)));
+            Columns.Add(CriarColuna("Total da Venda", COLUNA_TOTAL_VENDA, typeof(double)));
+            Columns.Add(CriarColuna("Situação da Venda", COLUNA_SITUACAO, typeof(EStatus)));
+            Columns.Add(CriarColuna("Id Cliente", COLUNA_ID_CLIENTE, typeof(int)));
         }
 
-        public void Incluir(ItemVenda itemVenda) {
-            Rows.Add(itemVenda.IdVenda, itemVenda.Produto.Nome, itemVenda.QtdItem,
-                     itemVenda.ValorUnitario, itemVenda.TotalItem, itemVenda.Venda.SituacaoVenda);
+        public void Incluir(Venda venda) {
+            Rows.Add(venda.Id_venda, venda.DataHora, venda.TotalVenda, venda.SituacaoVenda, venda.Id_cliente);
         }
 
-        public void Alterar(int indice, ItemVenda itemVenda) {
-            Rows[indice][COLUNA_ID_ITEM_VENDA] = itemVenda.IdVenda;
-            Rows[indice][COLUNA_NOME_PRODUTO] = itemVenda.Produto.Nome;
-            Rows[indice][COLUNA_QTD_ITEM] = itemVenda.QtdItem;
-            Rows[indice][COLUNA_VALOR_UNITARIO] = itemVenda.ValorUnitario;
-            Rows[indice][COLUNA_TOTAL_ITEM] = itemVenda.TotalItem;
-            Rows[indice][COLUNA_SITUACAO_VENDA] = itemVenda.Venda.SituacaoVenda;
+        public void Alterar(int indice, Venda venda) {
+            Rows[indice][COLUNA_ID_VENDA] = venda.Id_venda;
+            Rows[indice][COLUNA_DATA_HORA] = venda.DataHora;
+            Rows[indice][COLUNA_TOTAL_VENDA] = venda.TotalVenda;
+            Rows[indice][COLUNA_SITUACAO] = venda.SituacaoVenda;
+            Rows[indice][COLUNA_ID_CLIENTE] = venda.Id_cliente;
         }
 
         public void Excluir(int indice) {
             Rows.RemoveAt(indice);
         }
 
-        public ItemVenda ObterItemVendaNaLinhaSelecionada(int indiceLinha) {
-            var itemVenda = new ItemVenda {
-                IdVenda = Convert.ToInt32(Rows[indiceLinha][COLUNA_ID_ITEM_VENDA]),
-                QtdItem = Convert.ToInt32(Rows[indiceLinha][COLUNA_QTD_ITEM]),
-                ValorUnitario = Convert.ToDouble(Rows[indiceLinha][COLUNA_VALOR_UNITARIO])
+        public Venda ObterVendaNaLinhaSelecionada(int indiceLinha) {
+            var venda = new Venda {
+                Id_venda = Convert.ToInt32(Rows[indiceLinha][COLUNA_ID_VENDA]),
+                DataHora = Convert.ToDateTime(Rows[indiceLinha][COLUNA_DATA_HORA]),
+                TotalVenda = Convert.ToDouble(Rows[indiceLinha][COLUNA_TOTAL_VENDA]),
+                SituacaoVenda = (EStatus) Rows[indiceLinha][COLUNA_SITUACAO],
+                Id_cliente = Convert.ToInt32(Rows[indiceLinha][COLUNA_ID_CLIENTE])
             };
 
-            return itemVenda;
+            return venda;
         }
+
     }
 }

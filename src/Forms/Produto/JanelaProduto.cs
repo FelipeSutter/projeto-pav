@@ -1,10 +1,8 @@
 ﻿using PDV.Entities;
-using PDV.Forms;
 using PDV.Infrastructure.Repositories;
 using PDV.Tabelas;
 
-namespace PDV
-{
+namespace PDV {
     public partial class JanelaProduto : Form
     {
         List<Produto> produtos = new List<Produto>(); // Correção aqui
