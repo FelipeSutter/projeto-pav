@@ -1,4 +1,5 @@
-﻿namespace PDV;
+﻿
+namespace PDV.Forms;
 
 partial class JanelaItemVenda {
     /// <summary>
@@ -24,52 +25,24 @@ partial class JanelaItemVenda {
     /// the contents of this method with the code editor.
     /// </summary>
     private void InitializeComponent() {
-        btn_pesquisar = new Button();
-        label1 = new Label();
-        txt_pesquisar = new TextBox();
+        components = new System.ComponentModel.Container();
         btn_consultar = new Button();
         btn_voltar = new Button();
         btn_excluir = new Button();
         btn_alterar = new Button();
         btn_incluir = new Button();
         dataViewItemVenda = new DataGridView();
-        btn_finalizar = new Button();
+        clienteBindingSource = new BindingSource(components);
+        btn_cancelar = new Button();
+        btn_confirmar = new Button();
         ((System.ComponentModel.ISupportInitialize) dataViewItemVenda).BeginInit();
+        ((System.ComponentModel.ISupportInitialize) clienteBindingSource).BeginInit();
         SuspendLayout();
-        // 
-        // btn_pesquisar
-        // 
-        btn_pesquisar.Location = new Point(501, 35);
-        btn_pesquisar.Margin = new Padding(2);
-        btn_pesquisar.Name = "btn_pesquisar";
-        btn_pesquisar.Size = new Size(90, 27);
-        btn_pesquisar.TabIndex = 23;
-        btn_pesquisar.Text = "Buscar";
-        btn_pesquisar.UseVisualStyleBackColor = true;
-        // 
-        // label1
-        // 
-        label1.AutoSize = true;
-        label1.Font = new Font("Segoe UI", 12F, FontStyle.Regular, GraphicsUnit.Point,  0);
-        label1.Location = new Point(61, 35);
-        label1.Margin = new Padding(2, 0, 2, 0);
-        label1.Name = "label1";
-        label1.Size = new Size(97, 28);
-        label1.TabIndex = 22;
-        label1.Text = "Pesquisar:";
-        // 
-        // txt_pesquisar
-        // 
-        txt_pesquisar.Location = new Point(173, 36);
-        txt_pesquisar.Margin = new Padding(2);
-        txt_pesquisar.Name = "txt_pesquisar";
-        txt_pesquisar.Size = new Size(299, 27);
-        txt_pesquisar.TabIndex = 21;
         // 
         // btn_consultar
         // 
         btn_consultar.BackColor = SystemColors.GradientActiveCaption;
-        btn_consultar.Location = new Point(1030, 263);
+        btn_consultar.Location = new Point(678, 233);
         btn_consultar.Margin = new Padding(2);
         btn_consultar.Name = "btn_consultar";
         btn_consultar.Size = new Size(176, 42);
@@ -81,10 +54,10 @@ partial class JanelaItemVenda {
         // btn_voltar
         // 
         btn_voltar.BackColor = SystemColors.GradientActiveCaption;
-        btn_voltar.Location = new Point(1030, 468);
+        btn_voltar.Location = new Point(61, 498);
         btn_voltar.Margin = new Padding(2);
         btn_voltar.Name = "btn_voltar";
-        btn_voltar.Size = new Size(176, 42);
+        btn_voltar.Size = new Size(110, 42);
         btn_voltar.TabIndex = 19;
         btn_voltar.Text = "Voltar";
         btn_voltar.UseVisualStyleBackColor = false;
@@ -93,7 +66,7 @@ partial class JanelaItemVenda {
         // btn_excluir
         // 
         btn_excluir.BackColor = SystemColors.GradientActiveCaption;
-        btn_excluir.Location = new Point(1030, 198);
+        btn_excluir.Location = new Point(678, 171);
         btn_excluir.Margin = new Padding(2);
         btn_excluir.Name = "btn_excluir";
         btn_excluir.Size = new Size(176, 42);
@@ -105,7 +78,7 @@ partial class JanelaItemVenda {
         // btn_alterar
         // 
         btn_alterar.BackColor = SystemColors.GradientActiveCaption;
-        btn_alterar.Location = new Point(1030, 134);
+        btn_alterar.Location = new Point(678, 107);
         btn_alterar.Margin = new Padding(2);
         btn_alterar.Name = "btn_alterar";
         btn_alterar.Size = new Size(176, 42);
@@ -117,7 +90,7 @@ partial class JanelaItemVenda {
         // btn_incluir
         // 
         btn_incluir.BackColor = SystemColors.GradientActiveCaption;
-        btn_incluir.Location = new Point(1030, 75);
+        btn_incluir.Location = new Point(678, 48);
         btn_incluir.Margin = new Padding(2);
         btn_incluir.Name = "btn_incluir";
         btn_incluir.Size = new Size(176, 42);
@@ -129,62 +102,89 @@ partial class JanelaItemVenda {
         // dataViewItemVenda
         // 
         dataViewItemVenda.ColumnHeadersHeightSizeMode = DataGridViewColumnHeadersHeightSizeMode.AutoSize;
-        dataViewItemVenda.Location = new Point(35, 75);
+        dataViewItemVenda.Location = new Point(61, 48);
         dataViewItemVenda.Margin = new Padding(2);
         dataViewItemVenda.MultiSelect = false;
         dataViewItemVenda.Name = "dataViewItemVenda";
         dataViewItemVenda.ReadOnly = true;
         dataViewItemVenda.RowHeadersWidth = 62;
-        dataViewItemVenda.Size = new Size(947, 438);
+        dataViewItemVenda.Size = new Size(522, 416);
         dataViewItemVenda.TabIndex = 15;
-        dataViewItemVenda.CellContentClick += dataViewVenda_CellContentClick;
         // 
-        // btn_finalizar
+        // clienteBindingSource
         // 
-        btn_finalizar.BackColor = SystemColors.GradientActiveCaption;
-        btn_finalizar.Location = new Point(1030, 365);
-        btn_finalizar.Margin = new Padding(2);
-        btn_finalizar.Name = "btn_finalizar";
-        btn_finalizar.Size = new Size(176, 42);
-        btn_finalizar.TabIndex = 24;
-        btn_finalizar.Text = "Finalizar";
-        btn_finalizar.UseVisualStyleBackColor = false;
-        btn_finalizar.Click += btn_finalizar_Click;
+        clienteBindingSource.DataSource = typeof(Entities.Cliente);
         // 
-        // JanelaVenda
+        // btn_cancelar
+        // 
+        btn_cancelar.BackColor = SystemColors.GradientActiveCaption;
+        btn_cancelar.Location = new Point(772, 422);
+        btn_cancelar.Margin = new Padding(2);
+        btn_cancelar.Name = "btn_cancelar";
+        btn_cancelar.Size = new Size(133, 42);
+        btn_cancelar.TabIndex = 21;
+        btn_cancelar.Text = "Cancelar venda";
+        btn_cancelar.UseVisualStyleBackColor = false;
+        btn_cancelar.Click += btn_cancelar_Click;
+        // 
+        // btn_confirmar
+        // 
+        btn_confirmar.BackColor = SystemColors.GradientActiveCaption;
+        btn_confirmar.Location = new Point(624, 422);
+        btn_confirmar.Margin = new Padding(2);
+        btn_confirmar.Name = "btn_confirmar";
+        btn_confirmar.Size = new Size(133, 42);
+        btn_confirmar.TabIndex = 22;
+        btn_confirmar.Text = "Confirmar venda";
+        btn_confirmar.UseVisualStyleBackColor = false;
+        btn_confirmar.Click += btn_confirmar_Click;
+        // 
+        // JanelaItemVenda
         // 
         AutoScaleDimensions = new SizeF(8F, 20F);
         AutoScaleMode = AutoScaleMode.Font;
         BackColor = SystemColors.ActiveCaption;
-        ClientSize = new Size(1261, 548);
-        Controls.Add(btn_finalizar);
-        Controls.Add(btn_pesquisar);
-        Controls.Add(label1);
-        Controls.Add(txt_pesquisar);
+        ClientSize = new Size(916, 551);
+        Controls.Add(btn_confirmar);
+        Controls.Add(btn_cancelar);
         Controls.Add(btn_consultar);
         Controls.Add(btn_voltar);
         Controls.Add(btn_excluir);
         Controls.Add(btn_alterar);
         Controls.Add(btn_incluir);
         Controls.Add(dataViewItemVenda);
-        Name = "JanelaVenda";
-        Text = "JanelaVenda";
-        Load += JanelaVenda_Load;
+        Name = "JanelaItemVenda";
+        Text = "JanelaItemVenda";
+        Load += JanelaItemVenda_Load;
         ((System.ComponentModel.ISupportInitialize) dataViewItemVenda).EndInit();
+        ((System.ComponentModel.ISupportInitialize) clienteBindingSource).EndInit();
         ResumeLayout(false);
-        PerformLayout();
+    }
+
+    private void btn_incluir_Click(object sender, EventArgs e) {
+        throw new NotImplementedException();
+    }
+
+    private void btn_alterar_Click(object sender, EventArgs e) {
+        throw new NotImplementedException();
+    }
+
+    private void btn_excluir_Click(object sender, EventArgs e) {
+        throw new NotImplementedException();
+    }
+
+    private void btn_consultar_Click(object sender, EventArgs e) {
+        throw new NotImplementedException();
     }
 
     #endregion
-
-    private Button btn_pesquisar;
-    private Label label1;
-    private TextBox txt_pesquisar;
     private Button btn_consultar;
     private Button btn_voltar;
     private Button btn_excluir;
     private Button btn_alterar;
     private Button btn_incluir;
     private DataGridView dataViewItemVenda;
-    private Button btn_finalizar;
+    private BindingSource clienteBindingSource;
+    private Button btn_cancelar;
+    private Button btn_confirmar;
 }

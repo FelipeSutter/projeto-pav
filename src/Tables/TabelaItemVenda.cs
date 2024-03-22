@@ -4,7 +4,6 @@ using System.Data;
 namespace PDV.Tabelas {
     public class TabelaItemVenda : DataTable {
 
-        private const string COLUNA_ID_ITEM_VENDA = "Id Item Venda";
         private const string COLUNA_NOME_PRODUTO = "Nome Produto";
         private const string COLUNA_QTD_ITEM = "Quantidade do Item";
         private const string COLUNA_VALOR_UNITARIO = "Valor Unitário";
@@ -25,7 +24,6 @@ namespace PDV.Tabelas {
         }
 
         private void CriarColunas() {
-            Columns.Add(CriarColuna("Id Item Venda", COLUNA_ID_ITEM_VENDA, typeof(int)));
             Columns.Add(CriarColuna("Nome Produto", COLUNA_NOME_PRODUTO, typeof(string)));
             Columns.Add(CriarColuna("Quantidade do Item", COLUNA_QTD_ITEM, typeof(int)));
             Columns.Add(CriarColuna("Valor Unitário", COLUNA_VALOR_UNITARIO, typeof(double)));
@@ -39,7 +37,6 @@ namespace PDV.Tabelas {
         }
 
         public void Alterar(int indice, ItemVenda itemVenda) {
-            Rows[indice][COLUNA_ID_ITEM_VENDA] = itemVenda.IdVenda;
             Rows[indice][COLUNA_NOME_PRODUTO] = itemVenda.Produto.Nome;
             Rows[indice][COLUNA_QTD_ITEM] = itemVenda.QtdItem;
             Rows[indice][COLUNA_VALOR_UNITARIO] = itemVenda.ValorUnitario;
@@ -53,7 +50,6 @@ namespace PDV.Tabelas {
 
         public ItemVenda ObterItemVendaNaLinhaSelecionada(int indiceLinha) {
             var itemVenda = new ItemVenda {
-                IdVenda = Convert.ToInt32(Rows[indiceLinha][COLUNA_ID_ITEM_VENDA]),
                 QtdItem = Convert.ToInt32(Rows[indiceLinha][COLUNA_QTD_ITEM]),
                 ValorUnitario = Convert.ToDouble(Rows[indiceLinha][COLUNA_VALOR_UNITARIO])
             };

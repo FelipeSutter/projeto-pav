@@ -43,8 +43,8 @@ namespace PDV.Infrastructure.Repositories {
                         item.IdProduto,
                         IdVenda = idVenda,
                         item.QtdItem,
-                        item.ValorUnitario,
-                        item.TotalItem
+                        ValorUnitario = item.Produto.Preco / double.Parse(item.Produto.Unidade),
+                        TotalItem = item.Produto.Preco,
                     }, transaction);
                 }
 
@@ -55,6 +55,51 @@ namespace PDV.Infrastructure.Repositories {
                 MessageBox.Show("Erro ao efetuar a venda: " + ex.Message, "Erro", MessageBoxButtons.OK, MessageBoxIcon.Error);
                 return false;
             }
+        }
+
+        public List<ItemVenda> Get() {
+            using var conn = new DbConnection();
+            string query = @"SELECT * FROM item_venda";
+
+            var itensVenda = conn.Connection.Query<ItemVenda>(query);
+
+            return itensVenda.ToList();
+        }
+
+        public bool Update(ItemVenda item) {
+            using var conn = new DbConnection();
+            string query = @"UPDATE item_venda
+                             SET id_produto = @IdProduto,
+                                 id_venda = @IdVenda,
+                                 qtd_item = @QtdItem,
+                                 valor_unitario = @ValorUnitario,
+                                 total_item = @TotalItem
+                             WHERE id_produto = @IdProduto AND id_venda = @IdVenda";
+
+            var parameters = new 
+            {
+                item.IdProduto,
+                item.IdVenda,
+                item.QtdItem,
+                ValorUnitario = item.Produto.Preco / double.Parse(item.Produto.Unidade),
+                TotalItem = item.Produto.Preco
+            };
+
+            var result = conn.Connection.Execute(query, parameters);
+
+            return result == 1;
+        }
+
+        public bool Delete(int idProduto, int idVenda) {
+            using var conn = new DbConnection();
+            string query = @"DELETE FROM item_venda
+                             WHERE id_produto = @IdProduto AND id_venda = @IdVenda";
+
+            var parameters = new { IdProduto = idProduto, IdVenda = idVenda };
+
+            var result = conn.Connection.Execute(query, parameters);
+
+            return result > 0;
         }
 
         // Método para verificar se o cliente existe no banco de dados

@@ -42,7 +42,8 @@ namespace PDV {
         }
 
         private void btn_Venda_Click(object sender, EventArgs e) {
-
+            MenuVenda menu = new MenuVenda();
+            menu.Show();
         }
     }
 }
