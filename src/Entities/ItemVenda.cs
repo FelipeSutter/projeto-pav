@@ -12,15 +12,12 @@
 
         public ItemVenda() { }
 
-        public ItemVenda(int idProduto, int idVenda, int qtdItem, double valorUnitario, double totalItem, Produto produto, Venda venda)
+        public ItemVenda(int idProduto, int idVenda, int qtdItem, int idCliente)
         {
             IdProduto = idProduto;
             IdVenda = idVenda;
             QtdItem = qtdItem;
-            ValorUnitario = valorUnitario;
-            TotalItem = totalItem;
-            Produto = produto;
-            Venda = venda;
+            Venda.Id_cliente = idCliente;
         }
     }
 }

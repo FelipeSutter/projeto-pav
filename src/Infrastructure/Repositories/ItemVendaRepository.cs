@@ -4,7 +4,7 @@ using PDV.Infrastructure.Database;
 
 namespace PDV.Infrastructure.Repositories {
     public class ItemVendaRepository {
-        public bool EfetuarVenda(Venda venda, List<ItemVenda> itens) {
+        public bool EfetuarVenda(Venda venda, ItemVenda item) {
             // Verifica se o cliente existe no banco de dados
             if (!CheckClienteExists(venda.Id_cliente)) {
                 MessageBox.Show("Cliente não existe no banco de dados!", "Erro de validação", MessageBoxButtons.OK, MessageBoxIcon.Error);
@@ -23,8 +23,6 @@ namespace PDV.Infrastructure.Repositories {
 
                 int idVenda = conn.Connection.Query<int>(insertVendaQuery, venda, transaction).FirstOrDefault();
 
-                // Atualiza o estoque dos produtos e insere os itens da venda
-                foreach (var item in itens) {
                     // Verifica se há estoque disponível
                     if (!CheckEstoqueDisponivel(item.IdProduto, item.QtdItem)) {
                         transaction.Rollback();
@@ -45,8 +43,7 @@ namespace PDV.Infrastructure.Repositories {
                         item.QtdItem,
                         ValorUnitario = item.Produto.Preco / double.Parse(item.Produto.Unidade),
                         TotalItem = item.Produto.Preco,
-                    }, transaction);
-                }
+                }, transaction);
 
                 transaction.Commit();
                 return true;

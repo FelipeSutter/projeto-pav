@@ -130,7 +130,7 @@ partial class JanelaItemVenda {
         // btn_confirmar
         // 
         btn_confirmar.BackColor = SystemColors.GradientActiveCaption;
-        btn_confirmar.Location = new Point(624, 422);
+        btn_confirmar.Location = new Point(616, 422);
         btn_confirmar.Margin = new Padding(2);
         btn_confirmar.Name = "btn_confirmar";
         btn_confirmar.Size = new Size(133, 42);
@@ -159,22 +159,6 @@ partial class JanelaItemVenda {
         ((System.ComponentModel.ISupportInitialize) dataViewItemVenda).EndInit();
         ((System.ComponentModel.ISupportInitialize) clienteBindingSource).EndInit();
         ResumeLayout(false);
-    }
-
-    private void btn_incluir_Click(object sender, EventArgs e) {
-        throw new NotImplementedException();
-    }
-
-    private void btn_alterar_Click(object sender, EventArgs e) {
-        throw new NotImplementedException();
-    }
-
-    private void btn_excluir_Click(object sender, EventArgs e) {
-        throw new NotImplementedException();
-    }
-
-    private void btn_consultar_Click(object sender, EventArgs e) {
-        throw new NotImplementedException();
     }
 
     #endregion
