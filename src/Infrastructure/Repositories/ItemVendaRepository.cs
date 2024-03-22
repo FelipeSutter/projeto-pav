@@ -56,7 +56,7 @@ namespace PDV.Infrastructure.Repositories {
 
         public List<ItemVenda> Get() {
             using var conn = new DbConnection();
-            string query = @"SELECT * FROM item_venda";
+            string query = @"SELECT * FROM itemvenda";
 
             var itensVenda = conn.Connection.Query<ItemVenda>(query);
 

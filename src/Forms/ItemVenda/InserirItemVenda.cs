@@ -9,11 +9,14 @@ public partial class InserirItemVenda : Form {
 
     public ItemVenda GetItem() => item;
 
-    public InserirItemVenda(Venda venda) {
+    public InserirItemVenda(Venda venda = null) { // Aceita uma instância de Venda opcionalmente
         InitializeComponent();
 
+        if (venda == null) {
+            venda = new Venda();
+        }
+
         this.venda = venda;
-    
     }
 
     private void InserirItemVenda_Load(object sender, EventArgs e) {
@@ -57,14 +60,49 @@ public partial class InserirItemVenda : Form {
     }
 
     private void btn_criar_Click(object sender, EventArgs e) {
-        string idCliente = cb_cliente.Text;
         string idProduto = cb_produto.Text;
         string qtdItem = nm_qtd.Value.ToString();
 
-        // Cria o novo item de venda associado à venda atual
-        item = new ItemVenda(Convert.ToInt32(idProduto), venda.Id_venda, Convert.ToInt32(qtdItem), Convert.ToInt32(idCliente));
+        var clienteRepository = new ClienteRepository();
+        try {
+            var clientes = clienteRepository.Get();
 
-        var repository = new ItemVendaRepository();
-        repository.EfetuarVenda(venda, item);
+            //cb_cliente.Items.Clear();
+
+            foreach (var cliente in clientes) {
+                cb_cliente.Items.Add(cliente.Nome);
+            }
+        } catch (Exception ex) {
+            // Registre ou exiba a exceção para ajudar na depuração
+            MessageBox.Show("Erro ao carregar os clientes: " + ex.Message, "Erro", MessageBoxButtons.OK, MessageBoxIcon.Error);
+            return; // Saia do método, pois não é possível prosseguir sem os clientes
+        }
+
+        if (cb_cliente.Items.Count > 0) {
+            cb_cliente.SelectedIndex = 0; // Seleciona o primeiro cliente na lista, se houver algum
+
+            int idCliente = ObterIdClienteSelecionado();
+
+            item = new ItemVenda(Convert.ToInt32(idProduto), venda.Id_venda, Convert.ToInt32(qtdItem), idCliente);
+
+            venda.CalcularTotalVenda(new List<ItemVenda> { item });
+
+            var repository = new ItemVendaRepository();
+            repository.EfetuarVenda(venda, item);
+
+        } else {
+            MessageBox.Show("Não foram encontrados clientes.", "Erro", MessageBoxButtons.OK, MessageBoxIcon.Error);
+            return; // Saia do método, pois não é possível prosseguir sem os clientes
+        }
     }
+
+    private int ObterIdClienteSelecionado() {
+        string nomeClienteSelecionado = cb_cliente.SelectedItem.ToString();
+        var clienteRepository = new ClienteRepository();
+        Cliente clienteSelecionado = clienteRepository.GetClientePorNome(nomeClienteSelecionado);
+
+        return clienteSelecionado.Id_cliente;
+    }
+
+
 }

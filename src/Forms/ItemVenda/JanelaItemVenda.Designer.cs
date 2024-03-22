@@ -42,7 +42,7 @@ partial class JanelaItemVenda {
         // btn_consultar
         // 
         btn_consultar.BackColor = SystemColors.GradientActiveCaption;
-        btn_consultar.Location = new Point(678, 233);
+        btn_consultar.Location = new Point(845, 233);
         btn_consultar.Margin = new Padding(2);
         btn_consultar.Name = "btn_consultar";
         btn_consultar.Size = new Size(176, 42);
@@ -66,7 +66,7 @@ partial class JanelaItemVenda {
         // btn_excluir
         // 
         btn_excluir.BackColor = SystemColors.GradientActiveCaption;
-        btn_excluir.Location = new Point(678, 171);
+        btn_excluir.Location = new Point(845, 171);
         btn_excluir.Margin = new Padding(2);
         btn_excluir.Name = "btn_excluir";
         btn_excluir.Size = new Size(176, 42);
@@ -78,7 +78,7 @@ partial class JanelaItemVenda {
         // btn_alterar
         // 
         btn_alterar.BackColor = SystemColors.GradientActiveCaption;
-        btn_alterar.Location = new Point(678, 107);
+        btn_alterar.Location = new Point(845, 107);
         btn_alterar.Margin = new Padding(2);
         btn_alterar.Name = "btn_alterar";
         btn_alterar.Size = new Size(176, 42);
@@ -90,7 +90,7 @@ partial class JanelaItemVenda {
         // btn_incluir
         // 
         btn_incluir.BackColor = SystemColors.GradientActiveCaption;
-        btn_incluir.Location = new Point(678, 48);
+        btn_incluir.Location = new Point(845, 48);
         btn_incluir.Margin = new Padding(2);
         btn_incluir.Name = "btn_incluir";
         btn_incluir.Size = new Size(176, 42);
@@ -108,7 +108,7 @@ partial class JanelaItemVenda {
         dataViewItemVenda.Name = "dataViewItemVenda";
         dataViewItemVenda.ReadOnly = true;
         dataViewItemVenda.RowHeadersWidth = 62;
-        dataViewItemVenda.Size = new Size(522, 416);
+        dataViewItemVenda.Size = new Size(708, 416);
         dataViewItemVenda.TabIndex = 15;
         // 
         // clienteBindingSource
@@ -118,7 +118,7 @@ partial class JanelaItemVenda {
         // btn_cancelar
         // 
         btn_cancelar.BackColor = SystemColors.GradientActiveCaption;
-        btn_cancelar.Location = new Point(772, 422);
+        btn_cancelar.Location = new Point(957, 422);
         btn_cancelar.Margin = new Padding(2);
         btn_cancelar.Name = "btn_cancelar";
         btn_cancelar.Size = new Size(133, 42);
@@ -130,7 +130,7 @@ partial class JanelaItemVenda {
         // btn_confirmar
         // 
         btn_confirmar.BackColor = SystemColors.GradientActiveCaption;
-        btn_confirmar.Location = new Point(616, 422);
+        btn_confirmar.Location = new Point(801, 422);
         btn_confirmar.Margin = new Padding(2);
         btn_confirmar.Name = "btn_confirmar";
         btn_confirmar.Size = new Size(133, 42);
@@ -144,7 +144,7 @@ partial class JanelaItemVenda {
         AutoScaleDimensions = new SizeF(8F, 20F);
         AutoScaleMode = AutoScaleMode.Font;
         BackColor = SystemColors.ActiveCaption;
-        ClientSize = new Size(916, 551);
+        ClientSize = new Size(1098, 547);
         Controls.Add(btn_confirmar);
         Controls.Add(btn_cancelar);
         Controls.Add(btn_consultar);

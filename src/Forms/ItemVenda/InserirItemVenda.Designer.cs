@@ -24,6 +24,7 @@ partial class InserirItemVenda {
     /// the contents of this method with the code editor.
     /// </summary>
     private void InitializeComponent() {
+        components = new System.ComponentModel.Container();
         btn_voltar = new Button();
         btn_criar = new Button();
         label4 = new Label();
@@ -31,12 +32,14 @@ partial class InserirItemVenda {
         label2 = new Label();
         label1 = new Label();
         cb_cliente = new ComboBox();
+        clienteBindingSource = new BindingSource(components);
         cb_produto = new ComboBox();
         nm_qtd = new NumericUpDown();
         rb_credito = new RadioButton();
         rb_debito = new RadioButton();
         rb_pix = new RadioButton();
         rb_dinheiro = new RadioButton();
+        ((System.ComponentModel.ISupportInitialize) clienteBindingSource).BeginInit();
         ((System.ComponentModel.ISupportInitialize) nm_qtd).BeginInit();
         SuspendLayout();
         // 
@@ -107,12 +110,20 @@ partial class InserirItemVenda {
         // 
         // cb_cliente
         // 
+        cb_cliente.DataSource = clienteBindingSource;
+        cb_cliente.DisplayMember = "Nome";
+        cb_cliente.DropDownStyle = ComboBoxStyle.DropDownList;
+        cb_cliente.FlatStyle = FlatStyle.System;
         cb_cliente.FormattingEnabled = true;
         cb_cliente.Location = new Point(209, 53);
         cb_cliente.Name = "cb_cliente";
         cb_cliente.Size = new Size(151, 28);
         cb_cliente.TabIndex = 62;
         cb_cliente.SelectedIndexChanged += cb_cliente_SelectedIndexChanged;
+        // 
+        // clienteBindingSource
+        // 
+        clienteBindingSource.DataSource = typeof(Entities.Cliente);
         // 
         // cb_produto
         // 
@@ -200,6 +211,7 @@ partial class InserirItemVenda {
         Name = "InserirItemVenda";
         Text = "InserirItemVenda";
         Load += InserirItemVenda_Load;
+        ((System.ComponentModel.ISupportInitialize) clienteBindingSource).EndInit();
         ((System.ComponentModel.ISupportInitialize) nm_qtd).EndInit();
         ResumeLayout(false);
         PerformLayout();
@@ -220,4 +232,5 @@ partial class InserirItemVenda {
     private RadioButton rb_debito;
     private RadioButton rb_pix;
     private RadioButton rb_dinheiro;
+    private BindingSource clienteBindingSource;
 }

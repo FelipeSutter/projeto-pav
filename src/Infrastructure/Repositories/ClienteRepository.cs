@@ -48,6 +48,14 @@ namespace PDV.Infrastructure.Repositories {
             return clientes.ToList();
         }
 
+        public Cliente GetClientePorNome(string nome) {
+            using (var conn = new DbConnection()) {
+                string query = "SELECT * FROM cliente WHERE nome = @Nome";
+                var parameters = new { Nome = nome };
+                return conn.Connection.QueryFirstOrDefault<Cliente>(query, parameters);
+            }
+        }
+
         public bool Delete(int clientId)
         {
             using var conn = new DbConnection();

@@ -53,7 +53,7 @@ public partial class JanelaItemVenda : Form {
     }
 
     private void btn_incluir_Click(object sender, EventArgs e) {
-        InserirItemVenda form = new InserirItemVenda(vendaAtual); // Passa a venda atual para o formulário
+        InserirItemVenda form = new InserirItemVenda(); // Passa a venda atual para o formulário
         DialogResult response = form.ShowDialog();
         if (response == DialogResult.OK) {
             _tabela.Clear();

@@ -17,12 +17,19 @@ namespace PDV.Entities
           
         }
 
-        public Venda(double totalVenda, EStatus situacaoVenda, int id_cliente)
-        {
-            TotalVenda = totalVenda;
-            SituacaoVenda = situacaoVenda;
+        public Venda(int id_cliente) {
+            SituacaoVenda = EStatus.ATIVO;
             Id_cliente = id_cliente;
             DataHora = DateTime.Now;
+            TotalVenda = 0;
         }
+
+        public void CalcularTotalVenda(List<ItemVenda> itens) {
+            TotalVenda = 0;
+            foreach (var item in itens) {
+                TotalVenda += item.TotalItem;
+            }
+        }
+
     }
 }
