@@ -11,6 +11,15 @@ public partial class InserirItemVenda : Form {
 
     public InserirItemVenda(Venda venda = null) { // Aceita uma instância de Venda opcionalmente
         InitializeComponent();
+        var clienteRepository = new ClienteRepository();
+
+        var clientes = clienteRepository.Get();
+
+        cb_cliente.Items.Clear();
+
+        cb_cliente.DataSource = clientes;
+        cb_cliente.DisplayMember = "nome";
+        cb_cliente.ValueMember = "id_cliente";
 
         if (venda == null) {
             venda = new Venda();
@@ -62,23 +71,6 @@ public partial class InserirItemVenda : Form {
     private void btn_criar_Click(object sender, EventArgs e) {
         string idProduto = cb_produto.Text;
         string qtdItem = nm_qtd.Value.ToString();
-
-        var clienteRepository = new ClienteRepository();
-        try {
-            // isso era para aparecer todos os clientes. DataSource é o que ele pega do banco para preencher
-            var clientes = clienteRepository.Get();
-
-            cb_cliente.Items.Clear();
-
-            cb_cliente.DataSource = clientes;
-            cb_cliente.DisplayMember = "nome";
-            cb_cliente.ValueMember = "id_cliente";
-
-        } catch (Exception ex) {
-            // Registre ou exiba a exceção para ajudar na depuração
-            MessageBox.Show("Erro ao carregar os clientes: " + ex.Message, "Erro", MessageBoxButtons.OK, MessageBoxIcon.Error);
-            return; // Saia do método, pois não é possível prosseguir sem os clientes
-        }
 
         if (cb_cliente.Items.Count > 0) {
             cb_cliente.SelectedIndex = 0; // Seleciona o primeiro cliente na lista, se houver algum
