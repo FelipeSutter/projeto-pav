@@ -1,9 +1,8 @@
-﻿namespace PDV.Enums;
-public enum EStatus {
+﻿namespace PDV.Enums {
+    public enum EStatus {
 
-    CANCELADO,
-    ATIVO,
+        CANCELADA,
+        EFETUADA,
 
-    
-
+    }
 }

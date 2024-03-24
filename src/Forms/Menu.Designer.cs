@@ -26,7 +26,8 @@
         ///  Required method for Designer support - do not modify
         ///  the contents of this method with the code editor.
         /// </summary>
-        private void InitializeComponent() {
+        private void InitializeComponent()
+        {
             button1 = new Button();
             button2 = new Button();
             button3 = new Button();
@@ -39,10 +40,10 @@
             // 
             button1.BackColor = SystemColors.GradientActiveCaption;
             button1.ForeColor = SystemColors.ActiveCaptionText;
-            button1.Location = new Point(259, 117);
-            button1.Margin = new Padding(2, 2, 2, 2);
+            button1.Location = new Point(324, 146);
+            button1.Margin = new Padding(2);
             button1.Name = "button1";
-            button1.Size = new Size(273, 57);
+            button1.Size = new Size(341, 71);
             button1.TabIndex = 0;
             button1.Text = "Clientes";
             button1.UseVisualStyleBackColor = false;
@@ -51,10 +52,10 @@
             // button2
             // 
             button2.BackColor = SystemColors.GradientActiveCaption;
-            button2.Location = new Point(259, 286);
-            button2.Margin = new Padding(2, 2, 2, 2);
+            button2.Location = new Point(324, 358);
+            button2.Margin = new Padding(2);
             button2.Name = "button2";
-            button2.Size = new Size(273, 57);
+            button2.Size = new Size(341, 71);
             button2.TabIndex = 1;
             button2.Text = "Produtos";
             button2.UseVisualStyleBackColor = false;
@@ -63,10 +64,10 @@
             // button3
             // 
             button3.BackColor = SystemColors.GradientActiveCaption;
-            button3.Location = new Point(259, 203);
-            button3.Margin = new Padding(2, 2, 2, 2);
+            button3.Location = new Point(324, 248);
+            button3.Margin = new Padding(2);
             button3.Name = "button3";
-            button3.Size = new Size(273, 57);
+            button3.Size = new Size(341, 71);
             button3.TabIndex = 2;
             button3.Text = "Fornecedores";
             button3.UseVisualStyleBackColor = false;
@@ -75,10 +76,10 @@
             // button4
             // 
             button4.BackColor = SystemColors.GradientActiveCaption;
-            button4.Location = new Point(259, 371);
-            button4.Margin = new Padding(2, 2, 2, 2);
+            button4.Location = new Point(324, 464);
+            button4.Margin = new Padding(2);
             button4.Name = "button4";
-            button4.Size = new Size(273, 57);
+            button4.Size = new Size(341, 71);
             button4.TabIndex = 3;
             button4.Text = "Classificação Produtos";
             button4.UseVisualStyleBackColor = false;
@@ -87,21 +88,21 @@
             // label1
             // 
             label1.AutoSize = true;
-            label1.Font = new Font("Segoe UI", 18F, FontStyle.Regular, GraphicsUnit.Point,  0);
-            label1.Location = new Point(241, 47);
+            label1.Font = new Font("Segoe UI", 18F, FontStyle.Regular, GraphicsUnit.Point, 0);
+            label1.Location = new Point(301, 59);
             label1.Margin = new Padding(2, 0, 2, 0);
             label1.Name = "label1";
-            label1.Size = new Size(317, 41);
+            label1.Size = new Size(376, 48);
             label1.TabIndex = 4;
             label1.Text = "Comércio de Produtos";
             // 
             // btn_Venda
             // 
             btn_Venda.BackColor = SystemColors.GradientActiveCaption;
-            btn_Venda.Location = new Point(259, 450);
+            btn_Venda.Location = new Point(324, 562);
             btn_Venda.Margin = new Padding(2);
             btn_Venda.Name = "btn_Venda";
-            btn_Venda.Size = new Size(273, 57);
+            btn_Venda.Size = new Size(341, 71);
             btn_Venda.TabIndex = 5;
             btn_Venda.Text = "Vendas";
             btn_Venda.UseVisualStyleBackColor = false;
@@ -109,17 +110,17 @@
             // 
             // Menu
             // 
-            AutoScaleDimensions = new SizeF(8F, 20F);
+            AutoScaleDimensions = new SizeF(10F, 25F);
             AutoScaleMode = AutoScaleMode.Font;
             BackColor = SystemColors.ActiveCaption;
-            ClientSize = new Size(794, 595);
+            ClientSize = new Size(992, 744);
             Controls.Add(btn_Venda);
             Controls.Add(label1);
             Controls.Add(button4);
             Controls.Add(button3);
             Controls.Add(button2);
             Controls.Add(button1);
-            Margin = new Padding(2, 2, 2, 2);
+            Margin = new Padding(2);
             Name = "Menu";
             Text = "Menu Principal";
             Load += Form1_Load;

@@ -1,7 +1,5 @@
-﻿namespace PDV.Entities
-{
-    public class ItemVenda
-    {
+﻿namespace PDV.Entities {
+    public class ItemVenda {
         public int IdProduto { get; set; }
         public int IdVenda { get; set; }
         public int QtdItem { get; set; }
@@ -12,12 +10,15 @@
 
         public ItemVenda() { }
 
-        public ItemVenda(int idProduto, int idVenda, int qtdItem, int idCliente)
-        {
-            IdProduto = idProduto;
-            IdVenda = idVenda;
+        public ItemVenda(int qtdItem, double valorUnitario, double totalItem, Produto produto) {
+            Produto = produto;
+
+            IdProduto = produto.Id_produto;
+
             QtdItem = qtdItem;
-            Venda.Id_cliente = idCliente;
+            ValorUnitario = valorUnitario;
+            TotalItem = totalItem;
+
         }
     }
 }
