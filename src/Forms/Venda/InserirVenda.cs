@@ -5,16 +5,14 @@ using PDV.Tables;
 
 namespace PDV
 {
-    public partial class InserirVenda : Form
-    {
+    public partial class InserirVenda : Form {
         List<Produto> produtos = new List<Produto>();
         List<Cliente> clientes = [];
         List<ItemVenda> itens = new List<ItemVenda>();
         TabelaItemVenda _tabela;
 
         double total = 0;
-        public InserirVenda()
-        {
+        public InserirVenda() {
             InitializeComponent();
             ObterProdutos();
             ObterClientes();
@@ -36,20 +34,16 @@ namespace PDV
             pessoa_box.ValueMember = "Id_cliente";
         }
 
-        public void ObterProdutos(string nomePesquisa = null)
-        {
+        public void ObterProdutos(string nomePesquisa = null) {
             var repository = new ProdutoRepository();
             produtos = repository.Get(nomePesquisa);
         }
-        public Produto ObterProdutos(int id)
-        {
+        public Produto ObterProdutos(int id) {
             var repository = new ProdutoRepository();
             produtos = repository.Get();
             Produto prod = new Produto();
-            foreach (var item in produtos)
-            {
-                if (id == item.Id_produto)
-                {
+            foreach (var item in produtos) {
+                if (id == item.Id_produto) {
                     prod = item;
                     break;
                 }
@@ -57,21 +51,17 @@ namespace PDV
             return prod;
         }
 
-        public void ObterClientes(string? nomePesquisa = null)
-        {
+        public void ObterClientes(string? nomePesquisa = null) {
             var repository = new ClienteRepository();
             clientes = repository.Get();
         }
 
-        public Cliente ObterClientes(int id)
-        {
+        public Cliente ObterClientes(int id) {
             var repository = new ClienteRepository();
             clientes = repository.Get();
             Cliente clie = new Cliente();
-            foreach (var item in clientes)
-            {
-                if (id == item.Id_cliente)
-                {
+            foreach (var item in clientes) {
+                if (id == item.Id_cliente) {
                     clie = item;
                     break;
                 }
@@ -79,17 +69,13 @@ namespace PDV
             return clie;
         }
 
-        private void btn_carrinho_Click(object sender, EventArgs e)
-        {
+        private void btn_carrinho_Click(object sender, EventArgs e) {
             int qtd = int.Parse(qtd_box.Text);
             Produto prod = new Produto();
-            prod = ObterProdutos((int)prod_box.SelectedValue);
-            if (prod.Qtd_estoque < qtd)
-            {
+            prod = ObterProdutos((int) prod_box.SelectedValue);
+            if (prod.Qtd_estoque < qtd) {
                 MessageBox.Show("Não há estoque suficiente para o produto " + prod.Nome, "Erro de validação", MessageBoxButtons.OK, MessageBoxIcon.Error);
-            }
-            else
-            {
+            } else {
                 ItemVenda item = new ItemVenda(qtd, prod.Preco, qtd * prod.Preco, prod);
                 itens.Add(item);
 
@@ -99,10 +85,9 @@ namespace PDV
                 lb_total.Text = total.ToString();
             }
         }
-        private void btn_venda_Click(object sender, EventArgs e)
-        {
+        private void btn_venda_Click(object sender, EventArgs e) {
             Cliente cliente = new Cliente();
-            cliente = ObterClientes((int)pessoa_box.SelectedValue);
+            cliente = ObterClientes((int) pessoa_box.SelectedValue);
 
 
 
@@ -114,10 +99,9 @@ namespace PDV
 
         }
 
-        private void btn_cancelar_Click(object sender, EventArgs e)
-        {
+        private void btn_cancelar_Click(object sender, EventArgs e) {
             Cliente cliente = new Cliente();
-            cliente = ObterClientes((int)pessoa_box.SelectedValue);
+            cliente = ObterClientes((int) pessoa_box.SelectedValue);
 
 
             Venda venda = new Venda(total, EStatus.CANCELADA, cliente.Id_cliente);
@@ -127,18 +111,15 @@ namespace PDV
 
         }
 
-        private void textBox2_TextChanged(object sender, EventArgs e)
-        {
+        private void textBox2_TextChanged(object sender, EventArgs e) {
 
         }
 
-        private void lb_total_Click(object sender, EventArgs e)
-        {
+        private void lb_total_Click(object sender, EventArgs e) {
 
         }
 
-        private void btn_remover_Click(object sender, EventArgs e)
-        {
+        private void btn_remover_Click(object sender, EventArgs e) {
             var repository = new ItemVendaRepository();
             ItemVenda item = _tabela.ObterItemVendaNaLinhaSelecionada(dataViewItemVenda.CurrentRow.Index);
             repository.Delete(item.IdProduto, item.IdVenda);
@@ -151,9 +132,34 @@ namespace PDV
             _tabela.Excluir(dataViewItemVenda.CurrentRow.Index);
         }
 
-        private void InserirVenda_Load(object sender, EventArgs e)
-        {
+        private void InserirVenda_Load(object sender, EventArgs e) {
 
+        }
+
+        private void btn_alterar_Click(object sender, EventArgs e) {
+            ItemVenda item = _tabela.ObterItemVendaNaLinhaSelecionada(dataViewItemVenda.CurrentRow.Index);
+            Produto prod = new Produto();
+
+            int novaQuantidade = int.Parse(qtd_box.Text);
+            prod = ObterProdutos((int) prod_box.SelectedValue);
+
+            if (prod.Qtd_estoque < novaQuantidade) {
+                MessageBox.Show("Não há estoque suficiente para o produto " + prod.Nome, "Erro de validação", MessageBoxButtons.OK, MessageBoxIcon.Error);
+            } else {
+                double totalAnterior = item.TotalItem; // Salva o total anterior do item
+
+                // Atualiza o item de venda com a nova quantidade e recalcula o total
+                item.QtdItem = novaQuantidade;
+                item.TotalItem = novaQuantidade * prod.Preco;
+
+                // Atualiza a linha na tabela
+                _tabela.Alterar(dataViewItemVenda.CurrentRow.Index, item);
+
+                // Atualiza o preço total da venda
+                total -= totalAnterior; // Remove o total anterior
+                total += item.TotalItem; // Adiciona o novo total
+                lb_total.Text = total.ToString();
+            }
         }
     }
 }
