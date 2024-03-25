@@ -2,7 +2,6 @@
 {
     public class Caixa
     {
-
         public int Id_caixa { get; set; }
         public string Saldo { get; set; }
 
