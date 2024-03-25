@@ -3,7 +3,7 @@
     public class ContaReceber
     {
 
-        public int IdContaReceber { get; set; }
+        public int Id_conta_receber { get; set; }
         public int Id_cliente { get; set; }
         public Cliente Cliente { get; set; }
         public string Descricao { get; set; }

@@ -97,7 +97,7 @@ namespace PDV
             Venda venda = new Venda(total, EStatus.EFETUADA, cliente.Id_cliente);
 
             // Salva a venda no banco de dados
-            int idVenda = itemRepository.AddAndGetId(venda, itens);
+            int idVenda = itemRepository.Add(venda, itens);
 
             // Cria a forma de pagamento venda usando o ID da venda salva
             var formaPagamento = CriarFormaPagamentoVenda(total, idVenda);
@@ -115,7 +115,7 @@ namespace PDV
 
             Venda venda = new Venda(total, EStatus.CANCELADA, cliente.Id_cliente);
             var repository = new ItemVendaRepository();
-            repository.AddAndGetId(venda, itens);
+            repository.Add(venda, itens);
             Close();
 
         }

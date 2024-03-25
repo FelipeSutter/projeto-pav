@@ -4,7 +4,7 @@ using PDV.Infrastructure.Database;
 
 namespace PDV.Infrastructure.Repositories {
     public class ItemVendaRepository {
-        public int AddAndGetId(Venda venda, List<ItemVenda> itens) {
+        public int Add(Venda venda, List<ItemVenda> itens) {
             using var conn = new DbConnection();
 
             // Insere a venda
