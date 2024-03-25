@@ -221,6 +221,7 @@
             rb_pix.TabStop = true;
             rb_pix.Text = "Pix";
             rb_pix.UseVisualStyleBackColor = true;
+            rb_pix.CheckedChanged += rb_pix_CheckedChanged;
             // 
             // rb_debito
             // 

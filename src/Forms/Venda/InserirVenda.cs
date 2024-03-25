@@ -1,5 +1,7 @@
-﻿using PDV.Entities;
+﻿using Dapper;
+using PDV.Entities;
 using PDV.Enums;
+using PDV.Infrastructure.Database;
 using PDV.Infrastructure.Repositories;
 using PDV.Tables;
 
@@ -86,16 +88,23 @@ namespace PDV
             }
         }
         private void btn_venda_Click(object sender, EventArgs e) {
+            var itemRepository = new ItemVendaRepository();
+            var formaPagamentoRepository = new FormaPagamentoVendaRepository();
+
+
             Cliente cliente = new Cliente();
             cliente = ObterClientes((int) pessoa_box.SelectedValue);
 
-
-
+            // o Id da Venda está vindo zerado, então quando é passada para o repository de formaPagamento dá erro
+            // Agora eu não sei como não deu erro no repository de ItemRepository já que a venda está vindo zerada
+            // Preciso mudar o repository para pegar o id da ultima venda e passar por parametro no add a Venda.
             Venda venda = new Venda(total, EStatus.EFETUADA, cliente.Id_cliente);
-            var repository = new ItemVendaRepository();
-            repository.Add(venda, itens);
-            Close();
+            itemRepository.Add(venda, itens);
+            
+            var formaPagamento = CriarFormaPagamentoVenda(total);
+            formaPagamentoRepository.Add(formaPagamento, venda);
 
+            Close();
 
         }
 
@@ -161,5 +170,49 @@ namespace PDV
                 lb_total.Text = total.ToString();
             }
         }
+
+        private void rb_pix_CheckedChanged(object sender, EventArgs e) {
+
+        }
+
+        private int ObterUltimoIdVenda() {
+            using var conn = new DbConnection();
+            string query = @"SELECT MAX(id_venda) FROM venda";
+            return conn.Connection.QueryFirstOrDefault<int>(query);
+        }
+
+        // Método para obter o ID da forma de pagamento com base no nome do Enum
+        private int ObterIdFormaPagamento(EFormaPagamento formaPagamento) {
+            using var conn = new DbConnection();
+            string query = @"SELECT id_forma_pagamento
+                     FROM formapagamento
+                     WHERE nome = @Nome";
+
+            var parameters = new { Nome = formaPagamento.ToString() };
+            return conn.Connection.QueryFirstOrDefault<int>(query, parameters);
+        }
+
+        private FormaPagamentoVenda CriarFormaPagamentoVenda(double total) {
+            // Obtém o ID da última venda
+            int idUltimaVenda = ObterUltimoIdVenda();
+
+            // Verifica qual forma de pagamento foi selecionada
+            int idFormaPagamento = 0; // Inicializa com valor padrão
+            if (rb_credito.Checked) {
+                idFormaPagamento = ObterIdFormaPagamento(EFormaPagamento.CREDITO);
+            } else if (rb_debito.Checked) {
+                idFormaPagamento = ObterIdFormaPagamento(EFormaPagamento.DEBITO);
+            } else if (rb_pix.Checked) {
+                idFormaPagamento = ObterIdFormaPagamento(EFormaPagamento.PIX);
+            } else if (rb_especie.Checked) {
+                idFormaPagamento = ObterIdFormaPagamento(EFormaPagamento.ESPECIE);
+            }
+
+            // Cria o objeto FormaPagamentoVenda
+            var formaPagamentoVenda = new FormaPagamentoVenda(idUltimaVenda, idFormaPagamento, total);
+
+            return formaPagamentoVenda;
+        }
+
     }
 }

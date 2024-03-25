@@ -69,11 +69,18 @@ CREATE TABLE ItemVenda (
 
 CREATE TABLE FormaPagamentoVenda (
     id_venda INTEGER NOT NULL,
-    id_forma_pagamento INTEGER NOT NULL REFERENCES FormaPagamento(id_forma_pagamento),
+    id_forma_pagamento INTEGER NOT null references FormaPagamento(id_forma_pagamento),
     valor NUMERIC(10,2) NOT NULL,
     PRIMARY KEY (id_venda, id_forma_pagamento),
     FOREIGN KEY (id_venda) REFERENCES Venda(id_venda)
 );
+
+insert into formapagamento(nome)
+values
+	('CREDITO'),
+	('DEBITO'),
+	('PIX'),
+	('ESPECIE');
 
 CREATE TABLE Compra (
     id_compra SERIAL PRIMARY KEY,
