@@ -45,6 +45,21 @@ namespace PDV.Tables {
         public void Excluir(int indice) {
             Rows.RemoveAt(indice);
         }
+
+        public ItemVenda ObterItemVendaNaLinhaSelecionada(int indiceLinha) {
+            var item = new ItemVenda {
+                IdProduto = Convert.ToInt32(Rows[indiceLinha][COLUNA_CODIGO]),
+                Produto = new Produto {
+                    Nome = Rows[indiceLinha][COLUNA_NOME_PRODUTO].ToString()
+                },
+                QtdItem = Convert.ToInt32(Rows[indiceLinha][COLUNA_QUANTIDADE]),
+                ValorUnitario = Convert.ToDouble(Rows[indiceLinha][COLUNA_PRECO]),
+                TotalItem = Convert.ToDouble(Rows[indiceLinha][COLUNA_TOTAL])
+            };
+
+            return item;
+        }
+
     }
 
 }

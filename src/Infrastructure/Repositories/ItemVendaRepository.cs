@@ -52,7 +52,7 @@ namespace PDV.Infrastructure.Repositories {
 
         public bool Update(ItemVenda item) {
             using var conn = new DbConnection();
-            string query = @"UPDATE item_venda
+            string query = @"UPDATE itemvenda
                              SET id_produto = @IdProduto,
                                  id_venda = @IdVenda,
                                  qtd_item = @QtdItem,
@@ -75,7 +75,7 @@ namespace PDV.Infrastructure.Repositories {
 
         public bool Delete(int idProduto, int idVenda) {
             using var conn = new DbConnection();
-            string query = @"DELETE FROM item_venda
+            string query = @"DELETE FROM itemvenda
                              WHERE id_produto = @IdProduto AND id_venda = @IdVenda";
 
             var parameters = new { IdProduto = idProduto, IdVenda = idVenda };
