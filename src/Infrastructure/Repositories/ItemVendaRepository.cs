@@ -4,22 +4,22 @@ using PDV.Infrastructure.Database;
 
 namespace PDV.Infrastructure.Repositories {
     public class ItemVendaRepository {
-        public bool Add(Venda venda, List<ItemVenda> itens) {
-            var conn = new DbConnection();
+        public int AddAndGetId(Venda venda, List<ItemVenda> itens) {
+            using var conn = new DbConnection();
 
             // Insere a venda
             string insertVendaQuery = @"INSERT INTO venda (data_hora, total_venda, situacao_venda, id_cliente)
-                                        VALUES (@Data_Hora, @Total_Venda, @Situacao_Venda, @Id_cliente);
-                                        SELECT LASTVAL();";
+                                VALUES (@Data_Hora, @Total_Venda, @Situacao_Venda, @Id_cliente)
+                                RETURNING id_venda;";
 
-            int idVenda = conn.Connection.Query<int>(insertVendaQuery, venda).FirstOrDefault();
+            int idVenda = conn.Connection.ExecuteScalar<int>(insertVendaQuery, venda);
 
             // Atualiza o estoque dos produtos e insere os itens da venda
             foreach (var item in itens) {
                 // Verifica se há estoque disponível
                 if (!CheckEstoqueDisponivel(item.IdProduto, item.QtdItem)) {
                     MessageBox.Show("Não há estoque suficiente para o produto " + item.Produto.Nome, "Erro de validação", MessageBoxButtons.OK, MessageBoxIcon.Error);
-                    return false;
+                    return -1; // Retorna um valor inválido em caso de erro
                 }
 
                 // Atualiza o estoque do produto
@@ -28,7 +28,7 @@ namespace PDV.Infrastructure.Repositories {
 
                 // Insere o item da venda
                 string insertItemVendaQuery = @"INSERT INTO itemvenda (id_produto, id_venda, qtd_item, valor_unitario, total_item)
-                                                VALUES (@IdProduto, @IdVenda, @QtdItem, @ValorUnitario, @TotalItem)";
+                                        VALUES (@IdProduto, @IdVenda, @QtdItem, @ValorUnitario, @TotalItem)";
                 conn.Connection.Execute(insertItemVendaQuery, new {
                     item.IdProduto,
                     IdVenda = idVenda,
@@ -38,7 +38,7 @@ namespace PDV.Infrastructure.Repositories {
                 });
             }
 
-            return true;
+            return idVenda;
         }
 
         public List<ItemVenda> Get() {

@@ -4,7 +4,7 @@ using PDV.Infrastructure.Database;
 
 namespace PDV.Infrastructure.Repositories;
 public class FormaPagamentoVendaRepository {
-    public bool Add(FormaPagamentoVenda formaPagamentoVenda, Venda venda) {
+    public bool Add(FormaPagamentoVenda formaPagamentoVenda) {
         using var conn = new DbConnection();
 
         // Verifica se o id_forma_pagamento existe na tabela formapagamento
@@ -25,7 +25,7 @@ public class FormaPagamentoVendaRepository {
 
         var result = conn.Connection.Execute(insertQuery, new {
             formaPagamentoVenda.Id_Forma_Pagamento,
-            Id_Venda = venda.Id_venda, // Usando o ID da venda fornecido
+            formaPagamentoVenda.Id_Venda, // Usando o ID da venda fornecido
             formaPagamentoVenda.Valor
         });
 

@@ -91,21 +91,21 @@ namespace PDV
             var itemRepository = new ItemVendaRepository();
             var formaPagamentoRepository = new FormaPagamentoVendaRepository();
 
+            Cliente cliente = ObterClientes((int) pessoa_box.SelectedValue);
 
-            Cliente cliente = new Cliente();
-            cliente = ObterClientes((int) pessoa_box.SelectedValue);
-
-            // o Id da Venda está vindo zerado, então quando é passada para o repository de formaPagamento dá erro
-            // Agora eu não sei como não deu erro no repository de ItemRepository já que a venda está vindo zerada
-            // Preciso mudar o repository para pegar o id da ultima venda e passar por parametro no add a Venda.
+            // Cria uma nova venda
             Venda venda = new Venda(total, EStatus.EFETUADA, cliente.Id_cliente);
-            itemRepository.Add(venda, itens);
-            
-            var formaPagamento = CriarFormaPagamentoVenda(total);
-            formaPagamentoRepository.Add(formaPagamento, venda);
+
+            // Salva a venda no banco de dados
+            int idVenda = itemRepository.AddAndGetId(venda, itens);
+
+            // Cria a forma de pagamento venda usando o ID da venda salva
+            var formaPagamento = CriarFormaPagamentoVenda(total, idVenda);
+
+            // Adiciona a forma de pagamento venda ao banco de dados
+            formaPagamentoRepository.Add(formaPagamento);
 
             Close();
-
         }
 
         private void btn_cancelar_Click(object sender, EventArgs e) {
@@ -115,7 +115,7 @@ namespace PDV
 
             Venda venda = new Venda(total, EStatus.CANCELADA, cliente.Id_cliente);
             var repository = new ItemVendaRepository();
-            repository.Add(venda, itens);
+            repository.AddAndGetId(venda, itens);
             Close();
 
         }
@@ -175,12 +175,6 @@ namespace PDV
 
         }
 
-        private int ObterUltimoIdVenda() {
-            using var conn = new DbConnection();
-            string query = @"SELECT MAX(id_venda) FROM venda";
-            return conn.Connection.QueryFirstOrDefault<int>(query);
-        }
-
         // Método para obter o ID da forma de pagamento com base no nome do Enum
         private int ObterIdFormaPagamento(EFormaPagamento formaPagamento) {
             using var conn = new DbConnection();
@@ -192,10 +186,7 @@ namespace PDV
             return conn.Connection.QueryFirstOrDefault<int>(query, parameters);
         }
 
-        private FormaPagamentoVenda CriarFormaPagamentoVenda(double total) {
-            // Obtém o ID da última venda
-            int idUltimaVenda = ObterUltimoIdVenda();
-
+        private FormaPagamentoVenda CriarFormaPagamentoVenda(double total, int idVenda) {
             // Verifica qual forma de pagamento foi selecionada
             int idFormaPagamento = 0; // Inicializa com valor padrão
             if (rb_credito.Checked) {
@@ -209,7 +200,7 @@ namespace PDV
             }
 
             // Cria o objeto FormaPagamentoVenda
-            var formaPagamentoVenda = new FormaPagamentoVenda(idUltimaVenda, idFormaPagamento, total);
+            var formaPagamentoVenda = new FormaPagamentoVenda(idVenda, idFormaPagamento, total);
 
             return formaPagamentoVenda;
         }
