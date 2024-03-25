@@ -90,6 +90,7 @@ namespace PDV
         private void btn_venda_Click(object sender, EventArgs e) {
             var itemRepository = new ItemVendaRepository();
             var formaPagamentoRepository = new FormaPagamentoVendaRepository();
+            var movimentoCaixaRepository = new MovimentoCaixaRepository();
 
             Cliente cliente = ObterClientes((int) pessoa_box.SelectedValue);
 
@@ -104,6 +105,10 @@ namespace PDV
 
             // Adiciona a forma de pagamento venda ao banco de dados
             formaPagamentoRepository.Add(formaPagamento);
+
+            // Cria o movimento do Caixa
+            var movimentoCaixa = CriarMovimentoCaixa(total, ETipoMovimento.SAIDA);
+            movimentoCaixaRepository.Add(movimentoCaixa);
 
             Close();
         }
@@ -184,6 +189,30 @@ namespace PDV
 
             var parameters = new { Nome = formaPagamento.ToString() };
             return conn.Connection.QueryFirstOrDefault<int>(query, parameters);
+        }
+
+        private MovimentoCaixa CriarMovimentoCaixa(double valor, ETipoMovimento tipoMovimento) {
+            // Obtém o ID do último caixa disponível
+            var caixaRepository = new CaixaRepository();
+            int idCaixa = caixaRepository.GetLastId();
+
+            // Obtém o saldo atual do caixa
+            // Talvez não precisaria de um novo método para pegar somente o saldo.
+            var saldoAtual = caixaRepository.GetSaldo(idCaixa);
+
+            // Calcula o novo saldo do caixa
+            var novoSaldo = saldoAtual + valor;
+
+            // Atualiza o saldo do caixa no banco de dados
+            bool sucessoAtualizacaoSaldo = caixaRepository.UpdateSaldo(idCaixa, novoSaldo);
+
+            if (!sucessoAtualizacaoSaldo) {
+                throw new Exception("Falha ao atualizar o saldo do caixa.");
+            }
+ 
+            MovimentoCaixa movimentoCaixa = new MovimentoCaixa(idCaixa, valor, tipoMovimento);
+
+            return movimentoCaixa;
         }
 
         private FormaPagamentoVenda CriarFormaPagamentoVenda(double total, int idVenda) {
