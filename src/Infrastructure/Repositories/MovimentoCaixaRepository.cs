@@ -6,11 +6,12 @@ namespace PDV.Infrastructure.Repositories {
     public class MovimentoCaixaRepository {
         public bool Add(MovimentoCaixa movimentoCaixa) {
             using var conn = new DbConnection();
-            string query = @"INSERT INTO public.movimentocaixa(id_caixa, descricao, valor, tipo_movimento)
-                             VALUES (@Id_caixa, @Descricao, @Valor, @Tipo_movimento)";
+            string query = @"INSERT INTO public.movimentocaixa(id_caixa, data_hora_movimento, descricao, valor, tipo_movimento)
+                             VALUES (@Id_caixa, @DataHora, @Descricao, @Valor, @Tipo_movimento)";
 
             var parameters = new {
                 movimentoCaixa.Id_caixa,
+                movimentoCaixa.DataHora,
                 movimentoCaixa.Descricao,
                 movimentoCaixa.Valor,
                 movimentoCaixa.Tipo_movimento
@@ -49,7 +50,7 @@ namespace PDV.Infrastructure.Repositories {
             return result > 0;
         }
 
-        public bool Update(MovimentoCaixa movimentoCaixa) {
+        public bool Update(MovimentoCaixa movimentoCaixa, int idMovimento) {
             using var conn = new DbConnection();
             string query = @"UPDATE public.movimentocaixa
                              SET id_caixa = @Id_caixa,
@@ -63,7 +64,7 @@ namespace PDV.Infrastructure.Repositories {
                 movimentoCaixa.Descricao,
                 movimentoCaixa.Valor,
                 movimentoCaixa.Tipo_movimento,
-                movimentoCaixa.Id_movimento
+                idMovimento,
             };
 
             var result = conn.Connection.Execute(query, parameters);

@@ -34,6 +34,12 @@ namespace PDV.Infrastructure.Repositories {
             return conn.Connection.QueryFirstOrDefault<Caixa>(query, parameters);
         }
 
+        public int GetLastId() {
+            using var conn = new DbConnection();
+            string query = "Select id_caixa from caixa order by id_caixa DESC LIMIT 1";
+            return conn.Connection.QueryFirstOrDefault<int>(query);
+        }
+
         public bool Delete(int caixaId) {
             using var conn = new DbConnection();
             string query = @"DELETE FROM public.caixa
@@ -61,5 +67,21 @@ namespace PDV.Infrastructure.Repositories {
 
             return result == 1;
         }
+
+        // Método para obter o saldo atual do caixa com o ID fornecido
+        public double GetSaldo(int idCaixa) {
+            using var conn = new DbConnection();
+            string query = "SELECT saldo FROM caixa WHERE id_caixa = @IdCaixa";
+            return conn.Connection.QueryFirstOrDefault<double>(query, new { IdCaixa = idCaixa });
+        }
+
+        // Método para atualizar o saldo do caixa com o ID fornecido
+        public bool UpdateSaldo(int idCaixa, double novoSaldo) {
+            using var conn = new DbConnection();
+            string query = "UPDATE caixa SET saldo = @NovoSaldo WHERE id_caixa = @IdCaixa";
+            int linhasAfetadas = conn.Connection.Execute(query, new { IdCaixa = idCaixa, NovoSaldo = novoSaldo });
+            return linhasAfetadas > 0;
+        }
+
     }
 }
