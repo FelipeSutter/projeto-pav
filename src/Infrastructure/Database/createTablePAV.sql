@@ -108,6 +108,7 @@ CREATE TABLE ContaReceber (
     data_lancamento TIMESTAMP NOT NULL,
     data_vencimento TIMESTAMP NOT NULL,
     valor_recebido NUMERIC(10,2),
+    valor_estimado NUMERIC(10,2),
     data_recebimento TIMESTAMP
 );
 
@@ -124,17 +125,20 @@ CREATE TABLE ContaPagar (
 
 CREATE TABLE Caixa (
     id_caixa SERIAL PRIMARY KEY,
-    nome VARCHAR(100) NOT NULL,
     saldo NUMERIC(10,2) NOT NULL
 );
 
 CREATE TABLE MovimentoCaixa (
     id_caixa INTEGER NOT NULL,
-    numero_movimento SERIAL,
+    id_movimento SERIAL,
     data_hora_movimento TIMESTAMP NOT NULL,
     descricao VARCHAR(100) NOT NULL,
     tipo_movimento VARCHAR(20) NOT NULL,
     valor NUMERIC(10,2) NOT NULL,
-    PRIMARY KEY (id_caixa, numero_movimento),
+    PRIMARY KEY (id_caixa, id_movimento),
     FOREIGN KEY (id_caixa) REFERENCES Caixa(id_caixa)
 );
+
+insert into caixa(saldo)
+values
+	(0);
