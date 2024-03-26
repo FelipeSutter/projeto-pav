@@ -31,6 +31,9 @@
             dataViewVenda = new DataGridView();
             btn_incluir = new Button();
             btn_voltar = new Button();
+
+            btn_consultar = new Button();
+
             ((System.ComponentModel.ISupportInitialize)dataViewVenda).BeginInit();
             SuspendLayout();
             // 
@@ -70,19 +73,36 @@
             btn_voltar.UseVisualStyleBackColor = false;
             btn_voltar.Click += btn_voltar_Click;
             // 
+            // btn_consultar
+            // 
+            btn_consultar.BackColor = SystemColors.GradientActiveCaption;
+            btn_consultar.Location = new Point(1122, 107);
+            btn_consultar.Name = "btn_consultar";
+            btn_consultar.Size = new Size(220, 52);
+            btn_consultar.TabIndex = 10;
+            btn_consultar.Text = "Contas a receber";
+            btn_consultar.UseVisualStyleBackColor = false;
+            btn_consultar.Click += btn_consultar_Click;
+            // 
             // JanelaVenda
             // 
             AutoScaleDimensions = new SizeF(10F, 25F);
             AutoScaleMode = AutoScaleMode.Font;
             BackColor = SystemColors.ActiveCaption;
             ClientSize = new Size(1360, 498);
+
+            Controls.Add(btn_consultar);
+
             Controls.Add(btn_voltar);
             Controls.Add(btn_incluir);
             Controls.Add(dataViewVenda);
             Margin = new Padding(2);
             Name = "JanelaVenda";
             Text = "JanelaVenda";
+
+
             Load += JanelaVenda_Load;
+
             ((System.ComponentModel.ISupportInitialize)dataViewVenda).EndInit();
             ResumeLayout(false);
         }
@@ -92,5 +112,6 @@
         private DataGridView dataViewVenda;
         private Button btn_incluir;
         private Button btn_voltar;
+        private Button btn_consultar;
     }
 }

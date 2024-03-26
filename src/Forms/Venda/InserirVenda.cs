@@ -127,7 +127,7 @@ namespace PDV
             formaPagamentoRepository.Add(formaPagamento);
 
             // Cria o movimento do Caixa
-            var movimentoCaixa = CriarMovimentoCaixa(total, ETipoMovimento.SAIDA, true);
+            var movimentoCaixa = CriarMovimentoCaixa(total, ETipoMovimento.SAIDA,true);
             movimentoCaixaRepository.Add(movimentoCaixa);
 
             //Cria a contaReceber 
@@ -252,7 +252,7 @@ namespace PDV
                 }
             }
 
-            MovimentoCaixa movimentoCaixa = new MovimentoCaixa(idCaixa, valor, tipoMovimento);
+            MovimentoCaixa movimentoCaixa = new MovimentoCaixa(idCaixa, valor, tipoMovimento,DateTime.Now);
 
             return movimentoCaixa;
         }

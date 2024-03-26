@@ -11,7 +11,7 @@ namespace PDV.Infrastructure.Repositories {
 
             var parameters = new {
                 movimentoCaixa.Id_caixa,
-                movimentoCaixa.DataHora,
+                movimentoCaixa.Data_hora_movimento,
                 movimentoCaixa.Descricao,
                 movimentoCaixa.Valor,
                 movimentoCaixa.Tipo_movimento
@@ -30,13 +30,21 @@ namespace PDV.Infrastructure.Repositories {
 
             return movimentos.ToList();
         }
-
+        public List<MovimentoCaixa> Get()
+        {
+            using var conn = new DbConnection();
+            string query = @"SELECT * FROM movimentocaixa";
+            var movimentos = conn.Connection.Query<MovimentoCaixa>(query);
+            return movimentos.ToList();
+        }
         public MovimentoCaixa GetMovimentoById(int idMovimento) {
             using var conn = new DbConnection();
             string query = "SELECT * FROM movimentocaixa WHERE id_movimento = @Id_movimento";
             var parameters = new { Id_movimento = idMovimento };
             return conn.Connection.QueryFirstOrDefault<MovimentoCaixa>(query, parameters);
         }
+
+
 
         public bool Delete(int idMovimento) {
             using var conn = new DbConnection();
