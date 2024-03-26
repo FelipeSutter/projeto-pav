@@ -7,17 +7,22 @@ using PDV.Tables;
 
 namespace PDV
 {
-    public partial class InserirVenda : Form {
+    public partial class InserirVenda : Form
+    {
         List<Produto> produtos = new List<Produto>();
         List<Cliente> clientes = [];
         List<ItemVenda> itens = new List<ItemVenda>();
         TabelaItemVenda _tabela;
 
+
+
         double total = 0;
-        public InserirVenda() {
+        public InserirVenda()
+        {
             InitializeComponent();
             ObterProdutos();
             ObterClientes();
+            cb_parcela.Enabled = false;
 
             _tabela = new TabelaItemVenda(); // Instanciação da tabela
             dataViewItemVenda.DataSource = _tabela;
@@ -34,18 +39,25 @@ namespace PDV
             pessoa_box.DataSource = clientes;
             pessoa_box.DisplayMember = "Nome";
             pessoa_box.ValueMember = "Id_cliente";
+
+
+
         }
 
-        public void ObterProdutos(string nomePesquisa = null) {
+        public void ObterProdutos(string nomePesquisa = null)
+        {
             var repository = new ProdutoRepository();
             produtos = repository.Get(nomePesquisa);
         }
-        public Produto ObterProdutos(int id) {
+        public Produto ObterProdutos(int id)
+        {
             var repository = new ProdutoRepository();
             produtos = repository.Get();
             Produto prod = new Produto();
-            foreach (var item in produtos) {
-                if (id == item.Id_produto) {
+            foreach (var item in produtos)
+            {
+                if (id == item.Id_produto)
+                {
                     prod = item;
                     break;
                 }
@@ -53,17 +65,21 @@ namespace PDV
             return prod;
         }
 
-        public void ObterClientes(string? nomePesquisa = null) {
+        public void ObterClientes(string? nomePesquisa = null)
+        {
             var repository = new ClienteRepository();
             clientes = repository.Get();
         }
 
-        public Cliente ObterClientes(int id) {
+        public Cliente ObterClientes(int id)
+        {
             var repository = new ClienteRepository();
             clientes = repository.Get();
             Cliente clie = new Cliente();
-            foreach (var item in clientes) {
-                if (id == item.Id_cliente) {
+            foreach (var item in clientes)
+            {
+                if (id == item.Id_cliente)
+                {
                     clie = item;
                     break;
                 }
@@ -71,13 +87,17 @@ namespace PDV
             return clie;
         }
 
-        private void btn_carrinho_Click(object sender, EventArgs e) {
+        private void btn_carrinho_Click(object sender, EventArgs e)
+        {
             int qtd = int.Parse(qtd_box.Text);
             Produto prod = new Produto();
-            prod = ObterProdutos((int) prod_box.SelectedValue);
-            if (prod.Qtd_estoque < qtd) {
+            prod = ObterProdutos((int)prod_box.SelectedValue);
+            if (prod.Qtd_estoque < qtd)
+            {
                 MessageBox.Show("Não há estoque suficiente para o produto " + prod.Nome, "Erro de validação", MessageBoxButtons.OK, MessageBoxIcon.Error);
-            } else {
+            }
+            else
+            {
                 ItemVenda item = new ItemVenda(qtd, prod.Preco, qtd * prod.Preco, prod);
                 itens.Add(item);
 
@@ -87,12 +107,14 @@ namespace PDV
                 lb_total.Text = total.ToString();
             }
         }
-        private void btn_venda_Click(object sender, EventArgs e) {
+        private void btn_venda_Click(object sender, EventArgs e)
+        {
             var itemRepository = new ItemVendaRepository();
             var formaPagamentoRepository = new FormaPagamentoVendaRepository();
             var movimentoCaixaRepository = new MovimentoCaixaRepository();
+            var contaReceberRepository = new ContaReceberRepository();
 
-            Cliente cliente = ObterClientes((int) pessoa_box.SelectedValue);
+            Cliente cliente = ObterClientes((int)pessoa_box.SelectedValue);
 
             // Cria uma nova venda
             Venda venda = new Venda(total, EStatus.EFETUADA, cliente.Id_cliente);
@@ -110,12 +132,16 @@ namespace PDV
             var movimentoCaixa = CriarMovimentoCaixa(total, ETipoMovimento.SAIDA);
             movimentoCaixaRepository.Add(movimentoCaixa);
 
+            //Cria a contaReceber 
+            CriarContaReceber(contaReceberRepository, cliente.Id_cliente);
+
             Close();
         }
 
-        private void btn_cancelar_Click(object sender, EventArgs e) {
+        private void btn_cancelar_Click(object sender, EventArgs e)
+        {
             Cliente cliente = new Cliente();
-            cliente = ObterClientes((int) pessoa_box.SelectedValue);
+            cliente = ObterClientes((int)pessoa_box.SelectedValue);
 
 
             Venda venda = new Venda(total, EStatus.CANCELADA, cliente.Id_cliente);
@@ -125,15 +151,18 @@ namespace PDV
 
         }
 
-        private void textBox2_TextChanged(object sender, EventArgs e) {
+        private void textBox2_TextChanged(object sender, EventArgs e)
+        {
 
         }
 
-        private void lb_total_Click(object sender, EventArgs e) {
+        private void lb_total_Click(object sender, EventArgs e)
+        {
 
         }
 
-        private void btn_remover_Click(object sender, EventArgs e) {
+        private void btn_remover_Click(object sender, EventArgs e)
+        {
             var repository = new ItemVendaRepository();
             ItemVenda item = _tabela.ObterItemVendaNaLinhaSelecionada(dataViewItemVenda.CurrentRow.Index);
             repository.Delete(item.IdProduto, item.IdVenda);
@@ -146,20 +175,25 @@ namespace PDV
             _tabela.Excluir(dataViewItemVenda.CurrentRow.Index);
         }
 
-        private void InserirVenda_Load(object sender, EventArgs e) {
+        private void InserirVenda_Load(object sender, EventArgs e)
+        {
 
         }
 
-        private void btn_alterar_Click(object sender, EventArgs e) {
+        private void btn_alterar_Click(object sender, EventArgs e)
+        {
             ItemVenda item = _tabela.ObterItemVendaNaLinhaSelecionada(dataViewItemVenda.CurrentRow.Index);
             Produto prod = new Produto();
 
             int novaQuantidade = int.Parse(qtd_box.Text);
-            prod = ObterProdutos((int) prod_box.SelectedValue);
+            prod = ObterProdutos((int)prod_box.SelectedValue);
 
-            if (prod.Qtd_estoque < novaQuantidade) {
+            if (prod.Qtd_estoque < novaQuantidade)
+            {
                 MessageBox.Show("Não há estoque suficiente para o produto " + prod.Nome, "Erro de validação", MessageBoxButtons.OK, MessageBoxIcon.Error);
-            } else {
+            }
+            else
+            {
                 double totalAnterior = item.TotalItem; // Salva o total anterior do item
 
                 // Atualiza o item de venda com a nova quantidade e recalcula o total
@@ -176,12 +210,14 @@ namespace PDV
             }
         }
 
-        private void rb_pix_CheckedChanged(object sender, EventArgs e) {
+        private void rb_pix_CheckedChanged(object sender, EventArgs e)
+        {
 
         }
 
         // Método para obter o ID da forma de pagamento com base no nome do Enum
-        private int ObterIdFormaPagamento(EFormaPagamento formaPagamento) {
+        private int ObterIdFormaPagamento(EFormaPagamento formaPagamento)
+        {
             using var conn = new DbConnection();
             string query = @"SELECT id_forma_pagamento
                      FROM formapagamento
@@ -191,7 +227,8 @@ namespace PDV
             return conn.Connection.QueryFirstOrDefault<int>(query, parameters);
         }
 
-        private MovimentoCaixa CriarMovimentoCaixa(double valor, ETipoMovimento tipoMovimento) {
+        private MovimentoCaixa CriarMovimentoCaixa(double valor, ETipoMovimento tipoMovimento)
+        {
             // Obtém o ID do último caixa disponível
             var caixaRepository = new CaixaRepository();
             int idCaixa = caixaRepository.GetLastId();
@@ -206,25 +243,34 @@ namespace PDV
             // Atualiza o saldo do caixa no banco de dados
             bool sucessoAtualizacaoSaldo = caixaRepository.UpdateSaldo(idCaixa, novoSaldo);
 
-            if (!sucessoAtualizacaoSaldo) {
+            if (!sucessoAtualizacaoSaldo)
+            {
                 throw new Exception("Falha ao atualizar o saldo do caixa.");
             }
- 
+
             MovimentoCaixa movimentoCaixa = new MovimentoCaixa(idCaixa, valor, tipoMovimento);
 
             return movimentoCaixa;
         }
 
-        private FormaPagamentoVenda CriarFormaPagamentoVenda(double total, int idVenda) {
+        private FormaPagamentoVenda CriarFormaPagamentoVenda(double total, int idVenda)
+        {
             // Verifica qual forma de pagamento foi selecionada
             int idFormaPagamento = 0; // Inicializa com valor padrão
-            if (rb_credito.Checked) {
+            if (rb_credito.Checked)
+            {
                 idFormaPagamento = ObterIdFormaPagamento(EFormaPagamento.CREDITO);
-            } else if (rb_debito.Checked) {
+            }
+            else if (rb_debito.Checked)
+            {
                 idFormaPagamento = ObterIdFormaPagamento(EFormaPagamento.DEBITO);
-            } else if (rb_pix.Checked) {
+            }
+            else if (rb_pix.Checked)
+            {
                 idFormaPagamento = ObterIdFormaPagamento(EFormaPagamento.PIX);
-            } else if (rb_especie.Checked) {
+            }
+            else if (rb_especie.Checked)
+            {
                 idFormaPagamento = ObterIdFormaPagamento(EFormaPagamento.ESPECIE);
             }
 
@@ -234,5 +280,32 @@ namespace PDV
             return formaPagamentoVenda;
         }
 
+        private void rb_credito_CheckedChanged(object sender, EventArgs e)
+        {
+
+            if (rb_credito.Checked)
+            {
+                cb_parcela.Enabled = true;
+            }
+            else
+            {
+                cb_parcela.Enabled = false;
+            }
+
+        }
+
+        private void CriarContaReceber(ContaReceberRepository contaReceberRepository,int idCliente)
+        {
+            if (rb_credito.Checked && cb_parcela.Text != "À vista")
+            {
+                for (int i = 1; i <= int.Parse(cb_parcela.Text); i++)
+                {
+
+                    ContaReceber receba = new ContaReceber(idCliente, total / int.Parse(cb_parcela.Text), total / int.Parse(cb_parcela.Text), DateTime.Now, DateTime.Now.AddMonths(i), DateTime.Now.AddMonths(i - 1).AddDays(15));
+                    contaReceberRepository.Add(receba);
+                }
+
+            }
+        }
     }
 }
