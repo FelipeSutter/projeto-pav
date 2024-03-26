@@ -1,17 +1,20 @@
 ﻿using PDV.Entities;
+using PDV.Forms.Venda;
 using PDV.Infrastructure.Repositories;
 using PDV.Tabelas;
 
 namespace PDV
 {
-    public partial class JanelaVenda : Form {
+    public partial class JanelaVenda : Form
+    {
 
         List<Venda> vendas = new List<Venda>();
 
         TabelaVenda _tabela;
 
 
-        public JanelaVenda() {
+        public JanelaVenda()
+        {
             InitializeComponent();
             _tabela = new TabelaVenda(); // Instanciação da tabela
             dataViewVenda.DataSource = _tabela;
@@ -27,20 +30,24 @@ namespace PDV
             ObterVendas();
         }
 
-        public void ObterVendas(string? nomePesquisa = null) {
+        public void ObterVendas(string? nomePesquisa = null)
+        {
             var repository = new VendaRepository();
             vendas = repository.Get();
-            foreach (var item in vendas) {
+            foreach (var item in vendas)
+            {
                 _tabela.Incluir(item);
             }
 
         }
 
-        private void btn_incluir_Click(object sender, EventArgs e) {
+        private void btn_incluir_Click(object sender, EventArgs e)
+        {
             InserirVenda frm = new InserirVenda();
 
             DialogResult response = frm.ShowDialog();
-            if (response == DialogResult.OK) {
+            if (response == DialogResult.OK)
+            {
                 _tabela.Clear();
                 ObterVendas();
             }
@@ -48,8 +55,15 @@ namespace PDV
 
         }
 
-        private void btn_voltar_Click(object sender, EventArgs e) {
+        private void btn_voltar_Click(object sender, EventArgs e)
+        {
             Close();
+        }
+
+        private void btn_consultar_Click(object sender, EventArgs e)
+        {
+            JanelaContasReceber frm = new JanelaContasReceber();
+            frm.Show();
         }
     }
 }

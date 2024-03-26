@@ -12,11 +12,11 @@ namespace PDV.Infrastructure.Repositories {
             var parameters = new {
                 contaReceber.Id_cliente,
                 contaReceber.Descricao,
-                contaReceber.ValorRecebido,
-                contaReceber.ValorEstimado,
-                contaReceber.DataLancamento,
-                contaReceber.DataVencimento,
-                contaReceber.DataRecebimento
+                contaReceber.Valor_Recebido,
+                contaReceber.Valor_Estimado,
+                contaReceber.Data_Lancamento,
+                contaReceber.Data_Vencimento,
+                contaReceber.Data_Recebimento
             };
 
             var result = conn.Connection.Execute(query, parameters);
@@ -30,6 +30,13 @@ namespace PDV.Infrastructure.Repositories {
 
             var contasReceber = conn.Connection.Query<ContaReceber>(query, new { Id_cliente = idCliente });
 
+            return contasReceber.ToList();
+        }
+        public List<ContaReceber> Get()
+        {
+            using var conn = new DbConnection();
+            string query = @"SELECT * FROM contareceber";
+            var contasReceber = conn.Connection.Query<ContaReceber>(query);
             return contasReceber.ToList();
         }
 
@@ -67,11 +74,11 @@ namespace PDV.Infrastructure.Repositories {
             var parameters = new {
                 contaReceber.Id_cliente,
                 contaReceber.Descricao,
-                contaReceber.ValorRecebido,
-                contaReceber.ValorEstimado,
-                contaReceber.DataLancamento,
-                contaReceber.DataVencimento,
-                contaReceber.DataRecebimento,
+                contaReceber.Valor_Recebido,
+                contaReceber.Valor_Estimado,
+                contaReceber.Data_Lancamento,
+                contaReceber.Data_Vencimento,
+                contaReceber.Data_Recebimento,
                 contaReceber.Id_conta_receber
             };
 
