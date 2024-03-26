@@ -4,32 +4,39 @@ using PDV.Infrastructure.Database;
 
 namespace PDV.Infrastructure.Repositories {
     public class ItemVendaRepository {
-        public int Add(Venda venda, List<ItemVenda> itens) {
+        public int Add(Venda venda, List<ItemVenda> itens, bool efetuarVenda)
+        {
             using var conn = new DbConnection();
 
             // Insere a venda
             string insertVendaQuery = @"INSERT INTO venda (data_hora, total_venda, situacao_venda, id_cliente)
-                                VALUES (@Data_Hora, @Total_Venda, @Situacao_Venda, @Id_cliente)
-                                RETURNING id_venda;";
+                            VALUES (@Data_Hora, @Total_Venda, @Situacao_Venda, @Id_cliente)
+                            RETURNING id_venda;";
 
             int idVenda = conn.Connection.ExecuteScalar<int>(insertVendaQuery, venda);
 
             // Atualiza o estoque dos produtos e insere os itens da venda
-            foreach (var item in itens) {
-                // Verifica se há estoque disponível
-                if (!CheckEstoqueDisponivel(item.IdProduto, item.QtdItem)) {
-                    MessageBox.Show("Não há estoque suficiente para o produto " + item.Produto.Nome, "Erro de validação", MessageBoxButtons.OK, MessageBoxIcon.Error);
-                    return -1; // Retorna um valor inválido em caso de erro
-                }
+            foreach (var item in itens)
+            {
+                if (efetuarVenda)
+                {
+                    // Verifica se há estoque disponível
+                    if (!CheckEstoqueDisponivel(item.IdProduto, item.QtdItem))
+                    {
+                        MessageBox.Show("Não há estoque suficiente para o produto " + item.Produto.Nome, "Erro de validação", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                        return -1; // Retorna um valor inválido em caso de erro
+                    }
 
-                // Atualiza o estoque do produto
-                string updateEstoqueQuery = @"UPDATE produto SET qtd_estoque = qtd_estoque - @QtdItem WHERE id_produto = @IdProduto";
-                conn.Connection.Execute(updateEstoqueQuery, item);
+                    // Atualiza o estoque do produto
+                    string updateEstoqueQuery = @"UPDATE produto SET qtd_estoque = qtd_estoque - @QtdItem WHERE id_produto = @IdProduto";
+                    conn.Connection.Execute(updateEstoqueQuery, item);
+                }
 
                 // Insere o item da venda
                 string insertItemVendaQuery = @"INSERT INTO itemvenda (id_produto, id_venda, qtd_item, valor_unitario, total_item)
-                                        VALUES (@IdProduto, @IdVenda, @QtdItem, @ValorUnitario, @TotalItem)";
-                conn.Connection.Execute(insertItemVendaQuery, new {
+                                    VALUES (@IdProduto, @IdVenda, @QtdItem, @ValorUnitario, @TotalItem)";
+                conn.Connection.Execute(insertItemVendaQuery, new
+                {
                     item.IdProduto,
                     IdVenda = idVenda,
                     item.QtdItem,
@@ -40,6 +47,7 @@ namespace PDV.Infrastructure.Repositories {
 
             return idVenda;
         }
+
 
         public List<ItemVenda> Get() {
             using var conn = new DbConnection();
@@ -84,7 +92,6 @@ namespace PDV.Infrastructure.Repositories {
 
             return result > 0;
         }
-
 
         // Método para verificar se há estoque disponível para um produto
         private bool CheckEstoqueDisponivel(int produtoId, int qtdRequerida) {
