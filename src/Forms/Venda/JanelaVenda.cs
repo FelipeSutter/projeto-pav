@@ -60,10 +60,16 @@ namespace PDV
             Close();
         }
 
+
         private void btn_consultar_Click(object sender, EventArgs e)
         {
             JanelaContasReceber frm = new JanelaContasReceber();
             frm.Show();
+        }
+        private void JanelaVenda_Load(object sender, EventArgs e)
+        {
+
+
         }
     }
 }

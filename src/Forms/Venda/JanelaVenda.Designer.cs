@@ -31,7 +31,9 @@
             dataViewVenda = new DataGridView();
             btn_incluir = new Button();
             btn_voltar = new Button();
+
             btn_consultar = new Button();
+
             ((System.ComponentModel.ISupportInitialize)dataViewVenda).BeginInit();
             SuspendLayout();
             // 
@@ -88,13 +90,19 @@
             AutoScaleMode = AutoScaleMode.Font;
             BackColor = SystemColors.ActiveCaption;
             ClientSize = new Size(1360, 498);
+
             Controls.Add(btn_consultar);
+
             Controls.Add(btn_voltar);
             Controls.Add(btn_incluir);
             Controls.Add(dataViewVenda);
             Margin = new Padding(2);
             Name = "JanelaVenda";
             Text = "JanelaVenda";
+
+
+            Load += JanelaVenda_Load;
+
             ((System.ComponentModel.ISupportInitialize)dataViewVenda).EndInit();
             ResumeLayout(false);
         }

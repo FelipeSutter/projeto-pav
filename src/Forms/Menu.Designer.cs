@@ -34,13 +34,14 @@
             button4 = new Button();
             label1 = new Label();
             btn_Venda = new Button();
+            btn_caixa = new Button();
             SuspendLayout();
             // 
             // button1
             // 
             button1.BackColor = SystemColors.GradientActiveCaption;
             button1.ForeColor = SystemColors.ActiveCaptionText;
-            button1.Location = new Point(324, 146);
+            button1.Location = new Point(82, 177);
             button1.Margin = new Padding(2);
             button1.Name = "button1";
             button1.Size = new Size(341, 71);
@@ -52,7 +53,7 @@
             // button2
             // 
             button2.BackColor = SystemColors.GradientActiveCaption;
-            button2.Location = new Point(324, 358);
+            button2.Location = new Point(82, 372);
             button2.Margin = new Padding(2);
             button2.Name = "button2";
             button2.Size = new Size(341, 71);
@@ -64,7 +65,7 @@
             // button3
             // 
             button3.BackColor = SystemColors.GradientActiveCaption;
-            button3.Location = new Point(324, 248);
+            button3.Location = new Point(462, 177);
             button3.Margin = new Padding(2);
             button3.Name = "button3";
             button3.Size = new Size(341, 71);
@@ -76,7 +77,7 @@
             // button4
             // 
             button4.BackColor = SystemColors.GradientActiveCaption;
-            button4.Location = new Point(324, 464);
+            button4.Location = new Point(462, 372);
             button4.Margin = new Padding(2);
             button4.Name = "button4";
             button4.Size = new Size(341, 71);
@@ -89,17 +90,18 @@
             // 
             label1.AutoSize = true;
             label1.Font = new Font("Segoe UI", 18F, FontStyle.Regular, GraphicsUnit.Point, 0);
-            label1.Location = new Point(301, 59);
+            label1.Location = new Point(253, 59);
             label1.Margin = new Padding(2, 0, 2, 0);
             label1.Name = "label1";
             label1.Size = new Size(376, 48);
             label1.TabIndex = 4;
             label1.Text = "Comércio de Produtos";
+            label1.Click += label1_Click;
             // 
             // btn_Venda
             // 
             btn_Venda.BackColor = SystemColors.GradientActiveCaption;
-            btn_Venda.Location = new Point(324, 562);
+            btn_Venda.Location = new Point(82, 273);
             btn_Venda.Margin = new Padding(2);
             btn_Venda.Name = "btn_Venda";
             btn_Venda.Size = new Size(341, 71);
@@ -108,12 +110,25 @@
             btn_Venda.UseVisualStyleBackColor = false;
             btn_Venda.Click += btn_Venda_Click;
             // 
+            // btn_caixa
+            // 
+            btn_caixa.BackColor = SystemColors.GradientActiveCaption;
+            btn_caixa.Location = new Point(462, 273);
+            btn_caixa.Margin = new Padding(2);
+            btn_caixa.Name = "btn_caixa";
+            btn_caixa.Size = new Size(341, 71);
+            btn_caixa.TabIndex = 6;
+            btn_caixa.Text = "Caixa";
+            btn_caixa.UseVisualStyleBackColor = false;
+            btn_caixa.Click += btn_caixa_Click;
+            // 
             // Menu
             // 
             AutoScaleDimensions = new SizeF(10F, 25F);
             AutoScaleMode = AutoScaleMode.Font;
             BackColor = SystemColors.ActiveCaption;
-            ClientSize = new Size(992, 744);
+            ClientSize = new Size(882, 521);
+            Controls.Add(btn_caixa);
             Controls.Add(btn_Venda);
             Controls.Add(label1);
             Controls.Add(button4);
@@ -136,5 +151,6 @@
         private Button button4;
         private Label label1;
         private Button btn_Venda;
+        private Button btn_caixa;
     }
 }
