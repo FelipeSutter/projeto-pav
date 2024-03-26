@@ -10,6 +10,11 @@ public class MovimentoCaixa {
     public DateTime DataHora { get; set; } = DateTime.Now;
     public ETipoMovimento Tipo_movimento { get; set; }
 
+    public MovimentoCaixa()
+    {
+        
+    }
+
     public MovimentoCaixa(int id_caixa, double valor, ETipoMovimento tipo_Movimento) {
         Id_caixa = id_caixa;
         Valor = valor;
