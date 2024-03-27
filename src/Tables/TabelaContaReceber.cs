@@ -47,18 +47,18 @@ namespace PDV.Tables
 
         public void Incluir(ContaReceber contaReceber)
         {
-            Rows.Add(contaReceber.Id_conta_receber, contaReceber.Id_cliente, contaReceber.Valor_Recebido, contaReceber.Valor_Estimado, contaReceber.Data_Lancamento, contaReceber.Data_Vencimento, contaReceber.Data_Recebimento);
+            Rows.Add(contaReceber.Id_conta_receber, contaReceber.Id_cliente, contaReceber.Valor_recebido, contaReceber.Valor_estimado, contaReceber.Data_lancamento, contaReceber.Data_vencimento, contaReceber.Data_recebimento);
         }
 
         public void Alterar(int indice, ContaReceber contaReceber)
         {
             Rows[indice][COLUNA_ID_CONTA_RECEBER] = contaReceber.Id_conta_receber;
             Rows[indice][COLUNA_ID_CLIENTE] = contaReceber.Id_cliente;
-            Rows[indice][COLUNA_VALOR_RECEBIDO] = contaReceber.Valor_Recebido;
-            Rows[indice][COLUNA_VALOR_ESTIMADO] = contaReceber.Valor_Estimado;
-            Rows[indice][COLUNA_DATA_LANCAMENTO] = contaReceber.Data_Lancamento;
-            Rows[indice][COLUNA_DATA_VENCIMENTO] = contaReceber.Data_Vencimento;
-            Rows[indice][COLUNA_DATA_RECEBIMENTO] = contaReceber.Data_Recebimento;
+            Rows[indice][COLUNA_VALOR_RECEBIDO] = contaReceber.Valor_recebido;
+            Rows[indice][COLUNA_VALOR_ESTIMADO] = contaReceber.Valor_estimado;
+            Rows[indice][COLUNA_DATA_LANCAMENTO] = contaReceber.Data_lancamento;
+            Rows[indice][COLUNA_DATA_VENCIMENTO] = contaReceber.Data_vencimento;
+            Rows[indice][COLUNA_DATA_RECEBIMENTO] = contaReceber.Data_recebimento;
         }
 
         public void Excluir(int indice)

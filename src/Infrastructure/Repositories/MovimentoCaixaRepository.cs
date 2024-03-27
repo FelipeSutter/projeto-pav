@@ -11,7 +11,7 @@ namespace PDV.Infrastructure.Repositories {
 
             var parameters = new {
                 movimentoCaixa.Id_caixa,
-                movimentoCaixa.Data_hora_movimento,
+                DataHora = movimentoCaixa.Data_hora_movimento,
                 movimentoCaixa.Descricao,
                 movimentoCaixa.Valor,
                 movimentoCaixa.Tipo_movimento
