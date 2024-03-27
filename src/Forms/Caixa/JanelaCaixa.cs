@@ -14,13 +14,11 @@ using System.Windows.Forms;
 
 namespace PDV
 {
-    public partial class JanelaCaixa : Form
-    {
+    public partial class JanelaCaixa : Form {
         List<MovimentoCaixa> movimentos = new List<MovimentoCaixa>();
         TabelaMovimentoCaixa _tabela;
 
-        public JanelaCaixa()
-        {
+        public JanelaCaixa() {
             InitializeComponent();
             _tabela = new TabelaMovimentoCaixa(); // Instanciação da tabela
             dataViewMovimentoCaixa.DataSource = _tabela;
@@ -34,14 +32,16 @@ namespace PDV
             ObterMovimentoCaixa();
         }
 
-        public void ObterMovimentoCaixa(string nomePesquisa = null)
-        {
+        public void ObterMovimentoCaixa(string nomePesquisa = null) {
             var repository = new MovimentoCaixaRepository();
             movimentos = repository.Get();
-            foreach (var item in movimentos)
-            {
+            foreach (var item in movimentos) {
                 _tabela.Incluir(item);
             }
+        }
+
+        private void btn_voltar_Click(object sender, EventArgs e) {
+            Close();
         }
     }
 }

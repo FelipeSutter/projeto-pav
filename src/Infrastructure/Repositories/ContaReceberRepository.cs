@@ -7,16 +7,16 @@ namespace PDV.Infrastructure.Repositories {
         public bool Add(ContaReceber contaReceber) {
             using var conn = new DbConnection();
             string query = @"INSERT INTO public.contareceber(id_cliente, descricao, valor_recebido, valor_estimado, data_lancamento, data_vencimento, data_recebimento)
-                             VALUES (@Id_cliente, @Descricao, @ValorRecebido, @ValorEstimado, @DataLancamento, @DataVencimento, @DataRecebimento)";
+                             VALUES (@Id_cliente, @Descricao, @Valor_recebido, @Valor_estimado, @Data_lancamento, @Data_vencimento, @Data_recebimento)";
 
             var parameters = new {
                 contaReceber.Id_cliente,
                 contaReceber.Descricao,
-                contaReceber.Valor_Recebido,
-                contaReceber.Valor_Estimado,
-                contaReceber.Data_Lancamento,
-                contaReceber.Data_Vencimento,
-                contaReceber.Data_Recebimento
+                contaReceber.Valor_recebido,
+                contaReceber.Valor_estimado,
+                contaReceber.Data_lancamento,
+                contaReceber.Data_vencimento,
+                contaReceber.Data_recebimento
             };
 
             var result = conn.Connection.Execute(query, parameters);
@@ -74,11 +74,11 @@ namespace PDV.Infrastructure.Repositories {
             var parameters = new {
                 contaReceber.Id_cliente,
                 contaReceber.Descricao,
-                contaReceber.Valor_Recebido,
-                contaReceber.Valor_Estimado,
-                contaReceber.Data_Lancamento,
-                contaReceber.Data_Vencimento,
-                contaReceber.Data_Recebimento,
+                contaReceber.Valor_recebido,
+                contaReceber.Valor_estimado,
+                contaReceber.Data_lancamento,
+                contaReceber.Data_vencimento,
+                contaReceber.Data_recebimento,
                 contaReceber.Id_conta_receber
             };
 
