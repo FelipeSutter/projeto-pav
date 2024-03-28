@@ -127,7 +127,7 @@ namespace PDV
             formaPagamentoRepository.Add(formaPagamento);
 
             // Cria o movimento do Caixa
-            var movimentoCaixa = CriarMovimentoCaixa(total, ETipoMovimento.SAIDA,true);
+            var movimentoCaixa = CriarMovimentoCaixa(total, ETipoMovimento.ENTRADA,true);
             movimentoCaixaRepository.Add(movimentoCaixa);
 
             //Cria a contaReceber 
@@ -147,7 +147,7 @@ namespace PDV
             Venda venda = new Venda(total, EStatus.CANCELADA, cliente.Id_cliente);
             itemRepository.Add(venda, itens, false);
 
-            var movimentoCaixa = CriarMovimentoCaixa(total, ETipoMovimento.SAIDA, false);
+            var movimentoCaixa = CriarMovimentoCaixa(total, ETipoMovimento.ENTRADA, false);
             movimentoRepository.Add(movimentoCaixa);
 
             Close();
@@ -166,9 +166,15 @@ namespace PDV
 
         private void btn_remover_Click(object sender, EventArgs e)
         {
-            var repository = new ItemVendaRepository();
+            //var repository = new ItemVendaRepository();
             ItemVenda item = _tabela.ObterItemVendaNaLinhaSelecionada(dataViewItemVenda.CurrentRow.Index);
-            repository.Delete(item.IdProduto, item.IdVenda);
+            //repository.Delete(item.IdProduto, item.IdVenda);
+
+            itens.Remove(item);
+
+            // verificar porque a lista não está deletando.
+
+            Console.WriteLine(itens);
 
             MessageBox.Show("Item excluído com sucesso!");
             total -= item.TotalItem;
