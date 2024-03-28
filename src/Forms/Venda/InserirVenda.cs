@@ -166,9 +166,7 @@ namespace PDV
 
         private void btn_remover_Click(object sender, EventArgs e)
         {
-            //var repository = new ItemVendaRepository();
             ItemVenda item = _tabela.ObterItemVendaNaLinhaSelecionada(dataViewItemVenda.CurrentRow.Index);
-            //repository.Delete(item.IdProduto, item.IdVenda);
 
             itens.Remove(item);
 
