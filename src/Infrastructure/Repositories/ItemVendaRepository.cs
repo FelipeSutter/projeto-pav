@@ -4,8 +4,7 @@ using PDV.Infrastructure.Database;
 
 namespace PDV.Infrastructure.Repositories {
     public class ItemVendaRepository {
-        public int Add(Venda venda, List<ItemVenda> itens, bool efetuarVenda)
-        {
+        public int Add(Venda venda, List<ItemVenda> itens, bool efetuarVenda) {
             using var conn = new DbConnection();
 
             // Insere a venda
@@ -16,13 +15,10 @@ namespace PDV.Infrastructure.Repositories {
             int idVenda = conn.Connection.ExecuteScalar<int>(insertVendaQuery, venda);
 
             // Atualiza o estoque dos produtos e insere os itens da venda
-            foreach (var item in itens)
-            {
-                if (efetuarVenda)
-                {
+            foreach (var item in itens) {
+                if (efetuarVenda) {
                     // Verifica se há estoque disponível
-                    if (!CheckEstoqueDisponivel(item.IdProduto, item.QtdItem))
-                    {
+                    if (!CheckEstoqueDisponivel(item.IdProduto, item.QtdItem)) {
                         MessageBox.Show("Não há estoque suficiente para o produto " + item.Produto.Nome, "Erro de validação", MessageBoxButtons.OK, MessageBoxIcon.Error);
                         return -1; // Retorna um valor inválido em caso de erro
                     }
@@ -35,8 +31,7 @@ namespace PDV.Infrastructure.Repositories {
                 // Insere o item da venda
                 string insertItemVendaQuery = @"INSERT INTO itemvenda (id_produto, id_venda, qtd_item, valor_unitario, total_item)
                                     VALUES (@IdProduto, @IdVenda, @QtdItem, @ValorUnitario, @TotalItem)";
-                conn.Connection.Execute(insertItemVendaQuery, new
-                {
+                conn.Connection.Execute(insertItemVendaQuery, new {
                     item.IdProduto,
                     IdVenda = idVenda,
                     item.QtdItem,
@@ -51,10 +46,28 @@ namespace PDV.Infrastructure.Repositories {
 
         public List<ItemVenda> Get() {
             using var conn = new DbConnection();
-            string query = @"SELECT * FROM itemvenda";
+            string query = @"
+                SELECT iv.*, p.* 
+                FROM itemvenda iv
+                INNER JOIN produto p ON iv.id_produto = p.id_produto";
+            var itensVenda = conn.Connection.Query<ItemVenda, Produto, ItemVenda>(
+                query,
+                (itemVenda, produto) => {
+                    itemVenda.Produto = produto;
+                    return itemVenda;
+                },
+                splitOn: "id_produto"
+            );
 
-            var itensVenda = conn.Connection.Query<ItemVenda>(query);
+            return itensVenda.ToList();
+        }
 
+
+        public List<ItemVenda> GetByVendaId(int idVenda) {
+            using var conn = new DbConnection();
+            string query = @"SELECT * FROM itemvenda WHERE id_venda = @IdVenda";
+            var parameters = new { IdVenda = idVenda };
+            var itensVenda = conn.Connection.Query<ItemVenda>(query, parameters);
             return itensVenda.ToList();
         }
 
