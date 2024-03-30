@@ -67,9 +67,9 @@ namespace PDV
 
         // Método de impressão de venda
         private void btn_consultar_venda_Click(object sender, EventArgs e) {
-            
+
             // TODO: Verificar pq as informaçoes de item venda estão vindo zeradas
-            
+
             Venda venda = _tabela.ObterVendaNaLinhaSelecionada(dataViewVenda.CurrentRow.Index);
             ItemVendaRepository repository = new ItemVendaRepository();
             List<ItemVenda> itens = repository.Get();
@@ -111,6 +111,37 @@ namespace PDV
             MessageBox.Show("Histórico de vendas impresso com sucesso!");
         }
 
+        private void btn_imprimir_Click(object sender, EventArgs e) {
+
+        }
+
+        private void monthCalendar1_DateChanged(object sender, DateRangeEventArgs e) {
+
+        }
+
+        private void inicio_datetime_ValueChanged(object sender, EventArgs e) {
+
+        }
+
+        private void final_datetime_ValueChanged(object sender, EventArgs e) {
+
+        }
+
+        private void btn_filtrar_Click(object sender, EventArgs e) {
+            DateTime dataInicio = inicio_datetime.Value.Date;
+            DateTime dataFim = final_datetime.Value.Date.AddDays(1).AddSeconds(-1); // Ajuste para incluir até o fim do dia selecionado
+
+            // Limpa a tabela antes de aplicar o filtro
+            _tabela.Clear();
+
+            // Obtém as vendas filtradas com base nas datas selecionadas
+            var vendasFiltradas = vendas.Where(venda => venda.Data_Hora >= dataInicio && venda.Data_Hora <= dataFim);
+
+            // Adiciona as vendas filtradas à tabela
+            foreach (var venda in vendasFiltradas) {
+                _tabela.Incluir(venda);
+            }
+        }
 
     }
 }
