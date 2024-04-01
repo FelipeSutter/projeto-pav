@@ -65,11 +65,33 @@ namespace PDV.Infrastructure.Repositories {
 
         public List<ItemVenda> GetByVendaId(int idVenda) {
             using var conn = new DbConnection();
-            string query = @"SELECT * FROM itemvenda WHERE id_venda = @IdVenda";
+            string query = @"
+                    select *
+                    FROM cliente c
+                    INNER JOIN venda v ON 
+                    c.id_cliente = v.id_cliente
+                    INNER JOIN itemvenda iv ON 
+                    v.id_venda = iv.id_venda
+                    INNER JOIN produto p ON 
+                    iv.id_produto = p.id_produto
+                    WHERE v.id_venda = @IdVenda;";
+
             var parameters = new { IdVenda = idVenda };
-            var itensVenda = conn.Connection.Query<ItemVenda>(query, parameters);
+
+            var itensVenda = conn.Connection.Query<ItemVenda, Produto, Venda, Cliente, ItemVenda>(
+            query,
+            (itemVenda, produto, venda, cliente) => {
+                itemVenda.Produto = produto;
+                itemVenda.Venda = venda;
+                itemVenda.Venda.Cliente = cliente;
+                return itemVenda;
+            },
+            splitOn: "p.id_produto, v.id_venda, c.id_cliente"
+            );
+
             return itensVenda.ToList();
         }
+
 
         public bool Update(ItemVenda item) {
             using var conn = new DbConnection();

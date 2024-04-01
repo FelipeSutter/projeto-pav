@@ -142,3 +142,16 @@ CREATE TABLE MovimentoCaixa (
 insert into caixa(saldo)
 values
 	(0);
+
+select v.id_venda, v.data_hora, c.nome, p.id_produto, i.qtd_item, i.valor_unitario, i.total_item, v.total_venda 
+from cliente c
+inner join venda v on
+c.id_cliente = v.id_cliente 
+inner join itemvenda i on
+	v.id_venda = i.id_venda 
+inner join produto p on
+	i.id_produto = p.id_produto
+where v.id_venda = $idvenda;
+
+
+
