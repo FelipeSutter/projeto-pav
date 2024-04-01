@@ -29,6 +29,19 @@ namespace PDV.Infrastructure.Repositories {
             return vendas.ToList();
         }
 
+        public List<Venda> Get(DateTime dataInicio, DateTime dataFim) {
+            using var conn = new DbConnection();
+            string query = @"
+                SELECT * 
+                FROM venda 
+                WHERE data_hora BETWEEN @DataInicio AND @DataFim";
+
+            var parameters = new { DataInicio = dataInicio, DataFim = dataFim };
+
+            var vendas = conn.Connection.Query<Venda>(query, parameters);
+            return vendas.ToList();
+        }
+
         // Método para verificar se o cliente existe no banco de dados
         private bool CheckClienteExists(int clienteId) {
             using var conn = new DbConnection();

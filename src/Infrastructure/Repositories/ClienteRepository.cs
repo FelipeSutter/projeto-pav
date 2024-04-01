@@ -56,6 +56,15 @@ namespace PDV.Infrastructure.Repositories {
             }
         }
 
+        public Cliente GetByVendaId(int idVenda) {
+            using (var conn = new DbConnection()) {
+                string query = @"SELECT c.nome FROM cliente c 
+                               INNER JOIN venda v on c.id_cliente = v.id_cliente WHERE v.id_venda = @idVenda";
+                var parameters = new { idVenda };
+                return conn.Connection.QueryFirstOrDefault<Cliente>(query, parameters);
+            }
+        }
+
         public bool Delete(int clientId)
         {
             using var conn = new DbConnection();
