@@ -18,13 +18,13 @@ namespace PDV.Infrastructure.Repositories {
             foreach (var item in itens) {
                 if (efetuarVenda) {
                     // Verifica se há estoque disponível
-                    if (!CheckEstoqueDisponivel(item.IdProduto, item.QtdItem)) {
+                    if (!CheckEstoqueDisponivel(item.Id_produto, item.Qtd_item)) {
                         MessageBox.Show("Não há estoque suficiente para o produto " + item.Produto.Nome, "Erro de validação", MessageBoxButtons.OK, MessageBoxIcon.Error);
                         return -1; // Retorna um valor inválido em caso de erro
                     }
 
                     // Atualiza o estoque do produto
-                    string updateEstoqueQuery = @"UPDATE produto SET qtd_estoque = qtd_estoque - @QtdItem WHERE id_produto = @IdProduto";
+                    string updateEstoqueQuery = @"UPDATE produto SET qtd_estoque = qtd_estoque - @Qtd_item WHERE id_produto = @Id_produto";
                     conn.Connection.Execute(updateEstoqueQuery, item);
                 }
 
@@ -32,11 +32,11 @@ namespace PDV.Infrastructure.Repositories {
                 string insertItemVendaQuery = @"INSERT INTO itemvenda (id_produto, id_venda, qtd_item, valor_unitario, total_item)
                                     VALUES (@IdProduto, @IdVenda, @QtdItem, @ValorUnitario, @TotalItem)";
                 conn.Connection.Execute(insertItemVendaQuery, new {
-                    item.IdProduto,
+                    IdProduto = item.Id_produto,
                     IdVenda = idVenda,
-                    item.QtdItem,
+                    QtdItem = item.Qtd_item,
                     ValorUnitario = item.Produto.Preco / double.Parse(item.Produto.Unidade),
-                    TotalItem = item.Produto.Preco * item.QtdItem,
+                    TotalItem = item.Produto.Preco * item.Qtd_item,
                 });
             }
 
@@ -66,27 +66,28 @@ namespace PDV.Infrastructure.Repositories {
         public List<ItemVenda> GetByVendaId(int idVenda) {
             using var conn = new DbConnection();
             string query = @"
-                    select *
-                    FROM cliente c
-                    INNER JOIN venda v ON 
-                    c.id_cliente = v.id_cliente
-                    INNER JOIN itemvenda iv ON 
-                    v.id_venda = iv.id_venda
-                    INNER JOIN produto p ON 
-                    iv.id_produto = p.id_produto
-                    WHERE v.id_venda = @IdVenda;";
+select c.*, iv.*, p.*, v.*
+FROM cliente c
+INNER JOIN venda v ON 
+c.id_cliente = v.id_cliente
+INNER JOIN itemvenda iv ON 
+v.id_venda = iv.id_venda
+INNER JOIN produto p ON 
+iv.id_produto = p.id_produto
+WHERE v.id_venda = @IdVenda";
 
             var parameters = new { IdVenda = idVenda };
 
             var itensVenda = conn.Connection.Query<ItemVenda, Produto, Venda, Cliente, ItemVenda>(
-            query,
-            (itemVenda, produto, venda, cliente) => {
-                itemVenda.Produto = produto;
-                itemVenda.Venda = venda;
-                itemVenda.Venda.Cliente = cliente;
-                return itemVenda;
-            },
-            splitOn: "p.id_produto, v.id_venda, c.id_cliente"
+                query,
+                (itemVenda, produto, venda, cliente) => {
+                    itemVenda.Produto = produto;
+                    itemVenda.Venda = venda;
+                    itemVenda.Venda.Cliente = cliente;
+                    return itemVenda;
+                },
+                splitOn: "id_produto, id_venda, id_cliente",
+                param: parameters
             );
 
             return itensVenda.ToList();
@@ -104,9 +105,9 @@ namespace PDV.Infrastructure.Repositories {
                              WHERE id_produto = @IdProduto AND id_venda = @IdVenda";
 
             var parameters = new {
-                item.IdProduto,
-                item.IdVenda,
-                item.QtdItem,
+                IdProduto = item.Id_produto,
+                IdVenda = item.Id_venda,
+                QtdItem = item.Qtd_item,
                 ValorUnitario = item.Produto.Preco / double.Parse(item.Produto.Unidade),
                 TotalItem = item.Produto.Preco
             };
@@ -119,9 +120,9 @@ namespace PDV.Infrastructure.Repositories {
         public bool Delete(int idProduto, int idVenda) {
             using var conn = new DbConnection();
             string query = @"DELETE FROM itemvenda
-                             WHERE id_produto = @IdProduto AND id_venda = @IdVenda";
+                             WHERE id_produto = @Id_produto AND id_venda = @Id_venda";
 
-            var parameters = new { IdProduto = idProduto, IdVenda = idVenda };
+            var parameters = new { Id_produto = idProduto, Id_venda = idVenda };
 
             var result = conn.Connection.Execute(query, parameters);
 

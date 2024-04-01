@@ -175,7 +175,7 @@ namespace PDV
             Console.WriteLine(itens);
 
             MessageBox.Show("Item excluído com sucesso!");
-            total -= item.TotalItem;
+            total -= item.Total_item;
             lb_total.Text = total.ToString();
 
 
@@ -201,18 +201,18 @@ namespace PDV
             }
             else
             {
-                double totalAnterior = item.TotalItem; // Salva o total anterior do item
+                double totalAnterior = item.Total_item; // Salva o total anterior do item
 
                 // Atualiza o item de venda com a nova quantidade e recalcula o total
-                item.QtdItem = novaQuantidade;
-                item.TotalItem = novaQuantidade * prod.Preco;
+                item.Qtd_item = novaQuantidade;
+                item.Total_item = novaQuantidade * prod.Preco;
 
                 // Atualiza a linha na tabela
                 _tabela.Alterar(dataViewItemVenda.CurrentRow.Index, item);
 
                 // Atualiza o preço total da venda
                 total -= totalAnterior; // Remove o total anterior
-                total += item.TotalItem; // Adiciona o novo total
+                total += item.Total_item; // Adiciona o novo total
                 lb_total.Text = total.ToString();
             }
         }
