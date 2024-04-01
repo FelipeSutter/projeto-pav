@@ -31,15 +31,15 @@ namespace PDV.Tables {
         }
 
         public void Incluir(ItemVenda itemVenda) {
-            Rows.Add(itemVenda.IdProduto, itemVenda.Produto.Nome, itemVenda.QtdItem, itemVenda.ValorUnitario, itemVenda.TotalItem);
+            Rows.Add(itemVenda.Id_produto, itemVenda.Produto.Nome, itemVenda.Qtd_item, itemVenda.Valor_unitario, itemVenda.Total_item);
         }
 
         public void Alterar(int indice, ItemVenda itemVenda) {
-            Rows[indice][COLUNA_CODIGO] = itemVenda.IdProduto;
+            Rows[indice][COLUNA_CODIGO] = itemVenda.Id_produto;
             Rows[indice][COLUNA_NOME_PRODUTO] = itemVenda.Produto.Nome;
-            Rows[indice][COLUNA_QUANTIDADE] = itemVenda.QtdItem;
-            Rows[indice][COLUNA_PRECO] = itemVenda.ValorUnitario;
-            Rows[indice][COLUNA_TOTAL] = itemVenda.TotalItem;
+            Rows[indice][COLUNA_QUANTIDADE] = itemVenda.Qtd_item;
+            Rows[indice][COLUNA_PRECO] = itemVenda.Valor_unitario;
+            Rows[indice][COLUNA_TOTAL] = itemVenda.Total_item;
         }
 
         public void Excluir(int indice) {
@@ -48,13 +48,13 @@ namespace PDV.Tables {
 
         public ItemVenda ObterItemVendaNaLinhaSelecionada(int indiceLinha) {
             var item = new ItemVenda {
-                IdProduto = Convert.ToInt32(Rows[indiceLinha][COLUNA_CODIGO]),
+                Id_produto = Convert.ToInt32(Rows[indiceLinha][COLUNA_CODIGO]),
                 Produto = new Produto {
                     Nome = Rows[indiceLinha][COLUNA_NOME_PRODUTO].ToString()
                 },
-                QtdItem = Convert.ToInt32(Rows[indiceLinha][COLUNA_QUANTIDADE]),
-                ValorUnitario = Convert.ToDouble(Rows[indiceLinha][COLUNA_PRECO]),
-                TotalItem = Convert.ToDouble(Rows[indiceLinha][COLUNA_TOTAL])
+                Qtd_item = Convert.ToInt32(Rows[indiceLinha][COLUNA_QUANTIDADE]),
+                Valor_unitario = Convert.ToDouble(Rows[indiceLinha][COLUNA_PRECO]),
+                Total_item = Convert.ToDouble(Rows[indiceLinha][COLUNA_TOTAL])
             };
 
             return item;

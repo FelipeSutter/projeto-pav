@@ -96,7 +96,7 @@ namespace PDV
             foreach (var item in itens) {
                 Paragraph paragrafoItem = new Paragraph();
                 paragrafoItem.Font = new iTextSharp.text.Font(iTextSharp.text.Font.NORMAL, 12);
-                paragrafoItem.Add($"{item.Produto.Id_produto}   {item.Produto.Nome}    {item.QtdItem}   {item.ValorUnitario:0.00}   {item.TotalItem:0.00}\n");
+                paragrafoItem.Add($"{item.Produto.Id_produto}   {item.Produto.Nome}    {item.Qtd_item}   {item.Valor_unitario:0.00}   {item.Total_item:0.00}\n");
                 document.Add(paragrafoItem);
             }
 
@@ -132,7 +132,7 @@ namespace PDV
             foreach (var item in itens) {
                 Paragraph paragrafoItem = new Paragraph();
                 paragrafoItem.Font = new iTextSharp.text.Font(iTextSharp.text.Font.NORMAL, 12);
-                paragrafoItem.Add($"{item.Produto.Id_produto}   {item.Produto.Nome}    {item.QtdItem}   {item.ValorUnitario:0.00}   {item.TotalItem:0.00}\n");
+                paragrafoItem.Add($"{item.Produto.Id_produto}   {item.Produto.Nome}    {item.Qtd_item}   {item.Valor_unitario:0.00}   {item.Total_item:0.00}\n");
                 document.Add(paragrafoItem);
             }
 
