@@ -72,7 +72,7 @@ namespace PDV
 
             Venda venda = _tabela.ObterVendaNaLinhaSelecionada(dataViewVenda.CurrentRow.Index);
             ItemVendaRepository repository = new ItemVendaRepository();
-            List<ItemVenda> itens = repository.Get();
+            List<ItemVenda> itens = repository.GetByVendaId(venda.Id_venda);
 
             string nomeArquivo = path + "Venda.pdf";
             FileStream arquivoPDF = new FileStream(nomeArquivo, FileMode.Create);
