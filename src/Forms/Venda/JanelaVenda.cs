@@ -67,50 +67,63 @@ namespace PDV
         }
 
         // Método de impressão de venda
-        private void btn_consultar_venda_Click(object sender, EventArgs e) {
-
-            // TODO: Verificar pq as informaçoes de item venda estão vindo zeradas
-
+        private void btn_consultar_venda_Click(object sender, EventArgs e)
+        {
             Venda venda = _tabela.ObterVendaNaLinhaSelecionada(dataViewVenda.CurrentRow.Index);
             ItemVendaRepository repository = new ItemVendaRepository();
             List<ItemVenda> itens = repository.GetByVendaId(venda.Id_venda);
 
             string nomeArquivo = path + "Venda.pdf";
-            FileStream arquivoPDF = new FileStream(nomeArquivo, FileMode.Create);
-            Document document = new Document(PageSize.A4);
-            PdfWriter writer = PdfWriter.GetInstance(document, arquivoPDF);
+            using (FileStream arquivoPDF = new FileStream(nomeArquivo, FileMode.Create))
+            {
+                Document document = new Document(PageSize.A4);
+                PdfWriter writer = PdfWriter.GetInstance(document, arquivoPDF);
 
-            document.Open();
+                document.Open();
 
-            // Criação e formatação do cabeçalho
-            Paragraph cabecalho = new Paragraph();
-            cabecalho.Alignment = Element.ALIGN_CENTER;
-            cabecalho.Font = new iTextSharp.text.Font(iTextSharp.text.Font.NORMAL, 20, (int) FontStyle.Bold);
-            cabecalho.Add($"Venda {venda.Id_venda} Data: {venda.Data_Hora.ToShortDateString()} Hora: {venda.Data_Hora.ToShortTimeString()}\n");
-            if (venda.Cliente != null)
-                cabecalho.Add($"Cliente: {venda.Cliente.Nome}\n");
-            cabecalho.Add("\nItem   Descrição   Qtd    Preço    Total\n");
-            document.Add(cabecalho);
+                // Criação e formatação do cabeçalho
+                Paragraph cabecalho = new Paragraph();
+                cabecalho.Alignment = Element.ALIGN_CENTER;
+                cabecalho.Font = new iTextSharp.text.Font(iTextSharp.text.Font.FontFamily.COURIER, 20, (int)FontStyle.Bold);
+                cabecalho.Add($"Venda {venda.Id_venda:D3} Data: {venda.Data_Hora.ToShortDateString()} Hora: {venda.Data_Hora.ToShortTimeString()}\n");
+                if (venda.Cliente != null)
+                    cabecalho.Add($"Cliente: {venda.Cliente.Nome}\n");
+                document.Add(cabecalho);
 
-            // Adiciona os itens da venda formatados
-            foreach (var item in itens) {
-                Paragraph paragrafoItem = new Paragraph();
-                paragrafoItem.Font = new iTextSharp.text.Font(iTextSharp.text.Font.NORMAL, 12);
-                paragrafoItem.Add($"{item.Produto.Id_produto}   {item.Produto.Nome}    {item.Qtd_item}   {item.Valor_unitario:0.00}   {item.Total_item:0.00}\n");
-                document.Add(paragrafoItem);
+
+                Paragraph paragrafo = new Paragraph();
+                paragrafo.Alignment = Element.ALIGN_LEFT;
+                paragrafo.Font = new iTextSharp.text.Font(iTextSharp.text.Font.FontFamily.COURIER, 14, (int)FontStyle.Bold);
+                paragrafo.Add($"\nItem      Descrição      Qtd      Preço/U       Total\n");
+                document.Add(paragrafo);
+
+                // Adiciona os itens da venda formatados
+                foreach (var item in itens)
+                {
+                    Paragraph paragrafoItem = new Paragraph();
+                    paragrafoItem.Font = new iTextSharp.text.Font(iTextSharp.text.Font.FontFamily.COURIER, 12);
+                    paragrafoItem.Add($"{item.Produto.Id_produto:D4}        {item.Produto.Nome,-10}          {item.Qtd_item,-1}        {item.Valor_unitario,7:0.00}       {item.Total_item,7:0.00}\n");
+                    document.Add(paragrafoItem);
+                }
+
+                // Adiciona o total
+                double totalVenda = itens.Sum(item => item.Total_item);
+                Paragraph total = new Paragraph();
+                total.Alignment = Element.ALIGN_RIGHT;
+                total.Font = new iTextSharp.text.Font(iTextSharp.text.Font.FontFamily.COURIER, 14);
+                total.Add($"\nTotal Venda: {totalVenda,6:0.00}");
+                document.Add(total);
+
+                document.Close();
+
+                MessageBox.Show("Venda impressa com sucesso!");
+
             }
-
-            // Adiciona o total da venda
-            Paragraph total = new Paragraph();
-            total.Alignment = Element.ALIGN_RIGHT;
-            total.Font = new iTextSharp.text.Font(iTextSharp.text.Font.NORMAL, 14);
-            total.Add($"Total: {venda.Total_Venda:0.00}\n\n");
-            document.Add(total);
-
-            document.Close();
-
-            MessageBox.Show("Histórico de vendas impresso com sucesso!");
         }
+
+
+
+
 
         // Método para imprimir uma venda em um documento PDF
         private void ImprimirVendaPDF(Document document, Venda venda) {
@@ -125,14 +138,14 @@ namespace PDV
             cabecalho.Add($"Venda {venda.Id_venda} Data: {venda.Data_Hora.ToShortDateString()} Hora: {venda.Data_Hora.ToShortTimeString()}\n");
             if (venda.Cliente != null)
                 cabecalho.Add($"Cliente: {venda.Cliente.Nome}\n");
-            cabecalho.Add("\nItem   Descrição   Qtd    Preço    Total\n");
+            cabecalho.Add("\nItem   Descrição   Qtd    Preço    Total Item\n");
             document.Add(cabecalho);
 
             // Adiciona os itens da venda formatados
             foreach (var item in itens) {
                 Paragraph paragrafoItem = new Paragraph();
                 paragrafoItem.Font = new iTextSharp.text.Font(iTextSharp.text.Font.NORMAL, 12);
-                paragrafoItem.Add($"{item.Produto.Id_produto}   {item.Produto.Nome}    {item.Qtd_item}   {item.Valor_unitario:0.00}   {item.Total_item:0.00}\n");
+                paragrafoItem.Add($"{item.Produto.Id_produto}      {item.Produto.Nome, -20}        {item.Qtd_item, 10}      {item.Valor_unitario, 10:0.00}           {item.Total_item, 24:0.00}\n");
                 document.Add(paragrafoItem);
             }
 
