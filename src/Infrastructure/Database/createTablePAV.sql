@@ -143,7 +143,7 @@ insert into caixa(saldo)
 values
 	(0);
 
-select v.id_venda, v.data_hora, c.nome, p.id_produto, i.qtd_item, i.valor_unitario, i.total_item, v.total_venda 
+select v.id_venda, v.data_hora, c.nome, p.id_produto, p.nome, i.qtd_item, i.valor_unitario, i.total_item, v.total_venda 
 from cliente c
 inner join venda v on
 c.id_cliente = v.id_cliente 
@@ -152,6 +152,16 @@ inner join itemvenda i on
 inner join produto p on
 	i.id_produto = p.id_produto
 where v.id_venda = $idvenda;
+
+select c.*, iv.*, p.*, v.*
+FROM cliente c
+INNER JOIN venda v ON 
+c.id_cliente = v.id_cliente
+INNER JOIN itemvenda iv ON 
+v.id_venda = iv.id_venda
+INNER JOIN produto p ON 
+iv.id_produto = p.id_produto
+WHERE v.id_venda = $IdVenda;
 
 
 
