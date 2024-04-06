@@ -1,17 +1,19 @@
 ﻿using Dapper;
 using PDV.Entities;
 using PDV.Infrastructure.Database;
+using System.Collections.Generic;
+using System.Linq;
 
-namespace PDV.Infrastructure.Repositories {
+namespace PDV.Infrastructure.Repositories
+{
     public class FornecedorRepository
     {
-
         public bool Add(Fornecedor fornecedor)
         {
             using var conn = new DbConnection();
             string query = @"INSERT INTO public.fornecedor(
-        nome, logradouro, numero, complemento, bairro, cidade, estado, cep, cpf_cnpj, telefone, email)
-        VALUES (@nome, @logradouro, @numero, @complemento, @bairro, @cidade, @estado, @cep, @cpf_cnpj, @telefone, @email)";
+                            nome, logradouro, numero, complemento, bairro, cidade, estado, cep, cpf_cnpj, telefone, email)
+                            VALUES (@nome, @logradouro, @numero, @complemento, @bairro, @cidade, @estado, @cep, @cpf_cnpj, @telefone, @email)";
 
             var parameters = new
             {
@@ -52,7 +54,7 @@ namespace PDV.Infrastructure.Repositories {
         {
             using var conn = new DbConnection();
             string query = @"DELETE FROM public.fornecedor
-                     WHERE id_fornecedor = @id";
+                            WHERE id_fornecedor = @id";
 
             var parameters = new { id = fornecedorId };
 
@@ -65,18 +67,18 @@ namespace PDV.Infrastructure.Repositories {
         {
             using var conn = new DbConnection();
             string query = @"UPDATE public.fornecedor
-                    SET nome = @nome,
-                        logradouro = @logradouro,
-                        numero = @numero,
-                        complemento = @complemento,
-                        bairro = @bairro,
-                        cidade = @cidade,
-                        estado = @estado,
-                        cep = @cep,
-                        cpf_cnpj = @cpf_cnpj,
-                        telefone = @telefone,
-                        email = @email
-                    WHERE id_fornecedor = @id";
+                            SET nome = @nome,
+                                logradouro = @logradouro,
+                                numero = @numero,
+                                complemento = @complemento,
+                                bairro = @bairro,
+                                cidade = @cidade,
+                                estado = @estado,
+                                cep = @cep,
+                                cpf_cnpj = @cpf_cnpj,
+                                telefone = @telefone,
+                                email = @email
+                            WHERE id_fornecedor = @id";
 
             var parameters = new
             {
@@ -99,7 +101,13 @@ namespace PDV.Infrastructure.Repositories {
             return result == 1;
         }
 
-
-
+        public Fornecedor GetByCompraId(int idCompra)
+        {
+            using var conn = new DbConnection();
+            string query = @"SELECT f.nome FROM fornecedor f
+                            INNER JOIN compra c on f.id_fornecedor = c.id_fornecedor WHERE c.id_compra = @idCompra";
+            var parameters = new { idCompra };
+            return conn.Connection.QueryFirstOrDefault<Fornecedor>(query, parameters);
+        }
     }
 }
