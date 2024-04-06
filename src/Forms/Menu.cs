@@ -66,5 +66,11 @@ namespace PDV {
             JanelaCaixa frm = new JanelaCaixa();
             frm.Show();
         }
+
+        private void btn_compras_Click(object sender, EventArgs e)
+        {
+            JanelaCompra frm = new JanelaCompra();
+            frm.Show();
+        }
     }
 }

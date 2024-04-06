@@ -37,9 +37,6 @@ namespace PDV
             pessoa_box.DataSource = clientes;
             pessoa_box.DisplayMember = "Nome";
             pessoa_box.ValueMember = "Id_cliente";
-
-
-
         }
 
         public void ObterProdutos(string nomePesquisa = null)

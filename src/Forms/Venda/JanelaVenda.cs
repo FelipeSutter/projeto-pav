@@ -48,8 +48,6 @@ namespace PDV
                 _tabela.Clear();
                 ObterVendas();
             }
-
-
         }
 
         private void btn_voltar_Click(object sender, EventArgs e) {
