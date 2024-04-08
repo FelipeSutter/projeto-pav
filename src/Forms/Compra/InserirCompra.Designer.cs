@@ -138,6 +138,7 @@
             btn_alterar.TabIndex = 44;
             btn_alterar.Text = "Alterar produto";
             btn_alterar.UseVisualStyleBackColor = false;
+            btn_alterar.Click += btn_alterar_Click;
             // 
             // btn_remover
             // 
@@ -149,6 +150,7 @@
             btn_remover.TabIndex = 43;
             btn_remover.Text = "Remover do carrinho";
             btn_remover.UseVisualStyleBackColor = false;
+            btn_remover.Click += btn_remover_Click;
             // 
             // btn_cancelar
             // 
