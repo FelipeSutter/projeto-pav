@@ -219,18 +219,6 @@ namespace PDV
 
         }
 
-        // Método para obter o ID da forma de pagamento com base no nome do Enum
-        private int ObterIdFormaPagamento(EFormaPagamento formaPagamento)
-        {
-            using var conn = new DbConnection();
-            string query = @"SELECT id_forma_pagamento
-                     FROM formapagamento
-                     WHERE nome = @Nome";
-
-            var parameters = new { Nome = formaPagamento.ToString() };
-            return conn.Connection.QueryFirstOrDefault<int>(query, parameters);
-        }
-
         private MovimentoCaixa CriarMovimentoCaixa(double valor, ETipoMovimento tipoMovimento, bool efetuarVenda)
         {
             // Obtém o ID do último caixa disponível
@@ -261,23 +249,25 @@ namespace PDV
 
         private FormaPagamentoVenda CriarFormaPagamentoVenda(double total, int idVenda)
         {
+            var formaPagamentoRepository = new FormaPagamentoVendaRepository();
+
             // Verifica qual forma de pagamento foi selecionada
             int idFormaPagamento = 0; // Inicializa com valor padrão
             if (rb_credito.Checked)
             {
-                idFormaPagamento = ObterIdFormaPagamento(EFormaPagamento.CREDITO);
+                idFormaPagamento = formaPagamentoRepository.GetById(EFormaPagamento.CREDITO);
             }
             else if (rb_debito.Checked)
             {
-                idFormaPagamento = ObterIdFormaPagamento(EFormaPagamento.DEBITO);
+                idFormaPagamento = formaPagamentoRepository.GetById(EFormaPagamento.DEBITO);
             }
             else if (rb_pix.Checked)
             {
-                idFormaPagamento = ObterIdFormaPagamento(EFormaPagamento.PIX);
+                idFormaPagamento = formaPagamentoRepository.GetById(EFormaPagamento.PIX);
             }
             else if (rb_especie.Checked)
             {
-                idFormaPagamento = ObterIdFormaPagamento(EFormaPagamento.ESPECIE);
+                idFormaPagamento = formaPagamentoRepository.GetById(EFormaPagamento.ESPECIE);
             }
 
             // Cria o objeto FormaPagamentoVenda

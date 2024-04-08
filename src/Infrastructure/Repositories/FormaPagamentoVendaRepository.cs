@@ -1,5 +1,6 @@
 ﻿using Dapper;
 using PDV.Entities;
+using PDV.Enums;
 using PDV.Infrastructure.Database;
 
 namespace PDV.Infrastructure.Repositories;
@@ -40,6 +41,16 @@ public class FormaPagamentoVendaRepository {
         var formasPagamentoVenda = conn.Connection.Query<FormaPagamentoVenda>(query);
 
         return formasPagamentoVenda.ToList();
+    }
+
+    public int GetById(EFormaPagamento formaPagamento) {
+        using var conn = new DbConnection();
+        string query = @"SELECT id_forma_pagamento
+                     FROM formapagamento
+                     WHERE nome = @Nome";
+
+        var parameters = new { Nome = formaPagamento.ToString() };
+        return conn.Connection.QueryFirstOrDefault<int>(query, parameters);
     }
 
     public bool Update(FormaPagamentoVenda formaPagamentoVenda) {
