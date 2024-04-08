@@ -143,6 +143,49 @@ namespace PDV
             Close();
         }
 
+        private void btn_remover_Click(object sender, EventArgs e) {
+            ItemCompra item = _tabela.ObterItemCompraNaLinhaSelecionada(dataViewItemVenda.CurrentRow.Index);
+
+            itens.Remove(item);
+
+            // verificar porque a lista não está deletando.
+
+            Console.WriteLine(itens);
+
+            MessageBox.Show("Item excluído com sucesso!");
+            total -= item.Total_item;
+            lb_total.Text = total.ToString();
+
+
+            _tabela.Excluir(dataViewItemVenda.CurrentRow.Index);
+        }
+
+        private void btn_alterar_Click(object sender, EventArgs e) {
+            ItemCompra item = _tabela.ObterItemCompraNaLinhaSelecionada(dataViewItemVenda.CurrentRow.Index);
+            Produto prod = new Produto();
+
+            int novaQuantidade = int.Parse(qtd_box.Text);
+            prod = ObterProdutos((int) prod_box.SelectedValue);
+
+            if (prod.Qtd_estoque < novaQuantidade) {
+                MessageBox.Show("Não há estoque suficiente para o produto " + prod.Nome, "Erro de validação", MessageBoxButtons.OK, MessageBoxIcon.Error);
+            } else {
+                double totalAnterior = item.Total_item; // Salva o total anterior do item
+
+                // Atualiza o item de venda com a nova quantidade e recalcula o total
+                item.Qtd_item = novaQuantidade;
+                item.Total_item = novaQuantidade * prod.Preco;
+
+                // Atualiza a linha na tabela
+                _tabela.Alterar(dataViewItemVenda.CurrentRow.Index, item);
+
+                // Atualiza o preço total da venda
+                total -= totalAnterior; // Remove o total anterior
+                total += item.Total_item; // Adiciona o novo total
+                lb_total.Text = total.ToString();
+            }
+        }
+
         private FormaPagamentoVenda CriarFormaPagamentoVenda(double total, int idVenda) {
             // Verifica qual forma de pagamento foi selecionada
             var formaPagamentoRepository = new FormaPagamentoVendaRepository();
@@ -191,7 +234,5 @@ namespace PDV
         private void InserirCompra_Load(object sender, EventArgs e) {
 
         }
-
-        
     }
 }
