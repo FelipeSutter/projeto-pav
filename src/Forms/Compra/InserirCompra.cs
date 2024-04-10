@@ -87,7 +87,7 @@ namespace PDV
         private void btn_compra_Click(object sender, EventArgs e) {
             var itemRepository = new ItemCompraRepository();
             var movimentoCaixaRepository = new MovimentoCaixaRepository();
-            var formaPagamentoRepository = new FormaPagamentoVendaRepository();
+            var formaPagamentoRepository = new FormaPagamentoCompraRepository();
             var contaPagarRepository = new ContaPagarRepository();
             var caixaRepository = new CaixaRepository();
             int idCaixa = caixaRepository.GetLastId();
@@ -107,13 +107,13 @@ namespace PDV
                 int idCompra = itemRepository.Add(compra, itens, true);
 
                 // Cria a forma de pagamento venda usando o ID da compra salva
-                var formaPagamento = CriarFormaPagamentoVenda(total, idCompra);
+                var formaPagamento = CriarFormaPagamentoCompra(total, idCompra);
 
                 // Adiciona a forma de pagamento venda ao banco de dados
                 formaPagamentoRepository.Add(formaPagamento);
 
                 // Cria o movimento do Caixa
-                var movimentoCaixa = CriarMovimentoCaixa(total, ETipoMovimento.ENTRADA, true);
+                var movimentoCaixa = CriarMovimentoCaixa(total, ETipoMovimento.SAIDA, true);
                 movimentoCaixaRepository.Add(movimentoCaixa);
 
                 // Criar contas a pagar
@@ -136,7 +136,7 @@ namespace PDV
             // Salva a venda no banco de dados
             itemRepository.Add(compra, itens, false);
 
-            var movimentoCaixa = CriarMovimentoCaixa(total, ETipoMovimento.ENTRADA, false);
+            var movimentoCaixa = CriarMovimentoCaixa(total, ETipoMovimento.SAIDA, false);
             movimentoCaixaRepository.Add(movimentoCaixa);
 
             Close();
@@ -181,7 +181,7 @@ namespace PDV
             lb_total.Text = total.ToString();
         }
 
-        private FormaPagamentoVenda CriarFormaPagamentoVenda(double total, int idVenda) {
+        private FormaPagamentoCompra CriarFormaPagamentoCompra(double total, int idCompra) {
             // Verifica qual forma de pagamento foi selecionada
             var formaPagamentoRepository = new FormaPagamentoVendaRepository();
 
@@ -197,9 +197,9 @@ namespace PDV
             }
 
             // Cria o objeto FormaPagamentoVenda
-            var formaPagamentoVenda = new FormaPagamentoVenda(idVenda, idFormaPagamento, total);
+            var formaPagamentoCompra = new FormaPagamentoCompra(idCompra, idFormaPagamento, total);
 
-            return formaPagamentoVenda;
+            return formaPagamentoCompra;
         }
 
         private MovimentoCaixa CriarMovimentoCaixa(double valor, ETipoMovimento tipoMovimento, bool efetuarVenda) {
