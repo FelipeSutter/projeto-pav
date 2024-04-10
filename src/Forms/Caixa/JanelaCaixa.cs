@@ -14,11 +14,18 @@ using System.Windows.Forms;
 
 namespace PDV
 {
-    public partial class JanelaCaixa : Form {
+    public partial class JanelaCaixa : Form
+    {
         List<MovimentoCaixa> movimentos = new List<MovimentoCaixa>();
         TabelaMovimentoCaixa _tabela;
 
-        public JanelaCaixa() {
+
+        public JanelaCaixa()
+        {
+            CaixaRepository _caixaRepository = new CaixaRepository();
+
+            int idCaixa = _caixaRepository.GetLastId();
+
             InitializeComponent();
             _tabela = new TabelaMovimentoCaixa(); // Instanciação da tabela
             dataViewMovimentoCaixa.DataSource = _tabela;
@@ -30,18 +37,27 @@ namespace PDV
             dataViewMovimentoCaixa.Columns[5].Width = 200;
 
             ObterMovimentoCaixa();
+            lb_total_caixa.Text = _caixaRepository.GetSaldo(idCaixa).ToString();
         }
 
-        public void ObterMovimentoCaixa(string nomePesquisa = null) {
+        public void ObterMovimentoCaixa(string nomePesquisa = null)
+        {
             var repository = new MovimentoCaixaRepository();
             movimentos = repository.Get();
-            foreach (var item in movimentos) {
+            foreach (var item in movimentos)
+            {
                 _tabela.Incluir(item);
             }
         }
 
-        private void btn_voltar_Click(object sender, EventArgs e) {
+        private void btn_voltar_Click(object sender, EventArgs e)
+        {
             Close();
+        }
+
+        private void JanelaCaixa_Load(object sender, EventArgs e)
+        {
+
         }
     }
 }

@@ -2,15 +2,6 @@
 using PDV.Enums;
 using PDV.Infrastructure.Repositories;
 using PDV.Tables;
-using System;
-using System.Collections.Generic;
-using System.ComponentModel;
-using System.Data;
-using System.Drawing;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using System.Windows.Forms;
 
 namespace PDV
 {
@@ -83,46 +74,56 @@ namespace PDV
             int qtd = int.Parse(qtd_box.Text);
             Produto prod = new Produto();
             prod = ObterProdutos((int) prod_box.SelectedValue);
-            if (prod.Qtd_estoque < qtd) {
-                MessageBox.Show("Não há estoque suficiente para o produto " + prod.Nome, "Erro de validação", MessageBoxButtons.OK, MessageBoxIcon.Error);
-            } else {
-                ItemCompra item = new ItemCompra(qtd, prod.Preco, qtd * prod.Preco, prod);
-                itens.Add(item);
+            ItemCompra item = new ItemCompra(qtd, prod.Preco, qtd * prod.Preco, prod);
+            itens.Add(item);
 
-                _tabela.Incluir(item);
+            _tabela.Incluir(item);
 
-                total += qtd * prod.Preco;
-                lb_total.Text = total.ToString();
-            }
+            total += qtd * prod.Preco;
+            lb_total.Text = total.ToString();
+            
         }
 
         private void btn_compra_Click(object sender, EventArgs e) {
             var itemRepository = new ItemCompraRepository();
             var movimentoCaixaRepository = new MovimentoCaixaRepository();
             var formaPagamentoRepository = new FormaPagamentoVendaRepository();
+            var caixaRepository = new CaixaRepository();
+            int idCaixa = caixaRepository.GetLastId();
 
-            Fornecedor fornecedor = ObterFornecedores((int) pessoa_box.SelectedValue);
+            // Obtém o saldo atual do caixa
+            var saldoAtual = caixaRepository.GetSaldo(idCaixa);
 
-            // Cria uma nova venda
-            Compra compra = new Compra(total, EStatus.EFETUADA, fornecedor.Id_fornecedor);
+            if (saldoAtual < total)
+            {
+                MessageBox.Show("Não há saldo o suficiente para finalizar a compra :(");
+            } 
+            else
+            {
+                Fornecedor fornecedor = ObterFornecedores((int)pessoa_box.SelectedValue);
 
-            // Salva a venda no banco de dados
-            int idCompra = itemRepository.Add(compra, itens, true);
+                // Cria uma nova venda
+                Compra compra = new Compra(total, EStatus.EFETUADA, fornecedor.Id_fornecedor);
 
-            // Cria a forma de pagamento venda usando o ID da compra salva
-            var formaPagamento = CriarFormaPagamentoVenda(total, idCompra);
+                // Salva a venda no banco de dados
+                int idCompra = itemRepository.Add(compra, itens, true);
 
-            // Adiciona a forma de pagamento venda ao banco de dados
-            formaPagamentoRepository.Add(formaPagamento);
+                // Cria a forma de pagamento venda usando o ID da compra salva
+                var formaPagamento = CriarFormaPagamentoVenda(total, idCompra);
 
-            // Cria o movimento do Caixa
-            var movimentoCaixa = CriarMovimentoCaixa(total, ETipoMovimento.ENTRADA, true);
-            movimentoCaixaRepository.Add(movimentoCaixa);
+                // Adiciona a forma de pagamento venda ao banco de dados
+                formaPagamentoRepository.Add(formaPagamento);
 
-            // Criar contas a pagar
+                // Cria o movimento do Caixa
+                var movimentoCaixa = CriarMovimentoCaixa(total, ETipoMovimento.ENTRADA, true);
+                movimentoCaixaRepository.Add(movimentoCaixa);
+
+                // Criar contas a pagar
 
 
-            Close();
+                Close();
+            }
+
         }
 
         private void btn_cancelar_Click(object sender, EventArgs e) {
@@ -167,23 +168,19 @@ namespace PDV
             int novaQuantidade = int.Parse(qtd_box.Text);
             prod = ObterProdutos((int) prod_box.SelectedValue);
 
-            if (prod.Qtd_estoque < novaQuantidade) {
-                MessageBox.Show("Não há estoque suficiente para o produto " + prod.Nome, "Erro de validação", MessageBoxButtons.OK, MessageBoxIcon.Error);
-            } else {
-                double totalAnterior = item.Total_item; // Salva o total anterior do item
+            double totalAnterior = item.Total_item; // Salva o total anterior do item
 
-                // Atualiza o item de venda com a nova quantidade e recalcula o total
-                item.Qtd_item = novaQuantidade;
-                item.Total_item = novaQuantidade * prod.Preco;
+            // Atualiza o item de venda com a nova quantidade e recalcula o total
+            item.Qtd_item = novaQuantidade;
+            item.Total_item = novaQuantidade * prod.Preco;
 
-                // Atualiza a linha na tabela
-                _tabela.Alterar(dataViewItemVenda.CurrentRow.Index, item);
+            // Atualiza a linha na tabela
+            _tabela.Alterar(dataViewItemVenda.CurrentRow.Index, item);
 
-                // Atualiza o preço total da venda
-                total -= totalAnterior; // Remove o total anterior
-                total += item.Total_item; // Adiciona o novo total
-                lb_total.Text = total.ToString();
-            }
+            // Atualiza o preço total da venda
+            total -= totalAnterior; // Remove o total anterior
+            total += item.Total_item; // Adiciona o novo total
+            lb_total.Text = total.ToString();
         }
 
         private FormaPagamentoVenda CriarFormaPagamentoVenda(double total, int idVenda) {
