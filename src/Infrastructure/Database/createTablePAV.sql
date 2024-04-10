@@ -75,6 +75,14 @@ CREATE TABLE FormaPagamentoVenda (
     FOREIGN KEY (id_venda) REFERENCES Venda(id_venda)
 );
 
+CREATE TABLE FormaPagamentoCompra (
+    id_compra INTEGER NOT NULL,
+    id_forma_pagamento INTEGER NOT null references FormaPagamento(id_forma_pagamento),
+    valor NUMERIC(10,2) NOT NULL,
+    PRIMARY KEY (id_compra, id_forma_pagamento),
+    FOREIGN KEY (id_compra) REFERENCES Compra(id_compra)
+);
+
 insert into formapagamento(nome)
 values
 	('CREDITO'),
