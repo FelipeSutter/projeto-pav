@@ -1,9 +1,6 @@
 ﻿using Dapper;
 using PDV.Entities;
 using PDV.Infrastructure.Database;
-using System;
-using System.Collections.Generic;
-using System.Windows.Forms;
 
 namespace PDV.Infrastructure.Repositories
 {
@@ -25,12 +22,6 @@ namespace PDV.Infrastructure.Repositories
             {
                 if (efetuarCompra)
                 {
-                    // Verifica se há estoque disponível
-                    if (!CheckEstoqueDisponivel(item.Id_produto, item.Qtd_item))
-                    {
-                        MessageBox.Show("Não há estoque suficiente para o produto " + item.Produto.Nome, "Erro de validação", MessageBoxButtons.OK, MessageBoxIcon.Error);
-                        return -1; // Retorna um valor inválido em caso de erro
-                    }
 
                     // Atualiza o estoque do produto
                     string updateEstoqueQuery = @"UPDATE produto SET qtd_estoque = qtd_estoque + @Qtd_item WHERE id_produto = @Id_produto";
