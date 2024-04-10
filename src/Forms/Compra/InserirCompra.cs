@@ -81,26 +81,24 @@ namespace PDV
 
             total += qtd * prod.Preco;
             lb_total.Text = total.ToString();
-            
+
         }
 
         private void btn_compra_Click(object sender, EventArgs e) {
             var itemRepository = new ItemCompraRepository();
             var movimentoCaixaRepository = new MovimentoCaixaRepository();
             var formaPagamentoRepository = new FormaPagamentoVendaRepository();
+            var contaPagarRepository = new ContaPagarRepository();
             var caixaRepository = new CaixaRepository();
             int idCaixa = caixaRepository.GetLastId();
 
             // Obtém o saldo atual do caixa
             var saldoAtual = caixaRepository.GetSaldo(idCaixa);
 
-            if (saldoAtual < total)
-            {
+            if (saldoAtual < total) {
                 MessageBox.Show("Não há saldo o suficiente para finalizar a compra :(");
-            } 
-            else
-            {
-                Fornecedor fornecedor = ObterFornecedores((int)pessoa_box.SelectedValue);
+            } else {
+                Fornecedor fornecedor = ObterFornecedores((int) pessoa_box.SelectedValue);
 
                 // Cria uma nova venda
                 Compra compra = new Compra(total, EStatus.EFETUADA, fornecedor.Id_fornecedor);
@@ -119,7 +117,7 @@ namespace PDV
                 movimentoCaixaRepository.Add(movimentoCaixa);
 
                 // Criar contas a pagar
-
+                CriarContaPagar(contaPagarRepository, fornecedor.Id_fornecedor);
 
                 Close();
             }
@@ -228,7 +226,28 @@ namespace PDV
             return movimentoCaixa;
         }
 
+        private void CriarContaPagar(ContaPagarRepository contaPagarRepository, int idFornecedor) {
+            if (rb_credito.Checked && cb_parcela.Text != "À vista") {
+                for (int i = 1; i <= int.Parse(cb_parcela.Text); i++) {
+
+                    ContaPagar receba = new ContaPagar(idFornecedor, total / int.Parse(cb_parcela.Text), total / int.Parse(cb_parcela.Text), DateTime.Now, DateTime.Now.AddMonths(i), DateTime.Now.AddMonths(i - 1).AddDays(15));
+                    contaPagarRepository.Add(receba);
+                }
+
+            }
+        }
+
         private void InserirCompra_Load(object sender, EventArgs e) {
+
+        }
+
+        private void rb_credito_CheckedChanged(object sender, EventArgs e) {
+
+            if (rb_credito.Checked) {
+                cb_parcela.Enabled = true;
+            } else {
+                cb_parcela.Enabled = false;
+            }
 
         }
     }

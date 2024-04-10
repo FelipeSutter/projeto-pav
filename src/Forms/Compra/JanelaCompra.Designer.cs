@@ -26,8 +26,7 @@
         /// Required method for Designer support - do not modify
         /// the contents of this method with the code editor.
         /// </summary>
-        private void InitializeComponent()
-        {
+        private void InitializeComponent() {
             btn_filtrar = new Button();
             label2 = new Label();
             label1 = new Label();
@@ -38,15 +37,15 @@
             btn_voltar = new Button();
             btn_incluir = new Button();
             dataViewCompra = new DataGridView();
-            ((System.ComponentModel.ISupportInitialize)dataViewCompra).BeginInit();
+            btn_contas_pagar = new Button();
+            ((System.ComponentModel.ISupportInitialize) dataViewCompra).BeginInit();
             SuspendLayout();
             // 
             // btn_filtrar
             // 
-            btn_filtrar.Location = new Point(967, 19);
-            btn_filtrar.Margin = new Padding(4);
+            btn_filtrar.Location = new Point(774, 15);
             btn_filtrar.Name = "btn_filtrar";
-            btn_filtrar.Size = new Size(118, 36);
+            btn_filtrar.Size = new Size(94, 29);
             btn_filtrar.TabIndex = 28;
             btn_filtrar.Text = "Filtrar";
             btn_filtrar.UseVisualStyleBackColor = true;
@@ -54,48 +53,44 @@
             // label2
             // 
             label2.AutoSize = true;
-            label2.Font = new Font("Segoe UI", 12F, FontStyle.Regular, GraphicsUnit.Point, 0);
-            label2.Location = new Point(485, 20);
-            label2.Margin = new Padding(4, 0, 4, 0);
+            label2.Font = new Font("Segoe UI", 12F, FontStyle.Regular, GraphicsUnit.Point,  0);
+            label2.Location = new Point(388, 16);
             label2.Name = "label2";
-            label2.Size = new Size(55, 32);
+            label2.Size = new Size(46, 28);
             label2.TabIndex = 27;
             label2.Text = "Até:";
             // 
             // label1
             // 
             label1.AutoSize = true;
-            label1.Font = new Font("Segoe UI", 12F, FontStyle.Regular, GraphicsUnit.Point, 0);
-            label1.Location = new Point(22, 20);
-            label1.Margin = new Padding(4, 0, 4, 0);
+            label1.Font = new Font("Segoe UI", 12F, FontStyle.Regular, GraphicsUnit.Point,  0);
+            label1.Location = new Point(18, 16);
             label1.Name = "label1";
-            label1.Size = new Size(49, 32);
+            label1.Size = new Size(40, 28);
             label1.TabIndex = 26;
             label1.Text = "De:";
             // 
             // final_datetime
             // 
-            final_datetime.Location = new Point(545, 22);
-            final_datetime.Margin = new Padding(4);
+            final_datetime.Location = new Point(436, 18);
             final_datetime.Name = "final_datetime";
-            final_datetime.Size = new Size(380, 31);
+            final_datetime.Size = new Size(305, 27);
             final_datetime.TabIndex = 25;
             // 
             // inicio_datetime
             // 
-            inicio_datetime.Location = new Point(82, 22);
-            inicio_datetime.Margin = new Padding(4);
+            inicio_datetime.Location = new Point(66, 18);
             inicio_datetime.Name = "inicio_datetime";
-            inicio_datetime.Size = new Size(380, 31);
+            inicio_datetime.Size = new Size(305, 27);
             inicio_datetime.TabIndex = 24;
             // 
             // btn_imprimir
             // 
             btn_imprimir.BackColor = SystemColors.GradientActiveCaption;
-            btn_imprimir.Location = new Point(1119, 212);
+            btn_imprimir.Location = new Point(895, 224);
             btn_imprimir.Margin = new Padding(2);
             btn_imprimir.Name = "btn_imprimir";
-            btn_imprimir.Size = new Size(220, 52);
+            btn_imprimir.Size = new Size(176, 42);
             btn_imprimir.TabIndex = 23;
             btn_imprimir.Text = "Imprimir compras";
             btn_imprimir.UseVisualStyleBackColor = false;
@@ -103,10 +98,10 @@
             // btn_consultar_venda
             // 
             btn_consultar_venda.BackColor = SystemColors.GradientActiveCaption;
-            btn_consultar_venda.Location = new Point(1119, 142);
+            btn_consultar_venda.Location = new Point(895, 169);
             btn_consultar_venda.Margin = new Padding(2);
             btn_consultar_venda.Name = "btn_consultar_venda";
-            btn_consultar_venda.Size = new Size(220, 52);
+            btn_consultar_venda.Size = new Size(176, 42);
             btn_consultar_venda.TabIndex = 22;
             btn_consultar_venda.Text = "Consultar compra";
             btn_consultar_venda.UseVisualStyleBackColor = false;
@@ -114,10 +109,10 @@
             // btn_voltar
             // 
             btn_voltar.BackColor = SystemColors.GradientActiveCaption;
-            btn_voltar.Location = new Point(1119, 404);
+            btn_voltar.Location = new Point(895, 323);
             btn_voltar.Margin = new Padding(2);
             btn_voltar.Name = "btn_voltar";
-            btn_voltar.Size = new Size(220, 52);
+            btn_voltar.Size = new Size(176, 42);
             btn_voltar.TabIndex = 20;
             btn_voltar.Text = "Voltar";
             btn_voltar.UseVisualStyleBackColor = false;
@@ -126,10 +121,10 @@
             // btn_incluir
             // 
             btn_incluir.BackColor = SystemColors.GradientActiveCaption;
-            btn_incluir.Location = new Point(1119, 74);
+            btn_incluir.Location = new Point(895, 58);
             btn_incluir.Margin = new Padding(2);
             btn_incluir.Name = "btn_incluir";
-            btn_incluir.Size = new Size(220, 52);
+            btn_incluir.Size = new Size(176, 42);
             btn_incluir.TabIndex = 19;
             btn_incluir.Text = "Criar compra";
             btn_incluir.UseVisualStyleBackColor = false;
@@ -138,21 +133,34 @@
             // dataViewCompra
             // 
             dataViewCompra.ColumnHeadersHeightSizeMode = DataGridViewColumnHeadersHeightSizeMode.AutoSize;
-            dataViewCompra.Location = new Point(22, 74);
+            dataViewCompra.Location = new Point(18, 59);
             dataViewCompra.Margin = new Padding(2);
             dataViewCompra.MultiSelect = false;
             dataViewCompra.Name = "dataViewCompra";
             dataViewCompra.ReadOnly = true;
             dataViewCompra.RowHeadersWidth = 62;
-            dataViewCompra.Size = new Size(1062, 382);
+            dataViewCompra.Size = new Size(850, 306);
             dataViewCompra.TabIndex = 18;
+            // 
+            // btn_contas_pagar
+            // 
+            btn_contas_pagar.BackColor = SystemColors.GradientActiveCaption;
+            btn_contas_pagar.Location = new Point(895, 114);
+            btn_contas_pagar.Margin = new Padding(2);
+            btn_contas_pagar.Name = "btn_contas_pagar";
+            btn_contas_pagar.Size = new Size(176, 42);
+            btn_contas_pagar.TabIndex = 29;
+            btn_contas_pagar.Text = "Contas a Pagar";
+            btn_contas_pagar.UseVisualStyleBackColor = false;
+            btn_contas_pagar.Click += btn_contas_pagar_Click;
             // 
             // JanelaCompra
             // 
-            AutoScaleDimensions = new SizeF(10F, 25F);
+            AutoScaleDimensions = new SizeF(8F, 20F);
             AutoScaleMode = AutoScaleMode.Font;
             BackColor = SystemColors.ActiveCaption;
-            ClientSize = new Size(1385, 517);
+            ClientSize = new Size(1108, 414);
+            Controls.Add(btn_contas_pagar);
             Controls.Add(btn_filtrar);
             Controls.Add(label2);
             Controls.Add(label1);
@@ -163,9 +171,10 @@
             Controls.Add(btn_voltar);
             Controls.Add(btn_incluir);
             Controls.Add(dataViewCompra);
+            Margin = new Padding(2, 2, 2, 2);
             Name = "JanelaCompra";
             Text = "JanelaCompra";
-            ((System.ComponentModel.ISupportInitialize)dataViewCompra).EndInit();
+            ((System.ComponentModel.ISupportInitialize) dataViewCompra).EndInit();
             ResumeLayout(false);
             PerformLayout();
         }
@@ -182,5 +191,6 @@
         private Button btn_voltar;
         private Button btn_incluir;
         private DataGridView dataViewCompra;
+        private Button btn_contas_pagar;
     }
 }

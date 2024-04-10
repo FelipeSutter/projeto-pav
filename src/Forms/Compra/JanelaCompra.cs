@@ -1,27 +1,15 @@
 ﻿using PDV.Entities;
-
+using PDV.Forms;
 using PDV.Infrastructure.Repositories;
 using PDV.Tabelas;
-using System;
-using System.Collections.Generic;
-using System.ComponentModel;
-using System.Data;
-using System.Drawing;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using System.Windows.Forms;
 
-namespace PDV
-{
-    public partial class JanelaCompra : Form
-    {
+namespace PDV {
+    public partial class JanelaCompra : Form {
         List<Compra> compras = new List<Compra>();
 
         TabelaCompra _tabela;
         String path = "../../../PDFs/";
-        public JanelaCompra()
-        {
+        public JanelaCompra() {
             InitializeComponent();
             _tabela = new TabelaCompra(); // Instanciação da tabela
             dataViewCompra.DataSource = _tabela;
@@ -37,32 +25,32 @@ namespace PDV
             ObterCompras();
 
         }
-        public void ObterCompras(string? nomePesquisa = null)
-        {
+        public void ObterCompras(string? nomePesquisa = null) {
             var repository = new CompraRepository();
             compras = repository.Get();
-            foreach (var item in compras)
-            {
+            foreach (var item in compras) {
                 _tabela.Incluir(item);
             }
 
         }
 
-        private void btn_incluir_Click(object sender, EventArgs e)
-        {
+        private void btn_incluir_Click(object sender, EventArgs e) {
             InserirCompra frm = new InserirCompra();
 
             DialogResult response = frm.ShowDialog();
-            if (response == DialogResult.OK)
-            {
+            if (response == DialogResult.OK) {
                 _tabela.Clear();
                 ObterCompras();
             }
         }
 
-        private void btn_voltar_Click(object sender, EventArgs e)
-        {
+        private void btn_voltar_Click(object sender, EventArgs e) {
             Close();
+        }
+
+        private void btn_contas_pagar_Click(object sender, EventArgs e) {
+            JanelaContasPagar form = new JanelaContasPagar();
+            form.Show();
         }
     }
 }
