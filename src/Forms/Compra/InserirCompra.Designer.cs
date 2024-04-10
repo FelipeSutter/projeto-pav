@@ -103,6 +103,7 @@
             rb_credito.TabIndex = 47;
             rb_credito.Text = "Crédito";
             rb_credito.UseVisualStyleBackColor = true;
+            rb_credito.CheckedChanged += rb_credito_CheckedChanged;
             // 
             // rb_debito
             // 
