@@ -120,44 +120,6 @@ namespace PDV
         }
 
 
-
-
-
-        // Método para imprimir uma venda em um documento PDF
-        private void ImprimirVendaPDF(Document document, Venda venda) {
-            // Obtém os itens da venda
-            ItemVendaRepository repository = new ItemVendaRepository();
-            List<ItemVenda> itens = repository.GetByVendaId(venda.Id_venda);
-
-            // Criação e formatação do cabeçalho
-            Paragraph cabecalho = new Paragraph();
-            cabecalho.Alignment = Element.ALIGN_CENTER;
-            cabecalho.Font = new iTextSharp.text.Font(iTextSharp.text.Font.NORMAL, 20, (int) FontStyle.Bold);
-            cabecalho.Add($"Venda {venda.Id_venda} Data: {venda.Data_Hora.ToShortDateString()} Hora: {venda.Data_Hora.ToShortTimeString()}\n");
-            if (venda.Cliente != null)
-                cabecalho.Add($"Cliente: {venda.Cliente.Nome}\n");
-            cabecalho.Add("\nItem   Descrição   Qtd    Preço    Total Item\n");
-            document.Add(cabecalho);
-
-            // Adiciona os itens da venda formatados
-            foreach (var item in itens) {
-                Paragraph paragrafoItem = new Paragraph();
-                paragrafoItem.Font = new iTextSharp.text.Font(iTextSharp.text.Font.NORMAL, 12);
-                paragrafoItem.Add($"{item.Produto.Id_produto}      {item.Produto.Nome, -20}        {item.Qtd_item, 10}      {item.Valor_unitario, 10:0.00}           {item.Total_item, 24:0.00}\n");
-                document.Add(paragrafoItem);
-            }
-
-            // Adiciona o total da venda
-            Paragraph total = new Paragraph();
-            total.Alignment = Element.ALIGN_RIGHT;
-            total.Font = new iTextSharp.text.Font(iTextSharp.text.Font.NORMAL, 14);
-            total.Add($"Total: {venda.Total_Venda:0.00}\n\n");
-            document.Add(total);
-
-            // Adiciona uma quebra de página entre as vendas
-            document.NewPage();
-        }
-
         private void btn_imprimir_Click(object sender, EventArgs e) {
             // Obtem as vendas no período especificado
             VendaRepository vendaRepository = new VendaRepository();

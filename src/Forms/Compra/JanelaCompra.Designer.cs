@@ -49,6 +49,7 @@
             btn_filtrar.TabIndex = 28;
             btn_filtrar.Text = "Filtrar";
             btn_filtrar.UseVisualStyleBackColor = true;
+            btn_filtrar.Click += btn_filtrar_Click;
             // 
             // label2
             // 
@@ -171,9 +172,10 @@
             Controls.Add(btn_voltar);
             Controls.Add(btn_incluir);
             Controls.Add(dataViewCompra);
-            Margin = new Padding(2, 2, 2, 2);
+            Margin = new Padding(2);
             Name = "JanelaCompra";
             Text = "JanelaCompra";
+            Load += JanelaCompra_Load;
             ((System.ComponentModel.ISupportInitialize) dataViewCompra).EndInit();
             ResumeLayout(false);
             PerformLayout();
