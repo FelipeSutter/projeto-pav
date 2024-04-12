@@ -169,7 +169,7 @@ namespace PDV
             double totalAnterior = item.Total_item; // Salva o total anterior do item
 
             // Atualiza o item de venda com a nova quantidade e recalcula o total
-            item.Qtd_item = novaQuantidade;
+            item.Qtd = novaQuantidade;
             item.Total_item = novaQuantidade * prod.Preco;
 
             // Atualiza a linha na tabela

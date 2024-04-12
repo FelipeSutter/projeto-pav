@@ -10,7 +10,7 @@ namespace PDV.Entities
     {
         public int Id_produto { get; set; }
         public int Id_compra { get; set; }
-        public int Qtd_item { get; set; }
+        public int Qtd { get; set; }
         public double Valor_unitario { get; set; }
         public double Total_item { get; set; }
         public Produto Produto { get; set; }
@@ -22,7 +22,7 @@ namespace PDV.Entities
         {
             Produto = produto;
             Id_produto = produto.Id_produto;
-            Qtd_item = qtdItem;
+            Qtd = qtdItem;
             Valor_unitario = valorUnitario;
             Total_item = totalItem;
 
