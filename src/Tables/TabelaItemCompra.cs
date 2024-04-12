@@ -38,14 +38,14 @@ namespace PDV.Tables
 
         public void Incluir(ItemCompra itemCompra)
         {
-            Rows.Add(itemCompra.Id_produto, itemCompra.Produto.Nome, itemCompra.Qtd_item, itemCompra.Valor_unitario, itemCompra.Total_item);
+            Rows.Add(itemCompra.Id_produto, itemCompra.Produto.Nome, itemCompra.Qtd, itemCompra.Valor_unitario, itemCompra.Total_item);
         }
 
         public void Alterar(int indice, ItemCompra itemCompra)
         {
             Rows[indice][COLUNA_CODIGO] = itemCompra.Id_produto;
             Rows[indice][COLUNA_NOME_PRODUTO] = itemCompra.Produto.Nome;
-            Rows[indice][COLUNA_QUANTIDADE] = itemCompra.Qtd_item;
+            Rows[indice][COLUNA_QUANTIDADE] = itemCompra.Qtd;
             Rows[indice][COLUNA_PRECO] = itemCompra.Valor_unitario;
             Rows[indice][COLUNA_TOTAL] = itemCompra.Total_item;
         }
@@ -64,7 +64,7 @@ namespace PDV.Tables
                 {
                     Nome = Rows[indiceLinha][COLUNA_NOME_PRODUTO].ToString()
                 },
-                Qtd_item = Convert.ToInt32(Rows[indiceLinha][COLUNA_QUANTIDADE]),
+                Qtd = Convert.ToInt32(Rows[indiceLinha][COLUNA_QUANTIDADE]),
                 Valor_unitario = Convert.ToDouble(Rows[indiceLinha][COLUNA_PRECO]),
                 Total_item = Convert.ToDouble(Rows[indiceLinha][COLUNA_TOTAL])
             };

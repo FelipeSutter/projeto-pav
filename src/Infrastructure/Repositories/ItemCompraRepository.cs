@@ -24,18 +24,18 @@ namespace PDV.Infrastructure.Repositories
                 {
 
                     // Atualiza o estoque do produto
-                    string updateEstoqueQuery = @"UPDATE produto SET qtd_estoque = qtd_estoque + @Qtd_item WHERE id_produto = @Id_produto";
+                    string updateEstoqueQuery = @"UPDATE produto SET qtd_estoque = qtd_estoque + @qtd WHERE id_produto = @Id_produto";
                     conn.Connection.Execute(updateEstoqueQuery, item);
                 }
 
                 // Insere o item da compra
                 string insertItemCompraQuery = @"INSERT INTO itemcompra (id_produto, id_compra, qtd, valor_unitario, total_item)
-                                    VALUES (@IdProduto, @IdCompra, @QtdItem, @ValorUnitario, @TotalItem)";
+                                    VALUES (@IdProduto, @IdCompra, @Qtd, @ValorUnitario, @TotalItem)";
                 conn.Connection.Execute(insertItemCompraQuery, new
                 {
                     IdProduto = item.Id_produto,
                     IdCompra = idCompra,
-                    QtdItem = item.Qtd_item,
+                    Qtd = item.Qtd,
                     ValorUnitario = item.Valor_unitario,
                     TotalItem = item.Total_item,
                 });
@@ -84,7 +84,7 @@ WHERE v.id_compra = @IdCompra";
                 (itemCompra, produto, compra, fornecedor) => {
                     itemCompra.Produto = produto;
                     itemCompra.compra = compra;
-                    itemCompra.compra.fornecedor = fornecedor;
+                    itemCompra.compra.Fornecedor = fornecedor;
                     return itemCompra;
                 },
                 splitOn: "id_produto, id_compra, id_fornecedor",
@@ -109,7 +109,7 @@ WHERE v.id_compra = @IdCompra";
             {
                 IdProduto = item.Id_produto,
                 IdCompra = item.Id_compra,
-                QtdItem = item.Qtd_item,
+                QtdItem = item.Qtd,
                 ValorUnitario = item.Valor_unitario,
                 TotalItem = item.Total_item
             };
@@ -130,16 +130,6 @@ WHERE v.id_compra = @IdCompra";
             var result = conn.Connection.Execute(query, parameters);
 
             return result > 0;
-        }
-
-        // Método para verificar se há estoque disponível para um produto
-        private bool CheckEstoqueDisponivel(int produtoId, int qtdRequerida)
-        {
-            using var conn = new DbConnection();
-            string query = @"SELECT qtd_estoque FROM produto WHERE id_produto = @id";
-            var parameters = new { id = produtoId };
-            var qtdEstoque = conn.Connection.ExecuteScalar<int>(query, parameters);
-            return qtdEstoque >= qtdRequerida;
         }
     }
 }

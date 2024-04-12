@@ -61,7 +61,7 @@ namespace PDV.Tabelas
                 Situacao_Compra = (EStatus)Enum.Parse(typeof(EStatus), Rows[indiceLinha][COLUNA_SITUACAO_COMPRA].ToString())
             };
 
-            compra.fornecedor = new Fornecedor
+            compra.Fornecedor = new Fornecedor
             {
                 Nome = Rows[indiceLinha][COLUNA_NOME_FORNECEDOR].ToString(),
             };

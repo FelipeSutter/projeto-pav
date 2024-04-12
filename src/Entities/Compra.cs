@@ -14,7 +14,7 @@ namespace PDV.Entities
         public double Total_Compra{ get; set; }
         public EStatus Situacao_Compra { get; set; }
         public int Id_fornecedor{ get; set; }
-        public Fornecedor fornecedor { get; set; }
+        public Fornecedor Fornecedor { get; set; }
 
         public Compra()
         {
