@@ -4,6 +4,7 @@ using PDV.Entities;
 using PDV.Forms;
 using PDV.Infrastructure.Repositories;
 using PDV.Tabelas;
+using PDV.Enums;
 
 namespace PDV {
     public partial class JanelaCompra : Form
@@ -88,9 +89,75 @@ namespace PDV {
             }
         }
 
-        private void btn_imprimir_Click(object sender, EventArgs e)
-        {
+        private void btn_imprimir_Click(object sender, EventArgs e) {
+            // Obtem as compras no período especificado
+            CompraRepository compraRepository = new CompraRepository();
+            FornecedorRepository fornecedorRepository = new FornecedorRepository();
 
+            DateTime dataInicio = inicio_datetime.Value.Date;
+            DateTime dataFim = final_datetime.Value.Date.AddDays(1).AddSeconds(-1);
+
+            var comprasFiltradas = compraRepository.Get(dataInicio, dataFim);
+
+            // Cria um novo documento PDF para o relatório de compras
+            string nomeArquivo = path + "Relatorio_Compras.pdf";
+            FileStream arquivoPDF = new FileStream(nomeArquivo, FileMode.Create);
+            Document document = new Document(PageSize.A4);
+            PdfWriter writer = PdfWriter.GetInstance(document, arquivoPDF);
+
+            document.Open();
+
+            // Adiciona o título do relatório
+            Paragraph titulo = new Paragraph($"Relatório de Compras de {dataInicio.ToShortDateString()} a {dataFim.ToShortDateString()}\n\n");
+            titulo.Alignment = Element.ALIGN_CENTER;
+            document.Add(titulo);
+
+            // Adiciona o cabeçalho da tabela
+            PdfPTable tabela = new PdfPTable(6);
+            tabela.AddCell("Código");
+            tabela.AddCell("Data");
+            tabela.AddCell("Hora");
+            tabela.AddCell("Fornecedor");
+            tabela.AddCell("Situação");
+            tabela.AddCell("Total");
+
+            // Variáveis para calcular os totais
+            double totalComprasCanceladas = 0;
+            double totalComprasAtivas = 0;
+
+            // Adiciona as compras à tabela
+            foreach (var compra in comprasFiltradas) {
+                // Calcula o total de compras canceladas e ativas
+                if (compra.Situacao_Compra == EStatus.CANCELADA) {
+                    totalComprasCanceladas += compra.Total_Compra;
+                } else {
+                    totalComprasAtivas += compra.Total_Compra;
+                }
+
+                Fornecedor fornecedor = fornecedorRepository.GetByCompraId(compra.Id_compra);
+
+                // Adiciona os dados da compra à tabela
+                tabela.AddCell(compra.Id_compra.ToString());
+                tabela.AddCell(compra.Data_Hora.ToShortDateString());
+                tabela.AddCell(compra.Data_Hora.ToShortTimeString());
+                tabela.AddCell(fornecedor.Nome);
+                tabela.AddCell(compra.Situacao_Compra.ToString());
+                tabela.AddCell(compra.Total_Compra.ToString("0.00"));
+            }
+
+            // Adiciona a tabela ao documento
+            document.Add(tabela);
+
+            // Adiciona os totais ao documento
+            document.Add(new Paragraph("\n"));
+            document.Add(new Paragraph($"Total de compras canceladas: {totalComprasCanceladas.ToString("0.00")}"));
+            document.Add(new Paragraph($"Total de compras ativas: {totalComprasAtivas.ToString("0.00")}"));
+            document.Add(new Paragraph($"Total final: {(totalComprasCanceladas + totalComprasAtivas).ToString("0.00")}"));
+
+            // Fecha o documento
+            document.Close();
+
+            MessageBox.Show("Relatório de compras impresso com sucesso!");
         }
 
         // Método de impressão de compra
