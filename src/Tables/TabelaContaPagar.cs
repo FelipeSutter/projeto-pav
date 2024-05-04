@@ -1,12 +1,16 @@
 ﻿using PDV.Entities;
+using PDV.Infrastructure.Repositories;
 using System.Data;
 
 namespace PDV.Tables
 {
     public class TabelaContaPagar : DataTable
     {
+
+        FornecedorRepository repository = new FornecedorRepository();
+
         private const string COLUNA_ID_CONTA_PAGAR = "IdContaPagar";
-        private const string COLUNA_ID_FORNECEDOR = "IdFornecedor";
+        private const string COLUNA_NOME_FORNECEDOR = "NomeFornecedor";
         private const string COLUNA_VALOR_PAGO = "ValorPago";
         private const string COLUNA_VALOR_PAGAMENTO = "ValorPagamento";
         private const string COLUNA_DATA_LANCAMENTO = "DataLancamento";
@@ -31,7 +35,7 @@ namespace PDV.Tables
         private void CriarColunas()
         {
             Columns.Add(CriarColuna("ID Conta Pagar", COLUNA_ID_CONTA_PAGAR, typeof(int)));
-            Columns.Add(CriarColuna("ID Fornecedor", COLUNA_ID_FORNECEDOR, typeof(int)));
+            Columns.Add(CriarColuna("Nome Fornecedor", COLUNA_NOME_FORNECEDOR, typeof(string)));
             Columns.Add(CriarColuna("Valor Pago", COLUNA_VALOR_PAGO, typeof(double)));
             Columns.Add(CriarColuna("Valor Pagamento", COLUNA_VALOR_PAGAMENTO, typeof(double)));
             Columns.Add(CriarColuna("Data de Lançamento", COLUNA_DATA_LANCAMENTO, typeof(DateTime)));
@@ -41,13 +45,14 @@ namespace PDV.Tables
 
         public void Incluir(ContaPagar contaPagar)
         {
-            Rows.Add(contaPagar.Id_conta_pagar, contaPagar.Id_fornecedor, contaPagar.Valor_pago, contaPagar.Valor_pagamento, contaPagar.Data_lancamento, contaPagar.Data_vencimento, contaPagar.Data_pagamento);
+            Fornecedor fornecedor = repository.GetByContaPagarId(contaPagar.Id_conta_pagar);
+            Rows.Add(contaPagar.Id_conta_pagar, fornecedor.Nome, contaPagar.Valor_pago, contaPagar.Valor_pagamento, contaPagar.Data_lancamento, contaPagar.Data_vencimento, contaPagar.Data_pagamento);
         }
 
         public void Alterar(int indice, ContaPagar contaPagar)
         {
             Rows[indice][COLUNA_ID_CONTA_PAGAR] = contaPagar.Id_conta_pagar;
-            Rows[indice][COLUNA_ID_FORNECEDOR] = contaPagar.Id_fornecedor;
+            Rows[indice][COLUNA_NOME_FORNECEDOR] = contaPagar.Id_fornecedor;
             Rows[indice][COLUNA_VALOR_PAGO] = contaPagar.Valor_pago;
             Rows[indice][COLUNA_VALOR_PAGAMENTO] = contaPagar.Valor_pagamento;
             Rows[indice][COLUNA_DATA_LANCAMENTO] = contaPagar.Data_lancamento;
@@ -63,7 +68,7 @@ namespace PDV.Tables
         public ContaPagar ObterContaPagarNaLinhaSelecionada(int indiceLinha)
         {
             var contaPagar = new ContaPagar(
-                Convert.ToInt32(Rows[indiceLinha][COLUNA_ID_FORNECEDOR]),
+                Convert.ToInt32(Rows[indiceLinha][COLUNA_NOME_FORNECEDOR]),
                 Convert.ToDouble(Rows[indiceLinha][COLUNA_VALOR_PAGO]),
                 Convert.ToDouble(Rows[indiceLinha][COLUNA_VALOR_PAGAMENTO]),
                 Convert.ToDateTime(Rows[indiceLinha][COLUNA_DATA_LANCAMENTO]),

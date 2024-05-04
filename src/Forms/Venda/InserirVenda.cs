@@ -292,12 +292,13 @@ namespace PDV
 
         private void CriarContaReceber(ContaReceberRepository contaReceberRepository,int idCliente)
         {
+            int qtdParcelas = int.Parse(cb_parcela.Text);
             if (rb_credito.Checked && cb_parcela.Text != "À vista")
             {
-                for (int i = 1; i <= int.Parse(cb_parcela.Text); i++)
+                for (int i = 1; i <= qtdParcelas; i++)
                 {
 
-                    ContaReceber receba = new ContaReceber(idCliente, total / int.Parse(cb_parcela.Text), total / int.Parse(cb_parcela.Text), DateTime.Now, DateTime.Now.AddMonths(i), DateTime.Now.AddMonths(i - 1).AddDays(15));
+                    ContaReceber receba = new ContaReceber(idCliente, total / qtdParcelas, total / qtdParcelas, DateTime.Now, DateTime.Now.AddMonths(i), DateTime.Now.AddMonths(i - 1).AddDays(15));
                     contaReceberRepository.Add(receba);
                 }
 
