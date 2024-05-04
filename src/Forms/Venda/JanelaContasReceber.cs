@@ -14,14 +14,12 @@ using System.Windows.Forms;
 
 namespace PDV.Forms.Venda
 {
-    public partial class JanelaContasReceber : Form
-    {
+    public partial class JanelaContasReceber : Form {
         List<ContaReceber> contas = new List<ContaReceber>();
         TabelaContaReceber _tabela;
 
 
-        public JanelaContasReceber()
-        {
+        public JanelaContasReceber() {
             InitializeComponent();
             _tabela = new TabelaContaReceber(); // Instanciação da tabela
             dataViewContaReceber.DataSource = _tabela;
@@ -39,14 +37,24 @@ namespace PDV.Forms.Venda
             ObterContaReceber();
 
         }
-        public void ObterContaReceber(string nomePesquisa = null)
-        {       
-                var repository = new ContaReceberRepository();
-                contas = repository.Get();
-                foreach (var item in contas)
-                {
-                    _tabela.Incluir(item);
-                }
+        public void ObterContaReceber(string nomePesquisa = null) {
+            var repository = new ContaReceberRepository();
+            contas = repository.Get();
+            foreach (var item in contas) {
+                _tabela.Incluir(item);
+            }
+        }
+
+        private void btn_voltar_Click(object sender, EventArgs e) {
+            Dispose();
+        }
+
+        private void btn_baixar_conta_Click(object sender, EventArgs e) {
+
+        }
+
+        private void JanelaContasReceber_Load(object sender, EventArgs e) {
+
         }
     }
 }

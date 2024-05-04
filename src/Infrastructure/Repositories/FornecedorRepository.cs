@@ -109,5 +109,14 @@ namespace PDV.Infrastructure.Repositories
             var parameters = new { idCompra };
             return conn.Connection.QueryFirstOrDefault<Fornecedor>(query, parameters);
         }
+
+        public Fornecedor GetByContaPagarId(int idContaPagar) {
+            using var conn = new DbConnection();
+            string query = @"SELECT f.nome FROM fornecedor f
+                            INNER JOIN contapagar cp on f.id_fornecedor = cp.id_fornecedor WHERE cp.id_conta_pagar = @idContaPagar";
+            var parameters = new { idContaPagar };
+            return conn.Connection.QueryFirstOrDefault<Fornecedor>(query, parameters);
+        }
+
     }
 }

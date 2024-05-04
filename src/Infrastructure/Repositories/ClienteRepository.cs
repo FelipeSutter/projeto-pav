@@ -65,6 +65,15 @@ namespace PDV.Infrastructure.Repositories {
             }
         }
 
+        public Cliente GetByContaReceberId(int idContaReceber) {
+            using (var conn = new DbConnection()) {
+                string query = @"SELECT c.nome FROM cliente c 
+                               INNER JOIN contareceber cr on c.id_cliente = cr.id_cliente WHERE cr.id_conta_receber = @idContaReceber";
+                var parameters = new { idContaReceber };
+                return conn.Connection.QueryFirstOrDefault<Cliente>(query, parameters);
+            }
+        }
+
         public bool Delete(int clientId)
         {
             using var conn = new DbConnection();
