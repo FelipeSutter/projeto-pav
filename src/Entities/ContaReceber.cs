@@ -1,8 +1,10 @@
-﻿namespace PDV.Entities
+﻿using PDV.Enums;
+
+namespace PDV.Entities
 {
     public class ContaReceber
     {
-
+        
         public int Id_conta_receber { get; set; }
         public int Id_cliente { get; set; }
         public Cliente Cliente { get; set; }
@@ -21,6 +23,8 @@
             Data_lancamento = dataLancamento;
             Data_vencimento = dataVencimento;
             Data_recebimento = dataRecebimento;
+            Descricao = EStatusConta.ABERTO.ToString();
         }
+
     }
 }

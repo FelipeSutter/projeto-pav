@@ -86,5 +86,23 @@ namespace PDV.Infrastructure.Repositories {
 
             return result == 1;
         }
+
+        public bool UpdateDescricao(int idContaReceber, string novaDescricao)
+        {
+            using var conn = new DbConnection();
+            string query = @"UPDATE public.contareceber
+                     SET descricao = @NovaDescricao
+                     WHERE id_conta_receber = @IdContaReceber";
+
+            var parameters = new
+            {
+                NovaDescricao = novaDescricao,
+                IdContaReceber = idContaReceber
+            };
+
+            var result = conn.Connection.Execute(query, parameters);
+
+            return result == 1;
+        }
     }
 }

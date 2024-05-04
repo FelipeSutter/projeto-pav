@@ -124,10 +124,12 @@ namespace PDV
             formaPagamentoRepository.Add(formaPagamento);
 
             // Cria o movimento do Caixa
-            var movimentoCaixa = CriarMovimentoCaixa(total, ETipoMovimento.ENTRADA,true);
-            movimentoCaixaRepository.Add(movimentoCaixa);
 
-            //Cria a contaReceber 
+            if (!rb_credito.Checked) {
+                var movimentoCaixa = CriarMovimentoCaixa(total, ETipoMovimento.ENTRADA,true);
+                movimentoCaixaRepository.Add(movimentoCaixa);
+            }
+            //Cria a contaReceber   
             CriarContaReceber(contaReceberRepository, cliente.Id_cliente);
 
             Close();
@@ -292,13 +294,13 @@ namespace PDV
 
         private void CriarContaReceber(ContaReceberRepository contaReceberRepository,int idCliente)
         {
-            int qtdParcelas = int.Parse(cb_parcela.Text);
+           
             if (rb_credito.Checked && cb_parcela.Text != "À vista")
             {
-                for (int i = 1; i <= qtdParcelas; i++)
+                for (int i = 1; i <= int.Parse(cb_parcela.Text); i++)
                 {
 
-                    ContaReceber receba = new ContaReceber(idCliente, total / qtdParcelas, total / qtdParcelas, DateTime.Now, DateTime.Now.AddMonths(i), DateTime.Now.AddMonths(i - 1).AddDays(15));
+                    ContaReceber receba = new ContaReceber(idCliente, total / int.Parse(cb_parcela.Text), total / int.Parse(cb_parcela.Text), DateTime.Now, DateTime.Now.AddMonths(i), DateTime.Now.AddMonths(i - 1).AddDays(15));
                     contaReceberRepository.Add(receba);
                 }
 
