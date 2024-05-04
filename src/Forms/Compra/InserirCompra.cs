@@ -113,9 +113,11 @@ namespace PDV
                 formaPagamentoRepository.Add(formaPagamento);
 
                 // Cria o movimento do Caixa
+
+                if (!rb_credito.Checked) { 
                 var movimentoCaixa = CriarMovimentoCaixa(total, ETipoMovimento.SAIDA, true);
                 movimentoCaixaRepository.Add(movimentoCaixa);
-
+                }
                 // Criar contas a pagar
                 CriarContaPagar(contaPagarRepository, fornecedor.Id_fornecedor);
 

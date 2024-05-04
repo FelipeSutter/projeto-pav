@@ -1,4 +1,5 @@
-﻿using System.Security.Cryptography.Xml;
+﻿using PDV.Enums;
+using System.Security.Cryptography.Xml;
 
 namespace PDV.Entities
 {
@@ -28,6 +29,7 @@ namespace PDV.Entities
             Data_lancamento = data_lancamento;
             Data_vencimento = data_vencimento;
             Data_pagamento = data_pagamento;
+            Descricao = EStatusConta.ABERTO.ToString();
         }
     }
 }
