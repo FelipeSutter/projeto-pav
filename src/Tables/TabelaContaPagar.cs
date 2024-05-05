@@ -1,12 +1,12 @@
 ﻿using PDV.Entities;
 using PDV.Infrastructure.Repositories;
+using System;
 using System.Data;
 
 namespace PDV.Tables
 {
     public class TabelaContaPagar : DataTable
     {
-
         FornecedorRepository repository = new FornecedorRepository();
 
         private const string COLUNA_ID_CONTA_PAGAR = "IdContaPagar";
@@ -16,6 +16,7 @@ namespace PDV.Tables
         private const string COLUNA_DATA_LANCAMENTO = "DataLancamento";
         private const string COLUNA_DATA_VENCIMENTO = "DataVencimento";
         private const string COLUNA_DATA_PAGAMENTO = "DataPagamento";
+        private const string COLUNA_DESCRICAO = "Descricao";
 
         public TabelaContaPagar()
         {
@@ -41,12 +42,13 @@ namespace PDV.Tables
             Columns.Add(CriarColuna("Data de Lançamento", COLUNA_DATA_LANCAMENTO, typeof(DateTime)));
             Columns.Add(CriarColuna("Data de Vencimento", COLUNA_DATA_VENCIMENTO, typeof(DateTime)));
             Columns.Add(CriarColuna("Data de Pagamento", COLUNA_DATA_PAGAMENTO, typeof(DateTime)));
+            Columns.Add(CriarColuna("Descrição", COLUNA_DESCRICAO, typeof(string)));
         }
 
         public void Incluir(ContaPagar contaPagar)
         {
             Fornecedor fornecedor = repository.GetByContaPagarId(contaPagar.Id_conta_pagar);
-            Rows.Add(contaPagar.Id_conta_pagar, fornecedor.Nome, contaPagar.Valor_pago, contaPagar.Valor_pagamento, contaPagar.Data_lancamento, contaPagar.Data_vencimento, contaPagar.Data_pagamento);
+            Rows.Add(contaPagar.Id_conta_pagar, fornecedor.Nome, contaPagar.Valor_pago, contaPagar.Valor_pagamento, contaPagar.Data_lancamento, contaPagar.Data_vencimento, contaPagar.Data_pagamento, contaPagar.Descricao);
         }
 
         public void Alterar(int indice, ContaPagar contaPagar)
@@ -58,6 +60,7 @@ namespace PDV.Tables
             Rows[indice][COLUNA_DATA_LANCAMENTO] = contaPagar.Data_lancamento;
             Rows[indice][COLUNA_DATA_VENCIMENTO] = contaPagar.Data_vencimento;
             Rows[indice][COLUNA_DATA_PAGAMENTO] = contaPagar.Data_pagamento;
+            Rows[indice][COLUNA_DESCRICAO] = contaPagar.Descricao;
         }
 
         public void Excluir(int indice)
@@ -67,19 +70,32 @@ namespace PDV.Tables
 
         public ContaPagar ObterContaPagarNaLinhaSelecionada(int indiceLinha)
         {
-            var contaPagar = new ContaPagar(
-                Convert.ToInt32(Rows[indiceLinha][COLUNA_NOME_FORNECEDOR]),
-                Convert.ToDouble(Rows[indiceLinha][COLUNA_VALOR_PAGO]),
-                Convert.ToDouble(Rows[indiceLinha][COLUNA_VALOR_PAGAMENTO]),
-                Convert.ToDateTime(Rows[indiceLinha][COLUNA_DATA_LANCAMENTO]),
-                Convert.ToDateTime(Rows[indiceLinha][COLUNA_DATA_VENCIMENTO]),
-                Convert.ToDateTime(Rows[indiceLinha][COLUNA_DATA_PAGAMENTO])
-            )
+            ContaPagar contaPagar = new ContaPagar
             {
                 Id_conta_pagar = Convert.ToInt32(Rows[indiceLinha][COLUNA_ID_CONTA_PAGAR]),
+                Valor_pago = Convert.ToDouble(Rows[indiceLinha][COLUNA_VALOR_PAGO]),
+                Valor_pagamento = Convert.ToDouble(Rows[indiceLinha][COLUNA_VALOR_PAGAMENTO]),
+                Data_lancamento = Convert.ToDateTime(Rows[indiceLinha][COLUNA_DATA_LANCAMENTO]),
+                Data_vencimento = Convert.ToDateTime(Rows[indiceLinha][COLUNA_DATA_VENCIMENTO]),
+                Data_pagamento = Convert.ToDateTime(Rows[indiceLinha][COLUNA_DATA_PAGAMENTO]),
+                Descricao = Rows[indiceLinha][COLUNA_DESCRICAO].ToString()
             };
+
+            int idFornecedor;
+            if (int.TryParse(Rows[indiceLinha][COLUNA_NOME_FORNECEDOR].ToString(), out idFornecedor))
+            {
+                contaPagar.Id_fornecedor = idFornecedor;
+            }
+            else
+            {
+                // Lidar com o caso em que o ID do fornecedor não é um número
+                // Por exemplo, mostrar uma mensagem de erro ou definir um valor padrão
+                // Aqui estou definindo como -1 para indicar que o ID do fornecedor não está disponível
+                contaPagar.Id_fornecedor = -1;
+            }
 
             return contaPagar;
         }
+
     }
 }
