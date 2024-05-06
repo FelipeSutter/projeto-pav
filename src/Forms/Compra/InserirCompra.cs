@@ -232,7 +232,7 @@ namespace PDV
             if (rb_credito.Checked && cb_parcela.Text != "À vista") {
                 for (int i = 1; i <= int.Parse(cb_parcela.Text); i++) {
 
-                    ContaPagar receba = new ContaPagar(idFornecedor, total / int.Parse(cb_parcela.Text), total / int.Parse(cb_parcela.Text), DateTime.Now, DateTime.Now.AddMonths(i), DateTime.Now.AddMonths(i - 1).AddDays(15));
+                    ContaPagar receba = new ContaPagar(idFornecedor, 0.0, total / int.Parse(cb_parcela.Text), DateTime.Now, DateTime.Now.AddMonths(i));
                     contaPagarRepository.Add(receba);
                 }
 
