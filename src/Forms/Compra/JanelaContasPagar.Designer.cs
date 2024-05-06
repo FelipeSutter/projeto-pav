@@ -34,13 +34,13 @@ partial class JanelaContasPagar {
         // dataViewContaPagar
         // 
         dataViewContaPagar.ColumnHeadersHeightSizeMode = DataGridViewColumnHeadersHeightSizeMode.AutoSize;
-        dataViewContaPagar.Location = new Point(14, 14);
+        dataViewContaPagar.Location = new Point(14, 89);
         dataViewContaPagar.Margin = new Padding(2);
         dataViewContaPagar.MultiSelect = false;
         dataViewContaPagar.Name = "dataViewContaPagar";
         dataViewContaPagar.ReadOnly = true;
         dataViewContaPagar.RowHeadersWidth = 62;
-        dataViewContaPagar.Size = new Size(1062, 548);
+        dataViewContaPagar.Size = new Size(1164, 447);
         dataViewContaPagar.TabIndex = 9;
         dataViewContaPagar.CellContentClick += dataViewContsPagar_CellContentClick;
         // 
@@ -61,7 +61,7 @@ partial class JanelaContasPagar {
         // 
         button1.BackColor = SystemColors.GradientActiveCaption;
         button1.DialogResult = DialogResult.OK;
-        button1.Location = new Point(856, 569);
+        button1.Location = new Point(958, 566);
         button1.Margin = new Padding(2);
         button1.Name = "button1";
         button1.Size = new Size(220, 52);
@@ -75,11 +75,11 @@ partial class JanelaContasPagar {
         AutoScaleDimensions = new SizeF(10F, 25F);
         AutoScaleMode = AutoScaleMode.Font;
         BackColor = SystemColors.ActiveCaption;
-        ClientSize = new Size(1095, 632);
+        ClientSize = new Size(1189, 632);
         Controls.Add(button1);
         Controls.Add(btn_voltar);
         Controls.Add(dataViewContaPagar);
-        Margin = new Padding(4, 4, 4, 4);
+        Margin = new Padding(4);
         Name = "JanelaContasPagar";
         Text = "JanelaContasPagar";
         Load += JanelaContasPagar_Load;

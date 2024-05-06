@@ -87,16 +87,20 @@ namespace PDV.Infrastructure.Repositories {
             return result == 1;
         }
 
-        public bool UpdateDescricao(int idContaReceber, string novaDescricao)
+        public bool UpdateDescricaoAndValorRecebido(int idContaReceber, string novaDescricao, double valorRecebido, DateTime dataRecebimento)
         {
             using var conn = new DbConnection();
             string query = @"UPDATE public.contareceber
-                     SET descricao = @NovaDescricao
+                     SET descricao = @NovaDescricao,
+                         valor_recebido = @ValorRecebido,
+                         data_recebimento = @DataRecebimento
                      WHERE id_conta_receber = @IdContaReceber";
 
             var parameters = new
             {
                 NovaDescricao = novaDescricao,
+                ValorRecebido = valorRecebido,
+                DataRecebimento = dataRecebimento,
                 IdContaReceber = idContaReceber
             };
 

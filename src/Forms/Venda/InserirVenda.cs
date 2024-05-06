@@ -243,7 +243,7 @@ namespace PDV
                 }
             }
 
-            MovimentoCaixa movimentoCaixa = new MovimentoCaixa(idCaixa, valor, tipoMovimento,DateTime.Now);
+            MovimentoCaixa movimentoCaixa = new MovimentoCaixa(idCaixa, valor, tipoMovimento,DateTime.Now, tipoMovimento.ToString());
 
             return movimentoCaixa;
         }
@@ -300,7 +300,7 @@ namespace PDV
                 for (int i = 1; i <= int.Parse(cb_parcela.Text); i++)
                 {
 
-                    ContaReceber receba = new ContaReceber(idCliente, total / int.Parse(cb_parcela.Text), total / int.Parse(cb_parcela.Text), DateTime.Now, DateTime.Now.AddMonths(i), DateTime.Now.AddMonths(i - 1).AddDays(15));
+                    ContaReceber receba = new ContaReceber(idCliente, 0.0, total / int.Parse(cb_parcela.Text), DateTime.Now, DateTime.Now.AddMonths(i));
                     contaReceberRepository.Add(receba);
                 }
 

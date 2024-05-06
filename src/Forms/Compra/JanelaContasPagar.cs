@@ -93,7 +93,7 @@ public partial class JanelaContasPagar : Form
             }
         }
 
-        MovimentoCaixa movimentoCaixa = new MovimentoCaixa(idCaixa, valor, tipoMovimento, DateTime.Now);
+        MovimentoCaixa movimentoCaixa = new MovimentoCaixa(idCaixa, valor, tipoMovimento, DateTime.Now, tipoMovimento.ToString());
 
         return movimentoCaixa;
     }

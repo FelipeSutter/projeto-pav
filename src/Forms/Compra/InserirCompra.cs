@@ -223,7 +223,7 @@ namespace PDV
                 }
             }
 
-            MovimentoCaixa movimentoCaixa = new MovimentoCaixa(idCaixa, valor, tipoMovimento, DateTime.Now);
+            MovimentoCaixa movimentoCaixa = new MovimentoCaixa(idCaixa, valor, tipoMovimento, DateTime.Now, tipoMovimento.ToString());
 
             return movimentoCaixa;
         }
