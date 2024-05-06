@@ -100,7 +100,7 @@ namespace PDV.Forms.Venda
                 movimentoCaixaRepository.Add(movimentoCaixa);
 
                 //update EStatusConta
-                MessageBox.Show("Baixa de conta concluída com sucesso!");
+                MessageBox.Show("Baixa de conta paga com sucesso!");
                 con.UpdateDescricaoAndValorRecebido(conta.Id_conta_receber, EStatusConta.PAGO.ToString(), conta.Valor_estimado, DateTime.Now);
                 _tabela.Clear();
                 ObterContaReceber();

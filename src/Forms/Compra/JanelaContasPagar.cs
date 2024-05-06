@@ -23,7 +23,7 @@ public partial class JanelaContasPagar : Form
         dataViewContaPagar.Columns[4].Width = 200;
         dataViewContaPagar.Columns[5].Width = 200;
         dataViewContaPagar.Columns[6].Width = 200;
-        
+
 
 
         //txt_pesquisar.TextChanged += txt_pesquisar_TextChanged;
@@ -58,17 +58,33 @@ public partial class JanelaContasPagar : Form
 
     private void button1_Click(object sender, EventArgs e)
     {
-        var movimentoCaixaRepository = new MovimentoCaixaRepository();
-        ContaPagarRepository con = new ContaPagarRepository();
-
         ContaPagar conta = _tabela.ObterContaPagarNaLinhaSelecionada(dataViewContaPagar.CurrentRow.Index);
 
-        var movimentoCaixa = CriarMovimentoCaixa(conta.Valor_pagamento, ETipoMovimento.SAIDA, true); //pode ter um erro no conta.valor pagamente
-        movimentoCaixaRepository.Add(movimentoCaixa);
+        if (conta.Descricao.Equals(EStatusConta.PAGO.ToString()))
+        {
+            MessageBox.Show("Esta conta já foi paga.");
+            return;
+        }
+        else if (conta.Data_vencimento < DateTime.Now)
+        {
+            MessageBox.Show("Esta conta já venceu. Seu nome está no Serasa");
+        }
+        else
+        {
+            var movimentoCaixaRepository = new MovimentoCaixaRepository();
+            ContaPagarRepository con = new ContaPagarRepository();
 
-        //update EStatusConta
+            var movimentoCaixa = CriarMovimentoCaixa(conta.Valor_pagamento, ETipoMovimento.SAIDA, true); //pode ter um erro no conta.valor pagamente
+            movimentoCaixaRepository.Add(movimentoCaixa);
 
-        con.UpdateDescricao(conta.Id_conta_pagar, "PAGO");
+            //update EStatusConta
+            MessageBox.Show("Baixa de conta paga com sucesso!");
+            con.UpdateDescricaoAndValorPagamento(conta.Id_conta_pagar, EStatusConta.PAGO.ToString(), conta.Valor_pagamento, DateTime.Now);
+            _tabela.Clear();
+            ObterContaPagar();
+        }
+
+
     }
 
     private MovimentoCaixa CriarMovimentoCaixa(double valor, ETipoMovimento tipoMovimento, bool efetuarVenda)
@@ -84,7 +100,7 @@ public partial class JanelaContasPagar : Form
         double novoSaldo = saldoAtual;
         if (efetuarVenda)
         {
-            novoSaldo -= valor; 
+            novoSaldo -= valor;
             bool sucessoAtualizacaoSaldo = caixaRepository.UpdateSaldo(idCaixa, novoSaldo);
 
             if (!sucessoAtualizacaoSaldo)
