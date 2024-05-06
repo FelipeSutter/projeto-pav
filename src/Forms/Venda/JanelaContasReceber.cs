@@ -1,26 +1,18 @@
 ﻿using PDV.Entities;
 using PDV.Enums;
 using PDV.Infrastructure.Repositories;
-using PDV.Tabelas;
 using PDV.Tables;
-using System;
-using System.Collections.Generic;
-using System.ComponentModel;
-using System.Data;
-using System.Drawing;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using System.Windows.Forms;
 
 namespace PDV.Forms.Venda
 {
-    public partial class JanelaContasReceber : Form {
+    public partial class JanelaContasReceber : Form
+    {
         List<ContaReceber> contas = new List<ContaReceber>();
         List<Cliente> clientes = [];
         TabelaContaReceber _tabela;
 
-        public JanelaContasReceber() {
+        public JanelaContasReceber()
+        {
             InitializeComponent();
             _tabela = new TabelaContaReceber(); // Instanciação da tabela
             dataViewContaReceber.DataSource = _tabela;
@@ -39,10 +31,12 @@ namespace PDV.Forms.Venda
             ObterContaReceber();
 
         }
-        public void ObterContaReceber(string nomePesquisa = null) {
+        public void ObterContaReceber(string nomePesquisa = null)
+        {
             var repository = new ContaReceberRepository();
             contas = repository.Get();
-            foreach (var item in contas) {
+            foreach (var item in contas)
+            {
                 _tabela.Incluir(item);
             }
         }
@@ -79,23 +73,38 @@ namespace PDV.Forms.Venda
             return clie;
         }
 
-        private void btn_voltar_Click(object sender, EventArgs e) {
+        private void btn_voltar_Click(object sender, EventArgs e)
+        {
             Dispose();
         }
 
-        private void btn_baixar_conta_Click(object sender, EventArgs e) {
-
-            var movimentoCaixaRepository = new MovimentoCaixaRepository();
-            ContaReceberRepository con = new ContaReceberRepository();
-
+        private void btn_baixar_conta_Click(object sender, EventArgs e)
+        {
             ContaReceber conta = _tabela.ObterContaReceberNaLinhaSelecionada(dataViewContaReceber.CurrentRow.Index);
 
-            var movimentoCaixa = CriarMovimentoCaixa(conta.Valor_estimado, ETipoMovimento.ENTRADA, true);
-            movimentoCaixaRepository.Add(movimentoCaixa);
+            if (conta.Descricao.Equals(EStatusConta.PAGO.ToString()))
+            {
+                MessageBox.Show("Esta conta já foi paga.");
+                return;
+            }
+            else if (conta.Data_vencimento < DateTime.Now)
+            {
+                MessageBox.Show("Esta conta já venceu. Seu nome está no Serasa");
+            }
+            else
+            {
+                var movimentoCaixaRepository = new MovimentoCaixaRepository();
+                ContaReceberRepository con = new ContaReceberRepository();
 
-            //update EStatusConta
+                var movimentoCaixa = CriarMovimentoCaixa(conta.Valor_estimado, ETipoMovimento.ENTRADA, true);
+                movimentoCaixaRepository.Add(movimentoCaixa);
 
-            con.UpdateDescricao(conta.Id_conta_receber,"PAGO");
+                //update EStatusConta
+                MessageBox.Show("Baixa de conta concluída com sucesso!");
+                con.UpdateDescricaoAndValorRecebido(conta.Id_conta_receber, EStatusConta.PAGO.ToString(), conta.Valor_estimado, DateTime.Now);
+                _tabela.Clear();
+                ObterContaReceber();
+            }
         }
 
         private MovimentoCaixa CriarMovimentoCaixa(double valor, ETipoMovimento tipoMovimento, bool efetuarVenda)
@@ -120,12 +129,13 @@ namespace PDV.Forms.Venda
                 }
             }
 
-            MovimentoCaixa movimentoCaixa = new MovimentoCaixa(idCaixa, valor, tipoMovimento, DateTime.Now);
+            MovimentoCaixa movimentoCaixa = new MovimentoCaixa(idCaixa, valor, tipoMovimento, DateTime.Now, tipoMovimento.ToString());
 
             return movimentoCaixa;
         }
 
-        private void JanelaContasReceber_Load(object sender, EventArgs e) {
+        private void JanelaContasReceber_Load(object sender, EventArgs e)
+        {
 
         }
     }

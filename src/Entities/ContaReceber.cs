@@ -8,7 +8,7 @@ namespace PDV.Entities
         public int Id_conta_receber { get; set; }
         public int Id_cliente { get; set; }
         public Cliente Cliente { get; set; }
-        public string Descricao { get; set; } = string.Empty;
+        public string Descricao { get; set; }
         public double Valor_recebido { get; set; } // o valor que foi recebido.
         public double Valor_estimado { get; set; } // o valor que deve receber
         public DateTime Data_lancamento { get; set; }
@@ -16,13 +16,12 @@ namespace PDV.Entities
         public DateTime Data_recebimento { get; set; }
 
         public ContaReceber() { }
-        public ContaReceber(int id_cliente, double valorRecebido, double valorEstimado, DateTime dataLancamento, DateTime dataVencimento, DateTime dataRecebimento) {
+        public ContaReceber(int id_cliente, double valorRecebido, double valorEstimado, DateTime dataLancamento, DateTime dataVencimento) {
             Id_cliente = id_cliente;
             Valor_recebido = valorRecebido;
             Valor_estimado = valorEstimado;
             Data_lancamento = dataLancamento;
             Data_vencimento = dataVencimento;
-            Data_recebimento = dataRecebimento;
             Descricao = EStatusConta.ABERTO.ToString();
         }
 

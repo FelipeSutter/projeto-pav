@@ -17,10 +17,11 @@ public class MovimentoCaixa {
         
     }
 
-    public MovimentoCaixa(int id_caixa, double valor, ETipoMovimento tipo_Movimento, DateTime dataVenda) {
+    public MovimentoCaixa(int id_caixa, double valor, ETipoMovimento tipo_Movimento, DateTime dataVenda, string descricao) {
         Id_caixa = id_caixa;
         Valor = valor;
         Tipo_movimento = tipo_Movimento;
         Data_hora_movimento = dataVenda;
+        Descricao = descricao;
     }
 }
