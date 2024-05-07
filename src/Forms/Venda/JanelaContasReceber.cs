@@ -47,22 +47,6 @@ namespace PDV.Forms.Venda
             }
         }
 
-        public ContaReceber ObterContaReceber(int id)
-        {
-            var repository = new ContaReceberRepository();
-            contas = repository.Get();
-            ContaReceber cont = new ContaReceber();
-            foreach (var item in contas)
-            {
-                if (id == item.Id_conta_receber)
-                {
-                    cont = item;
-                    break;
-                }
-            }
-            return cont;
-        }
-
         public Cliente ObterClientes(int id)
         {
             var repository = new ClienteRepository();

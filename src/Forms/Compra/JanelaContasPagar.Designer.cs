@@ -28,6 +28,9 @@ partial class JanelaContasPagar {
         dataViewContaPagar = new DataGridView();
         btn_voltar = new Button();
         button1 = new Button();
+        btn_filtrar = new Button();
+        fornecedor_box = new ComboBox();
+        label1 = new Label();
         ((System.ComponentModel.ISupportInitialize)dataViewContaPagar).BeginInit();
         SuspendLayout();
         // 
@@ -70,12 +73,44 @@ partial class JanelaContasPagar {
         button1.UseVisualStyleBackColor = false;
         button1.Click += button1_Click;
         // 
+        // btn_filtrar
+        // 
+        btn_filtrar.Location = new Point(400, 40);
+        btn_filtrar.Name = "btn_filtrar";
+        btn_filtrar.Size = new Size(112, 34);
+        btn_filtrar.TabIndex = 21;
+        btn_filtrar.Text = "Filtrar";
+        btn_filtrar.UseVisualStyleBackColor = true;
+        btn_filtrar.Click += btn_filtrar_Click;
+        // 
+        // fornecedor_box
+        // 
+        fornecedor_box.DropDownStyle = ComboBoxStyle.DropDownList;
+        fornecedor_box.FormattingEnabled = true;
+        fornecedor_box.Location = new Point(184, 41);
+        fornecedor_box.Name = "fornecedor_box";
+        fornecedor_box.Size = new Size(182, 33);
+        fornecedor_box.TabIndex = 20;
+        // 
+        // label1
+        // 
+        label1.AutoSize = true;
+        label1.Font = new Font("Segoe UI", 14F, FontStyle.Regular, GraphicsUnit.Point, 0);
+        label1.Location = new Point(14, 33);
+        label1.Name = "label1";
+        label1.Size = new Size(164, 38);
+        label1.TabIndex = 19;
+        label1.Text = "Fornecedor:";
+        // 
         // JanelaContasPagar
         // 
         AutoScaleDimensions = new SizeF(10F, 25F);
         AutoScaleMode = AutoScaleMode.Font;
         BackColor = SystemColors.ActiveCaption;
         ClientSize = new Size(1189, 632);
+        Controls.Add(btn_filtrar);
+        Controls.Add(fornecedor_box);
+        Controls.Add(label1);
         Controls.Add(button1);
         Controls.Add(btn_voltar);
         Controls.Add(dataViewContaPagar);
@@ -85,6 +120,7 @@ partial class JanelaContasPagar {
         Load += JanelaContasPagar_Load;
         ((System.ComponentModel.ISupportInitialize)dataViewContaPagar).EndInit();
         ResumeLayout(false);
+        PerformLayout();
     }
 
     #endregion
@@ -92,4 +128,7 @@ partial class JanelaContasPagar {
     private DataGridView dataViewContaPagar;
     private Button btn_voltar;
     private Button button1;
+    private Button btn_filtrar;
+    private ComboBox fornecedor_box;
+    private Label label1;
 }
