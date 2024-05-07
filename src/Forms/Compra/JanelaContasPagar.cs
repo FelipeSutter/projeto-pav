@@ -8,6 +8,7 @@ namespace PDV.Forms;
 public partial class JanelaContasPagar : Form
 {
     List<ContaPagar> contas = new List<ContaPagar>();
+    List<Fornecedor> fornecedores = [];
     TabelaContaPagar _tabela;
 
 
@@ -24,11 +25,12 @@ public partial class JanelaContasPagar : Form
         dataViewContaPagar.Columns[5].Width = 200;
         dataViewContaPagar.Columns[6].Width = 200;
 
-
-
-        //txt_pesquisar.TextChanged += txt_pesquisar_TextChanged;
-
         ObterContaPagar();
+        ObterFornecedores();
+
+        fornecedor_box.DataSource = fornecedores;
+        fornecedor_box.DisplayMember = "Nome";
+        fornecedor_box.ValueMember = "Id_fornecedor";
 
     }
     public void ObterContaPagar(string nomePesquisa = null)
@@ -39,6 +41,29 @@ public partial class JanelaContasPagar : Form
         {
             _tabela.Incluir(item);
         }
+    }
+
+
+    public Fornecedor ObterFornecedores(int id)
+    {
+        var repository = new FornecedorRepository();
+        fornecedores = repository.Get();
+        Fornecedor clie = new Fornecedor();
+        foreach (var item in fornecedores)
+        {
+            if (id == item.Id_fornecedor)
+            {
+                clie = item;
+                break;
+            }
+        }
+        return clie;
+    }
+
+    public void ObterFornecedores(string? nomePesquisa = null)
+    {
+        var repository = new FornecedorRepository();
+        fornecedores = repository.Get();
     }
 
     private void dataViewContsPagar_CellContentClick(object sender, DataGridViewCellEventArgs e)
@@ -112,5 +137,20 @@ public partial class JanelaContasPagar : Form
         MovimentoCaixa movimentoCaixa = new MovimentoCaixa(idCaixa, valor, tipoMovimento, DateTime.Now, tipoMovimento.ToString());
 
         return movimentoCaixa;
+    }
+
+    private void btn_filtrar_Click(object sender, EventArgs e)
+    {
+        ContaPagarRepository repository = new ContaPagarRepository();
+        Fornecedor fornecedor = ObterFornecedores((int)fornecedor_box.SelectedValue);
+
+        _tabela.Clear();
+
+        var contas = repository.GetContasPagarByFornecedor(fornecedor.Id_fornecedor);
+
+        foreach (var item in contas)
+        {
+            _tabela.Incluir(item);
+        }
     }
 }

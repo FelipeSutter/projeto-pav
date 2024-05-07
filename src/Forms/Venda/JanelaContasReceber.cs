@@ -25,10 +25,16 @@ namespace PDV.Forms.Venda
             dataViewContaReceber.Columns[6].Width = 200;
             dataViewContaReceber.Columns[7].Width = 200;
 
+            ObterContaReceber();
+            ObterClientes();
+
+            cliente_box.DataSource = clientes;
+            cliente_box.DisplayMember = "Nome";
+            cliente_box.ValueMember = "Id_cliente";
+
 
             //txt_pesquisar.TextChanged += txt_pesquisar_TextChanged;
 
-            ObterContaReceber();
 
         }
         public void ObterContaReceber(string nomePesquisa = null)
@@ -39,22 +45,6 @@ namespace PDV.Forms.Venda
             {
                 _tabela.Incluir(item);
             }
-        }
-
-        public ContaReceber ObterContaReceber(int id)
-        {
-            var repository = new ContaReceberRepository();
-            contas = repository.Get();
-            ContaReceber cont = new ContaReceber();
-            foreach (var item in contas)
-            {
-                if (id == item.Id_conta_receber)
-                {
-                    cont = item;
-                    break;
-                }
-            }
-            return cont;
         }
 
         public Cliente ObterClientes(int id)
@@ -71,6 +61,12 @@ namespace PDV.Forms.Venda
                 }
             }
             return clie;
+        }
+
+        public void ObterClientes(string? nomePesquisa = null)
+        {
+            var repository = new ClienteRepository();
+            clientes = repository.Get();
         }
 
         private void btn_voltar_Click(object sender, EventArgs e)
@@ -137,6 +133,21 @@ namespace PDV.Forms.Venda
         private void JanelaContasReceber_Load(object sender, EventArgs e)
         {
 
+        }
+
+        private void btn_filtrar_Click(object sender, EventArgs e)
+        {
+            ContaReceberRepository repository = new ContaReceberRepository();
+            Cliente cliente = ObterClientes((int)cliente_box.SelectedValue);
+
+            _tabela.Clear();
+
+            var contas = repository.GetContasReceberByCliente(cliente.Id_cliente);
+
+            foreach (var item in contas)
+            {
+                _tabela.Incluir(item);
+            }
         }
     }
 }
