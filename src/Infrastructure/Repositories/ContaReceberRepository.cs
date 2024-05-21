@@ -40,6 +40,20 @@ namespace PDV.Infrastructure.Repositories {
             return contasReceber.ToList();
         }
 
+        public List<ContaReceber> Get(DateTime dataInicio, DateTime dataFim) {
+            using var conn = new DbConnection();
+            string query = @"
+                        SELECT * 
+                        FROM contareceber 
+                        WHERE ((data_lancamento BETWEEN @DataInicio AND @DataFim) 
+                               AND (data_vencimento BETWEEN @DataInicio AND @DataFim))";
+
+            var contasReceber = conn.Connection.Query<ContaReceber>(query, new { DataInicio = dataInicio, DataFim = dataFim });
+
+            return contasReceber.ToList();
+        }
+
+
         public ContaReceber GetContaReceberById(int idContaReceber) {
             using var conn = new DbConnection();
             string query = "SELECT * FROM contareceber WHERE id_conta_receber = @Id_conta_receber";
