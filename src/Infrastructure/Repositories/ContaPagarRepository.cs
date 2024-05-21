@@ -54,6 +54,19 @@ namespace PDV.Infrastructure.Repositories
             return conn.Connection.QueryFirstOrDefault<ContaPagar>(query, parameters);
         }
 
+        public List<ContaPagar> Get(DateTime dataInicio, DateTime dataFim) {
+            using var conn = new DbConnection();
+            string query = @"
+                        SELECT * 
+                        FROM contapagar
+                        WHERE ((data_lancamento BETWEEN @DataInicio AND @DataFim) 
+                               AND (data_vencimento BETWEEN @DataInicio AND @DataFim))";
+
+            var contasPagar = conn.Connection.Query<ContaPagar>(query, new { DataInicio = dataInicio, DataFim = dataFim });
+
+            return contasPagar.ToList();
+        }
+
         public bool Delete(int idContaPagar)
         {
             using var conn = new DbConnection();
