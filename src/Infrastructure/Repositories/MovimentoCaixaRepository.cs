@@ -37,6 +37,19 @@ namespace PDV.Infrastructure.Repositories {
             var movimentos = conn.Connection.Query<MovimentoCaixa>(query);
             return movimentos.ToList();
         }
+
+        public List<MovimentoCaixa> Get(int day, int month, int year) {
+            using var conn = new DbConnection();
+            string query = @"SELECT * FROM movimentocaixa 
+                             WHERE EXTRACT(DAY FROM data_hora_movimento) = @Day AND 
+                                   EXTRACT(MONTH FROM data_hora_movimento) = @Month AND 
+                                   EXTRACT(YEAR FROM data_hora_movimento) = @Year";
+
+            var movimentos = conn.Connection.Query<MovimentoCaixa>(query, new { Day = day, Month = month, Year = year });
+
+            return movimentos.ToList();
+        }
+
         public MovimentoCaixa GetMovimentoById(int idMovimento) {
             using var conn = new DbConnection();
             string query = "SELECT * FROM movimentocaixa WHERE id_movimento = @Id_movimento";
